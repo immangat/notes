@@ -33,6 +33,8 @@ const SearchBox = (props: SearchBoxTypes) => {
             <SearchBoxButtons
                 onClick={() => {
                     navigate('/search/text')
+                    switchBackGroundColor(false)
+                    setShowX(true)
                 }}
                 backgroundColor={backgroundColor}
             >

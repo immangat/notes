@@ -9,7 +9,7 @@ export const SearchBoxContainer = styled.div<SearchBoxContainerType>`
   flex-direction: row;
   background-color: ${props => props.backgroundColor ? "lightgrey" : "white"};
   padding: 0;
-  border: ${props => props.backgroundColor ? "none" : "2px black solid"};
+  border: ${props => props.backgroundColor ? "1px white solid" : "1px black solid"};
   border-radius: 5%;
 `
 
