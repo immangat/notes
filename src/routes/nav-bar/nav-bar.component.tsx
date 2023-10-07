@@ -5,7 +5,7 @@ import {
     LogoContainer,
     MenuContainer,
     NavBarContainer,
-    NavTitle, NotesLogoContainer,
+    NavTitle, NoteIcon, NotesLogoContainer,
     ProfileContainer,
     SearchContainer
 } from "./nar-bar.styles";
@@ -32,11 +32,8 @@ const NavBar = () => {
                                  }}
                     >
                         <NotesLogoContainer>
-                            <GrNote
+                            <NoteIcon
                                 size={30}
-                                style={{
-                                    fill: "yellow"
-                                }}
                             />
                             <NavTitle>Notes</NavTitle>
                         </NotesLogoContainer>
@@ -47,9 +44,6 @@ const NavBar = () => {
                     <SearchBox/>
                 </SearchContainer>
                 <ProfileContainer
-                    style={{
-                        marginLeft: "auto"
-                    }}
                 >
                     <GrUserSettings
                     />
