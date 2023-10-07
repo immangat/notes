@@ -43,7 +43,7 @@ const SearchBox = (props: SearchBoxTypes) => {
             <div
                 style={{
                     display: "flex",
-                    flexShrink: "1",
+                    flexGrow: "1",
                     alignItems : "center",
                     justifyContent: "center"
                 }}
@@ -53,7 +53,6 @@ const SearchBox = (props: SearchBoxTypes) => {
                         border: "none",
                         backgroundColor: "inherit",
                         outline: "none",
-                        flexShrink: "1",
                         width: "0",
                         minWidth: "100%"
                     }}
