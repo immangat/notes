@@ -15,7 +15,9 @@ const SearchBox = (props: SearchBoxTypes) => {
     const [backgroundColor, switchBackGroundColor] = useState(true)
 
     useEffect(() => {
-        navigate(`/search/text${searchUrl}`)
+        if (searchUrl !== '') {
+            navigate(`/search/text${searchUrl}`)
+        }
     }, [searchUrl])
 
     useEffect(() => {
@@ -26,13 +28,13 @@ const SearchBox = (props: SearchBoxTypes) => {
 
     return (
         <SearchBoxContainer
-            backgroundColor = {backgroundColor}
+            backgroundColor={backgroundColor}
         >
             <SearchBoxButtons
                 onClick={() => {
                     navigate('/search/text')
                 }}
-                backgroundColor = {backgroundColor}
+                backgroundColor={backgroundColor}
             >
                 <AiOutlineSearch size={30}/>
             </SearchBoxButtons>
