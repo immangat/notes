@@ -1,6 +1,6 @@
-import {createContext, useState, FC, ReactNode, useEffect} from "react"
+import {createContext, useState, ReactNode, useEffect} from "react"
 import React from "react";
-import {NoteType} from "../components/directory/directory.component";
+import {NoteType} from "../components/basic-directory/basic-directory.component";
 
 
 export type ModalPropsType = {

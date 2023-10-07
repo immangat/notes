@@ -1,5 +1,4 @@
-import {BodyTextBox, NoteContainer, TitleTextBox} from "../Note/note.styles";
-import React, {createRef, useCallback, useContext, useEffect, useRef, useState} from "react";
+import React, { useContext, useEffect, useState} from "react";
 import {
     CrossIcon,
     PreviewBodyTextBox,
@@ -7,9 +6,9 @@ import {
     PreviewTitleTextBox,
     TextAreasContainer
 } from "./preview-note.styles";
-import {TextArea, TextAreaContainer} from "../text-box/text-box.styles";
+import { TextAreaContainer} from "../text-box/text-box.styles";
 import useAutosizeTextArea from "../text-box/text-box.utils";
-import {NoteType} from "../directory/directory.component";
+import {NoteType} from "../basic-directory/basic-directory.component";
 import {BsXSquareFill, BsXSquare} from 'react-icons/bs'
 import {NotesContext} from "../../contexts/notes.context";
 

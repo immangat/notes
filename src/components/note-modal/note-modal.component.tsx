@@ -1,10 +1,7 @@
 import React, {KeyboardEvent, useContext, useRef, useState} from "react";
 import {NotesContext} from "../../contexts/notes.context";
-import {NoteType} from "../directory/directory.component";
-import {nanoid} from "nanoid";
-import TextBox from "../text-box/text-box.component";
+import {NoteType} from "../basic-directory/basic-directory.component";
 import {BodyTextBox, NoteContainer, TitleTextBox} from "../Note/note.styles";
-import noteComponent from "../Note/note.component";
 import {ModalBody, ModalContainer, ModalContent} from "./note-modal.styles";
 
 export type NoteModalTypes = {
@@ -44,7 +41,6 @@ const NoteModal = ({id}: NoteModalTypes) => {
         updateNote(id, noteContent.title, noteContent.body)
         clearModalProps()
     }
-    const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
     const deleteNoteFromModal = () => {
         clearModalProps()

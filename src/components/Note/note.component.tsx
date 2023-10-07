@@ -1,7 +1,6 @@
-import TextBox from "../text-box/text-box.component";
 import React, {KeyboardEvent, useRef, useState} from "react";
 import {BodyTextBox, NoteContainer, TitleTextBox} from "./note.styles";
-import {NoteType} from "../directory/directory.component";
+import {NoteType} from "../basic-directory/basic-directory.component";
 
 
 export type NotePropsType = {
