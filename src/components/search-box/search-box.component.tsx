@@ -40,25 +40,37 @@ const SearchBox = (props: SearchBoxTypes) => {
             >
                 <AiOutlineSearch size={30}/>
             </SearchBoxButtons>
-            <input
+            <div
                 style={{
-                    border: "none",
-                    backgroundColor: backgroundColor ? "lightgrey" : "white",
-                    outline: "none"
+                    display: "flex",
+                    flexShrink: "1",
+                    alignItems : "center",
+                    justifyContent: "center"
                 }}
-                value={searchUrl}
-                placeholder='search'
-                type='input'
-                onClick={() => {
-                    navigate(`/search/text${searchUrl}`)
-                    switchBackGroundColor(false)
-                    setShowX(true)
-                }}
-                onChange={(e) => {
-                    setSearchUrl(e.target.value);
+            >
+                <input
+                    style={{
+                        border: "none",
+                        backgroundColor: "inherit",
+                        outline: "none",
+                        flexShrink: "1",
+                        width: "0",
+                        minWidth: "100%"
+                    }}
+                    value={searchUrl}
+                    placeholder='search'
+                    type='input'
+                    onClick={() => {
+                        navigate(`/search/text${searchUrl}`)
+                        switchBackGroundColor(false)
+                        setShowX(true)
+                    }}
+                    onChange={(e) => {
+                        setSearchUrl(e.target.value);
 
-                }}
-            />
+                    }}
+                />
+            </div>
 
 
             <SearchBoxX

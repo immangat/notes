@@ -34,11 +34,18 @@ export const NavTitle = styled.h1`
 export const SearchContainer = styled.div`
     flex-basis: 40%;
     flex-shrink: 0;
+    flex-grow: 1;
+
+  @media screen and (min-width: 450px) {
     flex-grow: 0;
+  }
+  
+  
 
 `
 
 export const ProfileContainer = styled.div`
+  margin-left: 2%;
   //margin-left: auto;
   //flex-grow: 1;
   //align-self: flex-end;
