@@ -33,3 +33,37 @@ export const NotesItem = styled.div`
   display: flex;
   flex-direction: column;
 `
+
+export const NotesContainerTest = styled.div`
+
+  @media screen and (min-width: 600px) {
+    
+  }
+  columns: 245px;
+  column-gap: 1em;
+  //@media screen and (max-width: 599px) {
+  //  display: flex;
+  //  justify-content: center;
+  //  flex-direction: column;
+  //}
+  
+  //display: flex;
+  //flex-wrap: wrap;
+  //justify-content: center;
+  //gap: 12px;
+  //flex-grow: 0;
+  //flex-shrink: 0;
+  & > * {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid; /* Firefox is dumb */
+    break-inside: avoid;
+  }
+`
+
+export const ContainerOfNoteContainer= styled.div`
+  padding: 1%;
+  @media screen and (max-width: 550px) {
+    display: flex;
+    justify-content: center;
+  }
+`

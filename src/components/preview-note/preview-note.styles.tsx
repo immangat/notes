@@ -6,6 +6,7 @@ import {getSuggestedQuery} from "@testing-library/react";
 
 export const PreviewNoteContainer = styled.div`
   display: flex;
+  height: max-content;
   flex-direction: column;
   border: 1px solid black;
   max-width: 259px;
@@ -14,9 +15,6 @@ export const PreviewNoteContainer = styled.div`
   border-radius: 10px;
   padding: 0.1rem;
   margin-bottom: 1rem;
-  
-
-
 `
 
 export const PreviewTitleTextBox = styled(TextArea)`

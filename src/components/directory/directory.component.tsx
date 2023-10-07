@@ -14,6 +14,8 @@ export type NoteType = {
 
 const Directory = () => {
 
+    console.log()
+
     const {notes, addNote, deleteNote} = useContext(NotesContext)
 
 
