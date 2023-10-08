@@ -1,5 +1,4 @@
 import React, {ReactElement, useContext, useEffect, useState} from 'react';
-import {nanoid} from "nanoid";
 import CreateNote from "../create-note/create-note.component";
 import {NotesContext} from "../../contexts/notes.context";
 import PreviewNote from "../preview-note/preview-note.component";
@@ -40,11 +39,11 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
         setNotes1([])
         notes.forEach(noteContent => {
                 setNotes1(
-                    prevNotes => [...prevNotes, <PreviewNote
+                    prevNotes => [<PreviewNote
                         key={noteContent.id}
                         noteContent={noteContent}
                         handleDelete={() => deleteNoteFromArray(noteContent.id, 1)}
-                    />]
+                    />, ...prevNotes]
                 )
             }
         )
