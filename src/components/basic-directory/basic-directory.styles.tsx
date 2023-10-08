@@ -7,6 +7,7 @@ export const DirectoryContainer = styled.div`
   background-color: white;
   overflow: auto;
   height: 90%;
+  padding-top: 1%;
 
 `
 

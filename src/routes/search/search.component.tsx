@@ -17,7 +17,6 @@ const Search = () => {
                     ?
             <SearchDirectory
                 stringToSearch={catSpliced}
-
             />
                     :
 

@@ -16,7 +16,9 @@ export type NotesContextType = {
     modalProps: ModalPropsType
     setKeyOfModalProp: (key: string) => void
     clearModalProps: () => void
-    getNotes: (searchString : string) => NoteType[]
+    getNotes: (searchString: string) => NoteType[]
+    createNote: boolean,
+    eventIncoming: () => void
 }
 
 type NotesProviderPropsType = {
@@ -38,7 +40,10 @@ export const NotesContext = createContext<NotesContextType>({
     },
     setKeyOfModalProp: (key: string) => null,
     clearModalProps: () => null,
-    getNotes: (searchString : string) => []
+    getNotes: (searchString: string) => [],
+    createNote: false,
+    eventIncoming: () => {
+    }
 })
 
 
@@ -53,15 +58,17 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         open: false
     })
 
+    const [createNote, setCreateNote] = useState(false)
+
 
     const addNote = (note: NoteType) => {
         setNotes(prevNotes => [...prevNotes, note])
     }
 
-    const getNotes = (searchString : string) => {
+    const getNotes = (searchString: string) => {
         console.log("Inside the get notes", searchString)
         const regex = new RegExp(searchString, 'i'); // 'i' flag makes the regex case-insensitive
-        if(!searchString){
+        if (!searchString) {
             return [];
         }
         return notes.filter(note => {
@@ -106,10 +113,26 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         })
     }
 
+    const eventIncoming = () => {
+        setCreateNote(prev => !prev)
+    }
+
     useEffect(() => {
         localStorage.setItem("notes", JSON.stringify(notes))
     }, [notes])
-    const value = {notes, addNote, deleteNote, getNote, updateNote, modalProps, setKeyOfModalProp, clearModalProps, getNotes}
+    const value = {
+        notes,
+        addNote,
+        deleteNote,
+        getNote,
+        updateNote,
+        modalProps,
+        setKeyOfModalProp,
+        clearModalProps,
+        getNotes,
+        createNote,
+        eventIncoming
+    }
     return <NotesContext.Provider value={value}>
         {children}
     </NotesContext.Provider>

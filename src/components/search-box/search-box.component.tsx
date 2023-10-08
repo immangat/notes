@@ -1,4 +1,4 @@
-import {InputHTMLAttributes, useContext, useEffect, useState} from "react";
+import {InputHTMLAttributes, useContext, useEffect, useRef, useState} from "react";
 import {AiOutlineSearch} from 'react-icons/ai'
 import {RxCross1} from 'react-icons/rx'
 import {useNavigate} from "react-router-dom";
@@ -14,17 +14,22 @@ const SearchBox = (props: SearchBoxTypes) => {
     const [showX, setShowX] = useState(false)
     const [backgroundColor, switchBackGroundColor] = useState(true)
 
+
     useEffect(() => {
-        if (searchUrl !== '') {
-            navigate(`/search/text${searchUrl}`)
-        }
+         navigate(`/search/text${searchUrl}`);
     }, [searchUrl])
 
     useEffect(() => {
+       // if(!isInitialRender.current){
         setSearchUrl('')
         setShowX(false)
         switchBackGroundColor(true)
+       // }
     }, [reset])
+
+    useEffect(() => {
+        navigate('/')
+    }, [])
 
     return (
         <SearchBoxContainer
@@ -32,7 +37,7 @@ const SearchBox = (props: SearchBoxTypes) => {
         >
             <SearchBoxButtons
                 onClick={() => {
-                    navigate('/search/text')
+                    navigate(`/search/text${searchUrl}`)
                     switchBackGroundColor(false)
                     setShowX(true)
                 }}
@@ -44,7 +49,7 @@ const SearchBox = (props: SearchBoxTypes) => {
                 style={{
                     display: "flex",
                     flexGrow: "1",
-                    alignItems : "center",
+                    alignItems: "center",
                     justifyContent: "center"
                 }}
             >
@@ -66,7 +71,6 @@ const SearchBox = (props: SearchBoxTypes) => {
                     }}
                     onChange={(e) => {
                         setSearchUrl(e.target.value);
-
                     }}
                 />
             </div>

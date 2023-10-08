@@ -11,13 +11,14 @@ import {NavBarProvider} from "./contexts/nav-bar.context";
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
+
 root.render(
     <React.StrictMode>
         <BrowserRouter>
             <NotesProvider>
                 <NavBarProvider>
                     <IconContext.Provider value={{size: "24"}}>
-                        <App/>
+                        <App />
                     </IconContext.Provider>
                 </NavBarProvider>
             </NotesProvider>

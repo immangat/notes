@@ -1,5 +1,5 @@
 import TextBox from "../text-box/text-box.component";
-import React, {KeyboardEvent, useContext, useRef, useState} from "react";
+import React, {KeyboardEvent, useContext, useEffect, useRef, useState} from "react";
 import {BodyTextBox, NoteContainer, TitleTextBox} from "../Note/note.styles";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {nanoid} from "nanoid";
@@ -8,7 +8,7 @@ import {NotesContext} from "../../contexts/notes.context";
 
 const CreateNote = () => {
 
-    const {addNote} = useContext(NotesContext)
+    const {addNote, createNote} = useContext(NotesContext)
     const initialNoteContent: NoteType = {
         body: '',
         id: nanoid(),
@@ -41,9 +41,7 @@ const CreateNote = () => {
     }
 
     const [clicked, setClicked] = useState(true)
-    const handleDelete = () => {
 
-    }
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null)
     const checkToSeeIfAddNote = () => {
@@ -62,11 +60,13 @@ const CreateNote = () => {
 
         }
     }
-
+    useEffect(() => {
+        console.log("Inside the create note")
+        checkToSeeIfAddNote()
+    }, [createNote])
 
     return (
         <div
-            onClick={checkToSeeIfAddNote}
             style={{
                 display: "flex",
                 justifyContent: "center"
@@ -75,8 +75,8 @@ const CreateNote = () => {
         >
             {
                 clicked ?
-                    <div onClick={() => {
-
+                    <div onClick={(e) => {
+                        e.stopPropagation()
                     }}>
 
                         <TextBox

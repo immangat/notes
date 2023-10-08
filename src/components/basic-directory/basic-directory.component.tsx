@@ -20,12 +20,13 @@ export type NoteType = {
 
 export type BasicDirectoryPropsType = {
     notes: NoteType[]
+    showNote: boolean
 }
-const BasicDirectory = ({notes} : BasicDirectoryPropsType) => {
+const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
 
     console.log()
 
-    const {addNote, deleteNote} = useContext(NotesContext)
+    const {deleteNote} = useContext(NotesContext)
 
 
     //const [number, setNumber] = useState(0)
@@ -52,9 +53,14 @@ const BasicDirectory = ({notes} : BasicDirectoryPropsType) => {
 
     return (
         <DirectoryContainer>
-            <CreateNoteGridItem>
-                < CreateNote/>
-            </CreateNoteGridItem>
+            {
+                showNote &&
+                <CreateNoteGridItem>
+                    < CreateNote/>
+                </CreateNoteGridItem>
+
+            }
+
             <NotesGridItem>
                 <ContainerOfNoteContainer>
                     <NotesContainerTest>

@@ -13,13 +13,19 @@ import {AiOutlineMenu} from 'react-icons/ai'
 import SearchBox from "../../components/search-box/search-box.component";
 import {useContext} from "react";
 import {NavBarContext} from "../../contexts/nav-bar.context";
+import {NotesContext} from "../../contexts/notes.context";
 
 
 const NavBar = () => {
     const {resetURL} = useContext(NavBarContext)
+    const {eventIncoming} = useContext(NotesContext)
 
     return (
-        <>
+        <div
+            onClick={() =>{
+                eventIncoming()
+            }}
+        >
             <NavBarContainer>
                 <LogoContainer>
                     <MenuContainer>
@@ -50,7 +56,7 @@ const NavBar = () => {
                 </ProfileContainer>
             </NavBarContainer>
             <Outlet/>
-        </>
+        </div>
 
     )
 }
