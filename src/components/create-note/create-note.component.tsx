@@ -77,7 +77,13 @@ const CreateNote = () => {
                 clicked ?
                     <div onClick={(e) => {
                         e.stopPropagation()
-                    }}>
+                    }}
+                         style={{
+                             border: "1px solid black",
+                             borderRadius: "5px",
+                             overflow: "hidden"
+                         }}
+                    >
 
                         <TextBox
                             onClickHandle={() => {
