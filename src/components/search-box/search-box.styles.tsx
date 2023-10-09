@@ -11,6 +11,7 @@ export const SearchBoxContainer = styled.div<SearchBoxContainerType>`
   padding: 0;
   border: ${props => props.backgroundColor ? "1px white solid" : "1px black solid"};
   border-radius: 5%;
+  overflow: hidden;
 `
 
 export const SearchBoxButtons = styled.button<SearchBoxContainerType>`
@@ -20,7 +21,6 @@ export const SearchBoxButtons = styled.button<SearchBoxContainerType>`
   background-color: ${props => props.backgroundColor ? "lightgrey" : "white"};
   border: none;
   cursor: pointer;
-  border-radius: 5%;
 `
 
 export const SearchBoxX = styled(SearchBoxButtons)`
