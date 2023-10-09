@@ -51,8 +51,10 @@ const NavBar = () => {
                 </SearchContainer>
                 <ProfileContainer
                 >
-                    <GrUserSettings
-                    />
+                    <LinkForHome to = '/signin'>
+                        <GrUserSettings
+                        />
+                    </LinkForHome>
                 </ProfileContainer>
             </NavBarContainer>
             <Outlet/>

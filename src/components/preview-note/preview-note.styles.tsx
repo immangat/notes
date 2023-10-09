@@ -15,6 +15,10 @@ export const PreviewNoteContainer = styled.div`
   border-radius: 10px;
   padding: 0.1rem;
   margin-bottom: 1rem;
+
+  &:hover {
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+  }
 `
 
 export const PreviewTitleTextBox = styled(TextArea)`
