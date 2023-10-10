@@ -7,6 +7,7 @@ import {NotesProvider} from "./contexts/notes.context";
 import {BrowserRouter} from "react-router-dom";
 import {IconContext} from "react-icons";
 import {NavBarProvider} from "./contexts/nav-bar.context";
+import {UserProvider} from "./contexts/user.context";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -15,13 +16,15 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-            <NotesProvider>
-                <NavBarProvider>
-                    <IconContext.Provider value={{size: "24"}}>
-                        <App />
-                    </IconContext.Provider>
-                </NavBarProvider>
-            </NotesProvider>
+            <UserProvider>
+                <NotesProvider>
+                    <NavBarProvider>
+                        <IconContext.Provider value={{size: "24"}}>
+                            <App/>
+                        </IconContext.Provider>
+                    </NavBarProvider>
+                </NotesProvider>
+            </UserProvider>
         </BrowserRouter>
     </React.StrictMode>
 );

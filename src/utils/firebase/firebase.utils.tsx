@@ -1,9 +1,18 @@
 import {initializeApp} from 'firebase/app'
-import {getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, GithubAuthProvider} from 'firebase/auth'
+import {
+    getAuth,
+    signInWithRedirect,
+    signInWithPopup,
+    GoogleAuthProvider,
+    GithubAuthProvider,
+    onAuthStateChanged,
+    NextOrObserver,
+    User
+} from 'firebase/auth'
 import {getFirestore, doc, getDoc, setDoc} from 'firebase/firestore'
-import {UserCredential} from "firebase/auth/dist/auth"
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+import {DocumentData, DocumentReference} from '@firebase/firestore-types'
+import {NoteType} from "../../components/basic-directory/basic-directory.component";
+import firebase from "firebase/compat";
 
 
 const firebaseConfig = {
@@ -30,23 +39,37 @@ githubProvider.setCustomParameters({
     prompt: 'select_account'
 })
 
+
 export const auth = getAuth();
 
-export const signInWithgooglePopUp = () => signInWithPopup(auth, googleProvider)
+export const signInWithgooglePopUp = async () => {
+    try {
+        console.log("Before the gooogle pop up")
+        return await signInWithPopup(auth, googleProvider)
+    } catch (e) {
+        console.log("Error with google popUp", e)
+    }
+}
 
-export const signInWithGithubPopUp = () => signInWithPopup(auth, githubProvider)
+export const signInWithGithubPopUp = async () => {
+    try {
+        return await signInWithPopup(auth, githubProvider)
+    } catch (e) {
+        console.log("Error with Github popUp", e)
+    }
+}
 
-export const db = getFirestore();
+export const db = getFirestore(firebaseApp);
 
-export const createUserDocument = async (userAuth: UserCredential) => {
-    if (userAuth.user?.uid) {
-        const userDocRef = doc(db, 'users', userAuth.user?.uid);
+export const createUserDocument = async (user: User) => {
+    if (user?.uid) {
+        const userDocRef = doc(db, 'users', user?.uid);
         const userSnapshot = await getDoc(userDocRef)
         console.log(userSnapshot.exists())
         if (!userSnapshot.exists()) {
-            const {displayName, email, photoURL} = userAuth.user
+            const {displayName, email, photoURL} = user
             const createdAt = new Date()
-            try{
+            try {
                 await setDoc(userDocRef, {
                     displayName,
                     email,
@@ -58,7 +81,69 @@ export const createUserDocument = async (userAuth: UserCredential) => {
             }
         }
 
-        return userDocRef
+        return userSnapshot
     }
 }
 
+export const onAuthChangeListener = (callback: NextOrObserver<User>) => onAuthStateChanged(auth, callback)
+
+
+/*
+****************************************
+Notes
+****************************************
+ */
+
+/*
+one to get the notes
+ */
+
+export type NoteDocumentType = {
+    notes: NoteType[]
+    createdAt: Date
+}
+
+export const createNoteDocument = async (userId: string) => {
+    const noteDocRef = doc(db, 'notes', userId)
+    const noteSnapshot = await getDoc(noteDocRef)
+    if (!noteSnapshot.exists()) {
+        const createdAt = new Date();
+        const notes: NoteType[] = []
+        try {
+            await setDoc(noteDocRef, {
+                createdAt,
+                notes
+            })
+        } catch (e) {
+            console.error("Error making a note doc for the user", e)
+        }
+    }
+    return noteDocRef
+}
+
+/*
+one to update the notes, we can just do bulk update
+ */
+
+export const updateNotes = async (userId: string, notes: NoteType[]) => {
+    const noteDocRef = doc(db, 'notes', userId)
+    const noteSnapshot = await getDoc(noteDocRef)
+    try {
+        await setDoc(noteDocRef, {
+            notes: notes
+        }, {merge: true})
+
+    } catch (e) {
+        console.error("Error when updated notes to database", e)
+    }
+}
+
+export const getNoteData = async (userId: string) => {
+    const noteDocRef = doc(db, 'notes', userId)
+    const noteSnapshot = await getDoc(noteDocRef)
+    try {
+        return noteSnapshot.data();
+    } catch (e) {
+        console.error("error gettin the docs", e)
+    }
+}

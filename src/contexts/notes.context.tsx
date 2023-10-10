@@ -1,6 +1,8 @@
-import {createContext, useState, ReactNode, useEffect} from "react"
+import {createContext, useState, ReactNode, useEffect, useContext} from "react"
 import React from "react";
 import {NoteType} from "../components/basic-directory/basic-directory.component";
+import {UserContext} from "./user.context";
+import {createNoteDocument, getNoteData, NoteDocumentType, updateNotes} from "../utils/firebase/firebase.utils";
 
 
 export type ModalPropsType = {
@@ -59,6 +61,15 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     })
 
     const [createNote, setCreateNote] = useState(false)
+
+    const {user} = useContext(UserContext)
+
+    const initNotes = async (userID: string) => {
+        await createNoteDocument(userID)
+        const noteDocument = await getNoteData(userID)
+        const {notes} = noteDocument as NoteDocumentType
+        setNotes(notes)
+    }
 
 
     const addNote = (note: NoteType) => {
@@ -119,6 +130,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
 
     useEffect(() => {
         localStorage.setItem("notes", JSON.stringify(notes))
+        if (user) {
+            updateNotes(user.userId, notes)
+        }
     }, [notes])
     const value = {
         notes,
@@ -133,6 +147,12 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         createNote,
         eventIncoming
     }
+
+    useEffect(() => {
+        if (user) {
+            initNotes(user.userId)
+        }
+    }, [user])
     return <NotesContext.Provider value={value}>
         {children}
     </NotesContext.Provider>

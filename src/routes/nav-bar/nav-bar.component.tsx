@@ -14,16 +14,21 @@ import SearchBox from "../../components/search-box/search-box.component";
 import {useContext} from "react";
 import {NavBarContext} from "../../contexts/nav-bar.context";
 import {NotesContext} from "../../contexts/notes.context";
+import {UserContext} from "../../contexts/user.context";
 
 
 const NavBar = () => {
     const {resetURL} = useContext(NavBarContext)
     const {eventIncoming} = useContext(NotesContext)
+    const {user} = useContext(UserContext)
 
     return (
         <div
-            onClick={() =>{
+            onClick={() => {
                 eventIncoming()
+            }}
+            style={{
+                height: "100%"
             }}
         >
             <NavBarContainer>
@@ -51,9 +56,17 @@ const NavBar = () => {
                 </SearchContainer>
                 <ProfileContainer
                 >
-                    <LinkForHome to = '/signin'>
-                        <GrUserSettings
-                        />
+                    <LinkForHome to='/signin'>
+                        {
+                            user && user.userData ? (
+                                <img alt="profile picture" src={user.userData.photoURL} style={{
+                                width: "24px"}
+                                }/>
+                            ) : (
+                                <GrUserSettings/>
+                            )
+                        }
+
                     </LinkForHome>
                 </ProfileContainer>
             </NavBarContainer>
