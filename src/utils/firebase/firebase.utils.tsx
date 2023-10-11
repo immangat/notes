@@ -9,7 +9,7 @@ import {
     NextOrObserver,
     User
 } from 'firebase/auth'
-import {getFirestore, doc, getDoc, setDoc} from 'firebase/firestore'
+import {getFirestore, doc, getDoc, setDoc, onSnapshot} from 'firebase/firestore'
 import {DocumentData, DocumentReference} from '@firebase/firestore-types'
 import {NoteType} from "../../components/basic-directory/basic-directory.component";
 import firebase from "firebase/compat";
@@ -65,7 +65,6 @@ export const createUserDocument = async (user: User) => {
     if (user?.uid) {
         const userDocRef = doc(db, 'users', user?.uid);
         const userSnapshot = await getDoc(userDocRef)
-        console.log(userSnapshot.exists())
         if (!userSnapshot.exists()) {
             const {displayName, email, photoURL} = user
             const createdAt = new Date()
@@ -146,4 +145,14 @@ export const getNoteData = async (userId: string) => {
     } catch (e) {
         console.error("error gettin the docs", e)
     }
+}
+
+
+export const createListerToNoteDatabase = async (userId: string, callback: (notes: NoteType[]) => void) => {
+    const unsub = onSnapshot(doc(db, "notes", userId), (doc) => {
+        const {notes} = doc.data() as NoteDocumentType
+
+        callback(notes)
+    });
+    return unsub;
 }

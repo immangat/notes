@@ -23,7 +23,6 @@ export type BasicDirectoryPropsType = {
 }
 const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
 
-    console.log()
 
     const {deleteNote} = useContext(NotesContext)
 

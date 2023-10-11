@@ -61,7 +61,6 @@ const CreateNote = () => {
         }
     }
     useEffect(() => {
-        console.log("Inside the create note")
         checkToSeeIfAddNote()
     }, [createNote])
 

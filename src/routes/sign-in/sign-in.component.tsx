@@ -6,7 +6,6 @@ import {UserContext} from "../../contexts/user.context";
 const SignIn = () => {
 
     const {user} = useContext(UserContext)
-    console.log("User data: ", user)
     const signInWithGoogle = async () => {
          await signInWithgooglePopUp();
     }

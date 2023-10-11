@@ -2,7 +2,13 @@ import {createContext, useState, ReactNode, useEffect, useContext} from "react"
 import React from "react";
 import {NoteType} from "../components/basic-directory/basic-directory.component";
 import {UserContext} from "./user.context";
-import {createNoteDocument, getNoteData, NoteDocumentType, updateNotes} from "../utils/firebase/firebase.utils";
+import {
+    createListerToNoteDatabase,
+    createNoteDocument,
+    getNoteData,
+    NoteDocumentType,
+    updateNotes
+} from "../utils/firebase/firebase.utils";
 
 
 export type ModalPropsType = {
@@ -51,7 +57,17 @@ export const NotesContext = createContext<NotesContextType>({
 
 const intitalNotesState = () => {
     const notes = localStorage.getItem("notes");
-    return notes ? JSON.parse(notes) : [];
+    if (typeof notes === 'string' && notes.trim() !== '') {
+        try {
+            return JSON.parse(notes);
+        } catch (error) {
+            console.error('Error parsing notes:', error);
+            return [];
+        }
+    } else {
+        console.log('Notes is not a non-empty string, returning an empty array.');
+        return [];
+    }
 }
 export const NotesProvider = ({children}: NotesProviderPropsType) => {
     const [notes, setNotes] = useState<NoteType[]>(intitalNotesState())
@@ -66,9 +82,10 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
 
     const initNotes = async (userID: string) => {
         await createNoteDocument(userID)
-        const noteDocument = await getNoteData(userID)
-        const {notes} = noteDocument as NoteDocumentType
-        setNotes(notes)
+        // const noteDocument = await getNoteData(userID)
+        // const {notes} = noteDocument as NoteDocumentType
+        // addNotesFromFirbase(notes)
+        return await createListerToNoteDatabase(userID, addNotesFromFirbase)
     }
 
 
@@ -77,7 +94,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     }
 
     const getNotes = (searchString: string) => {
-        console.log("Inside the get notes", searchString)
+
         const regex = new RegExp(searchString, 'i'); // 'i' flag makes the regex case-insensitive
         if (!searchString) {
             return [];
@@ -110,6 +127,10 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         }))
     }
 
+
+    const addNotesFromFirbase = (notes: NoteType[]) => {
+        setNotes(notes)
+    }
     const setKeyOfModalProp = (key: string) => {
         setModalProps({
             open: true,
@@ -149,10 +170,17 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     }
 
     useEffect(() => {
+        let unsubscribe: any;
         if (user) {
-            initNotes(user.userId)
+            unsubscribe =  initNotes(user.userId)
+        }
+        return () => {
+            if (unsubscribe) {
+               unsubscribe();
+            }
         }
     }, [user])
+
     return <NotesContext.Provider value={value}>
         {children}
     </NotesContext.Provider>
