@@ -2,7 +2,9 @@
 
 A simple and interactive notes application built using React, Styled Components, and Firebase.
 
-![Demo](demo.gif)
+
+<img src="https://github.com/immangat/notes/blob/main/project_media/notesdemo2.gif" width="50%" height = "50%">
+
 
 ## Features
 
