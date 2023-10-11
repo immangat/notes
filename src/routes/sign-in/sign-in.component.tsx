@@ -22,7 +22,7 @@ const SignIn = () => {
     }
 
     const signOut = async () => {
-        await signOutUser;
+        await signOutUser();
         setCurrentUser(null)
         clearAllNotes()
     }
