@@ -7,7 +7,8 @@ import {
     GithubAuthProvider,
     onAuthStateChanged,
     NextOrObserver,
-    User
+    User,
+    signOut
 } from 'firebase/auth'
 import {getFirestore, doc, getDoc, setDoc, onSnapshot} from 'firebase/firestore'
 import {DocumentData, DocumentReference} from '@firebase/firestore-types'
@@ -84,7 +85,9 @@ export const createUserDocument = async (user: User) => {
     }
 }
 
-export const onAuthChangeListener = (callback: NextOrObserver<User>) => onAuthStateChanged(auth, callback)
+export const onAuthChangeListener = (callback: NextOrObserver<User | null>) => onAuthStateChanged(auth, callback)
+
+export const  signOutUser = async () => signOut(auth)
 
 
 /*

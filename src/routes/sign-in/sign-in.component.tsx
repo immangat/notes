@@ -1,17 +1,30 @@
-import {createUserDocument, signInWithGithubPopUp, signInWithgooglePopUp} from "../../utils/firebase/firebase.utils";
+import {
+    createUserDocument,
+    signInWithGithubPopUp,
+    signInWithgooglePopUp,
+    signOutUser
+} from "../../utils/firebase/firebase.utils";
 import {BsGoogle, BsGithub} from 'react-icons/bs'
 import {useContext} from "react";
 import {UserContext} from "../../contexts/user.context";
+import {NotesContext} from "../../contexts/notes.context";
 
 const SignIn = () => {
 
-    const {user} = useContext(UserContext)
+    const {user, setCurrentUser} = useContext(UserContext)
+    const {clearAllNotes} = useContext(NotesContext)
     const signInWithGoogle = async () => {
          await signInWithgooglePopUp();
     }
-
+    console.log(user)
     const signInWithGithub = async () => {
         await signInWithGithubPopUp();
+    }
+
+    const signOut = async () => {
+        await signOutUser;
+        setCurrentUser(null)
+        clearAllNotes()
     }
     return (
         <div style={{
@@ -44,7 +57,7 @@ const SignIn = () => {
                     {user ? "You are Signed In" : "Log In"}
                 </h1>
                 {
-                    !user && <>
+                    !user ? <>
 
                         <div
                             onClick={signInWithGoogle}
@@ -87,6 +100,22 @@ const SignIn = () => {
                             />
                         </div>
                     </>
+                        :
+                        <div
+                            onClick={signOut}
+                            style={{
+                                display: "flex",
+                                margin: "1%",
+                                width: "70%",
+                                border: "1px solid grey",
+                                borderRadius: "10%",
+                                justifyContent: "center",
+                                padding: "1% 0",
+                                cursor: "pointer"
+                            }}
+                        >
+                            <span> Sign Out</span>
+                        </div>
                 }
 
             </div>

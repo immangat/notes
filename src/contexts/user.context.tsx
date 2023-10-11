@@ -1,6 +1,6 @@
 import {createContext, ReactNode, useEffect, useState} from "react";
 import "firebase/firestore";
-import { DocumentData } from '@firebase/firestore-types'
+import {DocumentData} from '@firebase/firestore-types'
 import {createUserDocument, onAuthChangeListener} from "../utils/firebase/firebase.utils";
 
 export type CustomUser = {
@@ -9,7 +9,7 @@ export type CustomUser = {
 }
 type UserContextType = {
     user: CustomUser | null
-    setCurrentUser: (user: CustomUser) => void
+    setCurrentUser: (user: CustomUser | null) => void
 
 }
 
@@ -27,22 +27,22 @@ type UserContextPropsType = {
 export const UserProvider = ({children}: UserContextPropsType) => {
     const [user, setUser] = useState<CustomUser | null>(null)
 
-    const setCurrentUser = (user: CustomUser) => {
+    const setCurrentUser = (user: CustomUser | null) => {
         setUser(user)
     }
     const value = {user, setCurrentUser}
 
     useEffect(() => {
         onAuthChangeListener(async (user) => {
-            if(user){
-            const userSnapShot = await createUserDocument(user)
-            if(userSnapShot){
-                setCurrentUser({
-                    userId: userSnapShot.id,
-                    userData: userSnapShot.data()
-                })
+            if (user) {
+                const userSnapShot = await createUserDocument(user)
+                if (userSnapShot) {
+                    setCurrentUser({
+                        userId: userSnapShot.id,
+                        userData: userSnapShot.data()
+                    })
 
-            }
+                }
             }
         })
     }, [])

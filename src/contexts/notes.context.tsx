@@ -27,6 +27,7 @@ export type NotesContextType = {
     getNotes: (searchString: string) => NoteType[]
     createNote: boolean,
     eventIncoming: () => void
+    clearAllNotes: () => void
 }
 
 type NotesProviderPropsType = {
@@ -51,7 +52,8 @@ export const NotesContext = createContext<NotesContextType>({
     getNotes: (searchString: string) => [],
     createNote: false,
     eventIncoming: () => {
-    }
+    },
+    clearAllNotes: () => {}
 })
 
 
@@ -89,6 +91,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     }
 
 
+    const clearAllNotes = () => {
+        setNotes([])
+    }
     const addNote = (note: NoteType) => {
         setNotes(prevNotes => [...prevNotes, note])
     }
@@ -166,7 +171,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         clearModalProps,
         getNotes,
         createNote,
-        eventIncoming
+        eventIncoming,
+        clearAllNotes
     }
 
     useEffect(() => {
@@ -176,7 +182,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         }
         return () => {
             if (unsubscribe) {
-               unsubscribe();
+                console.log("Inside the unsubscribe")
+                unsubscribe
+                    .then((item: () => any) => item())
             }
         }
     }, [user])
