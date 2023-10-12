@@ -12,7 +12,10 @@ const CreateNote = () => {
     const initialNoteContent: NoteType = {
         body: '',
         id: nanoid(),
-        title: ''
+        title: '',
+        createdAt:  new Date(),
+        updatedAt:  new Date(),
+        labels: []
 
     }
     const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -54,7 +57,10 @@ const CreateNote = () => {
                 {
                     body: '',
                     id: nanoid(),
-                    title: ''
+                    title: '',
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    labels: []
                 }
             )
 

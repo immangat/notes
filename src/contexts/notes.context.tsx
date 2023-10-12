@@ -20,7 +20,7 @@ export type NotesContextType = {
     addNote: (note: NoteType) => void
     deleteNote: (key: string) => void
     getNote: (key: string) => NoteType
-    updateNote: (key: string, title: string, body: string) => void
+    updateNote: (key: string, title: string, body: string, updatedAt: Date) => void
     modalProps: ModalPropsType
     setKeyOfModalProp: (key: string) => void
     clearModalProps: () => void
@@ -40,9 +40,12 @@ export const NotesContext = createContext<NotesContextType>({
     getNote: (key) => ({
         id: "",
         title: "",
-        body: ""
+        body: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        labels: []
     }),
-    updateNote: (key: string, title: string, body: string) => null,
+    updateNote: (key: string, title: string, body: string, updatedAt: Date) => null,
     modalProps: {
         key: "",
         open: false
@@ -53,7 +56,8 @@ export const NotesContext = createContext<NotesContextType>({
     createNote: false,
     eventIncoming: () => {
     },
-    clearAllNotes: () => {}
+    clearAllNotes: () => {
+    }
 })
 
 
@@ -77,7 +81,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         key: "",
         open: false
     })
-
+    console.log(notes)
     const [createNote, setCreateNote] = useState(false)
 
     const {user} = useContext(UserContext)
@@ -119,13 +123,14 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         return notes.find(note => note.id === key) as NoteType;
     }
 
-    const updateNote = (key: string, title: string, body: string) => {
+    const updateNote = (key: string, title: string, body: string, updatedAt: Date) => {
         setNotes(prevNotes => prevNotes.map(note => {
             if (note.id === key) {
                 return {
                     ...note,
                     title: title,
-                    body: body
+                    body: body,
+                    updatedAt: updatedAt
                 }
             }
             return note
@@ -178,7 +183,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     useEffect(() => {
         let unsubscribe: any;
         if (user) {
-            unsubscribe =  initNotes(user.userId)
+            unsubscribe = initNotes(user.userId)
         }
         return () => {
             if (unsubscribe) {

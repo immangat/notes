@@ -21,6 +21,7 @@ const NavBar = () => {
     const {resetURL} = useContext(NavBarContext)
     const {eventIncoming} = useContext(NotesContext)
     const {user} = useContext(UserContext)
+    const navigate = useNavigate()
 
     return (
         <div

@@ -15,6 +15,9 @@ export type NoteType = {
     id: string,
     title: string,
     body: string
+    createdAt: Date
+    updatedAt: Date
+    labels: string[]
 }
 
 export type BasicDirectoryPropsType = {

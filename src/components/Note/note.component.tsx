@@ -10,8 +10,12 @@ export type NotePropsType = {
 const Note = (props: NotePropsType) => {
 
     const initialNoteContent: NoteType = {
-        body: props.noteContent.body || '', id: props.noteContent.id, title: props.noteContent.title || ''
-
+        body: props.noteContent.body || '',
+        id: props.noteContent.id,
+        title: props.noteContent.title || '',
+        updatedAt: new Date(),
+        createdAt: new Date(),
+        labels: []
     }
     const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const titleTextAreaRef = useRef<HTMLTextAreaElement>(null)

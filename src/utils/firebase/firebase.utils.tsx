@@ -103,6 +103,7 @@ one to get the notes
 export type NoteDocumentType = {
     notes: NoteType[]
     createdAt: Date
+    labels : string[]
 }
 
 export const createNoteDocument = async (userId: string) => {
@@ -111,10 +112,12 @@ export const createNoteDocument = async (userId: string) => {
     if (!noteSnapshot.exists()) {
         const createdAt = new Date();
         const notes: NoteType[] = []
+        const labels: string[] = []
         try {
             await setDoc(noteDocRef, {
                 createdAt,
-                notes
+                notes,
+                labels
             })
         } catch (e) {
             console.error("Error making a note doc for the user", e)
@@ -159,3 +162,11 @@ export const createListerToNoteDatabase = async (userId: string, callback: (note
     });
     return unsub;
 }
+
+
+/********************************
+ Label related Functions
+ **********************************/
+
+
+

@@ -27,18 +27,20 @@ const NoteModal = ({id}: NoteModalTypes) => {
     const setBody = (body: string) => {
         setNoteContent(prevNote => ({
             ...prevNote,
-            body: body
+            body: body,
+            updatedAt: new Date()
         }))
     }
     const setTitle = (title: string) => {
         setNoteContent(prevNote => ({
             ...prevNote,
-            title: title
+            title: title,
+            updatedAt: new Date()
         }))
     }
 
     const onClose = () => {
-        updateNote(id, noteContent.title, noteContent.body)
+        updateNote(id, noteContent.title, noteContent.body, noteContent.updatedAt)
         clearModalProps()
     }
 
