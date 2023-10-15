@@ -38,6 +38,7 @@ export const CrossIcon = styled.span`
 `
 
 export const TextAreasContainer = styled.div`
+  overflow: hidden;
   &:hover *{
     cursor: pointer;
   }

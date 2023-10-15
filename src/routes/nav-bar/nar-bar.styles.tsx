@@ -3,8 +3,21 @@ import {Link} from "react-router-dom";
 import {GrNote, GrUserSettings} from 'react-icons/gr'
 
 
+export const MainContainer = styled.div`
+  display: grid;
+  grid-template: 1fr 9fr/ 1fr 20fr;
+`
+
+export const SideBarComponentContainer =styled.div`
+  grid-area: 2 / 1 / 3 / 2;
+`
+
+export const DirectoryContainer = styled.div`
+  grid-area: 2 / 2 / 3 / 3;
+`
 
 export const NavBarContainer  = styled.div`
+    grid-area: 1 / 1 / 2 / 3;
     display: flex;
     flex-direction: row;
     padding: 1% 2%;
@@ -52,6 +65,7 @@ export const ProfileContainer = styled.div`
 `
 
 export const MenuContainer = styled.div`
+  cursor: pointer;
   margin: 0 8% 0 0 ;
 `
 

@@ -8,6 +8,7 @@ import {BrowserRouter} from "react-router-dom";
 import {IconContext} from "react-icons";
 import {NavBarProvider} from "./contexts/nav-bar.context";
 import {UserProvider} from "./contexts/user.context";
+import {SideBarProvider} from "./contexts/side-bar.context";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -19,9 +20,11 @@ root.render(
             <UserProvider>
                 <NotesProvider>
                     <NavBarProvider>
-                        <IconContext.Provider value={{size: "24"}}>
-                            <App/>
-                        </IconContext.Provider>
+                        <SideBarProvider>
+                            <IconContext.Provider value={{size: "24"}}>
+                                <App/>
+                            </IconContext.Provider>
+                        </SideBarProvider>
                     </NavBarProvider>
                 </NotesProvider>
             </UserProvider>

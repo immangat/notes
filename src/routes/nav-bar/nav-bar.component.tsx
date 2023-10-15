@@ -1,13 +1,14 @@
 import {GrNote, GrUserSettings} from 'react-icons/gr'
 import {Link, Outlet, useNavigate} from "react-router-dom";
 import {
+    DirectoryContainer,
     LinkForHome,
-    LogoContainer,
+    LogoContainer, MainContainer,
     MenuContainer,
     NavBarContainer,
     NavTitle, NoteIcon, NotesLogoContainer,
     ProfileContainer,
-    SearchContainer
+    SearchContainer, SideBarComponentContainer
 } from "./nar-bar.styles";
 import {AiOutlineMenu} from 'react-icons/ai'
 import SearchBox from "../../components/search-box/search-box.component";
@@ -15,16 +16,19 @@ import {useContext} from "react";
 import {NavBarContext} from "../../contexts/nav-bar.context";
 import {NotesContext} from "../../contexts/notes.context";
 import {UserContext} from "../../contexts/user.context";
+import SideBar from "../../components/side-bar/side-bar.component";
+import {SideBarContext} from "../../contexts/side-bar.context";
 
 
 const NavBar = () => {
     const {resetURL} = useContext(NavBarContext)
     const {eventIncoming} = useContext(NotesContext)
     const {user} = useContext(UserContext)
+    const {setState} = useContext(SideBarContext)
     const navigate = useNavigate()
 
     return (
-        <div
+        <MainContainer
             onClick={() => {
                 eventIncoming()
             }}
@@ -34,7 +38,11 @@ const NavBar = () => {
         >
             <NavBarContainer>
                 <LogoContainer>
-                    <MenuContainer>
+                    <MenuContainer
+                        onClick = {() => {
+                            setState()
+                        }}
+                    >
                         <AiOutlineMenu
                         />
                     </MenuContainer>
@@ -60,20 +68,24 @@ const NavBar = () => {
                     <LinkForHome to='/signin'>
                         {
                             user && user.userData ? (
-                                <img alt="profile picture" src={user.userData.photoURL} style={{
-                                width: "24px"}
+                                <img alt="profile" src={user.userData.photoURL} style={{
+                                    width: "24px"
+                                }
                                 }/>
                             ) : (
                                 <GrUserSettings/>
                             )
                         }
-
                     </LinkForHome>
                 </ProfileContainer>
             </NavBarContainer>
-            <Outlet/>
-        </div>
-
+            <SideBarComponentContainer>
+                <SideBar/>
+            </SideBarComponentContainer>
+            <DirectoryContainer>
+                <Outlet/>
+            </DirectoryContainer>
+        </MainContainer>
     )
 }
 

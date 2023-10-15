@@ -87,7 +87,7 @@ export const createUserDocument = async (user: User) => {
 
 export const onAuthChangeListener = (callback: NextOrObserver<User | null>) => onAuthStateChanged(auth, callback)
 
-export const  signOutUser = async () => signOut(auth)
+export const signOutUser = async () => signOut(auth)
 
 
 /*
@@ -103,7 +103,7 @@ one to get the notes
 export type NoteDocumentType = {
     notes: NoteType[]
     createdAt: Date
-    labels : string[]
+    labels: string[]
 }
 
 export const createNoteDocument = async (userId: string) => {
@@ -154,11 +154,11 @@ export const getNoteData = async (userId: string) => {
 }
 
 
-export const createListerToNoteDatabase = async (userId: string, callback: (notes: NoteType[]) => void) => {
+export const createListerToNoteDatabase = async (userId: string, callback: (notes: NoteType[], labels: string[]) => void) => {
     const unsub = onSnapshot(doc(db, "notes", userId), (doc) => {
-        const {notes} = doc.data() as NoteDocumentType
+        const {notes, labels} = doc.data() as NoteDocumentType
 
-        callback(notes)
+        callback(notes, labels)
     });
     return unsub;
 }
@@ -168,5 +168,15 @@ export const createListerToNoteDatabase = async (userId: string, callback: (note
  Label related Functions
  **********************************/
 
+export const updateLabels = async (userId: string, labels: string[]) => {
+    const noteDocRef = doc(db, 'notes', userId)
+    try {
+        await setDoc(noteDocRef, {
+            labels: labels
+        }, {merge: true})
 
+    } catch (e) {
+        console.error("Error when updated notes to database", e)
+    }
+}
 

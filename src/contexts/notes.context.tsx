@@ -6,7 +6,7 @@ import {
     createListerToNoteDatabase,
     createNoteDocument,
     getNoteData,
-    NoteDocumentType,
+    NoteDocumentType, updateLabels,
     updateNotes
 } from "../utils/firebase/firebase.utils";
 
@@ -28,6 +28,8 @@ export type NotesContextType = {
     createNote: boolean,
     eventIncoming: () => void
     clearAllNotes: () => void
+    labels: string[]
+    addLabel: (label: string) => void
 }
 
 type NotesProviderPropsType = {
@@ -57,6 +59,9 @@ export const NotesContext = createContext<NotesContextType>({
     eventIncoming: () => {
     },
     clearAllNotes: () => {
+    },
+    labels: [],
+    addLabel: (label: string) => {
     }
 })
 
@@ -83,6 +88,10 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     })
     console.log(notes)
     const [createNote, setCreateNote] = useState(false)
+    const [labels, setLabels] = useState<string[]>([]);
+    const addLabel = (label: string) => {
+        setLabels(prevState => [...prevState, label])
+    }
 
     const {user} = useContext(UserContext)
 
@@ -138,8 +147,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     }
 
 
-    const addNotesFromFirbase = (notes: NoteType[]) => {
+    const addNotesFromFirbase = (notes: NoteType[], labels: string[]) => {
         setNotes(notes)
+        setLabels(labels)
     }
     const setKeyOfModalProp = (key: string) => {
         setModalProps({
@@ -165,6 +175,12 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
             updateNotes(user.userId, notes)
         }
     }, [notes])
+
+    useEffect(() => {
+        if (user) {
+            updateLabels(user.userId, labels)
+        }
+    }, [labels])
     const value = {
         notes,
         addNote,
@@ -177,7 +193,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         getNotes,
         createNote,
         eventIncoming,
-        clearAllNotes
+        clearAllNotes,
+        labels,
+        addLabel
     }
 
     useEffect(() => {

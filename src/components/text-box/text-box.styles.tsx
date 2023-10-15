@@ -10,6 +10,7 @@ export const TextAreaContainer = styled.div<TextAreaType>`
   justify-content: center;
   max-width:250px ;
   min-height: 30px;
+  overflow: hidden;
 `;
 
 export const TextArea = styled.textarea<TextAreaType>`

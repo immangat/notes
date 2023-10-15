@@ -1,8 +1,5 @@
 import React, {useContext, useState} from 'react';
 import './App.css';
-import Note from "./components/Note/note.component";
-import {nanoid} from "nanoid";
-import Directory from "./components/directory/directory.component";
 import NoteModal from "./components/note-modal/note-modal.component";
 import {NotesContext} from "./contexts/notes.context";
 import {Route, Routes} from "react-router-dom";
