@@ -5,7 +5,10 @@ import {NoteType} from "../basic-directory/basic-directory.component";
 import {nanoid} from "nanoid";
 import {NotesContext} from "../../contexts/notes.context";
 import {BiLabel, BiSolidLabel, BiDotsVerticalRounded} from 'react-icons/bi'
-import {NoteItemContainer, NotesItemsContainer} from "./create-note.styles";
+import {NoteItemContainer, NotesItemsContainer, NotesLabelsContainer} from "./create-note.styles";
+
+import ChangeLabel from "../change-label-pop-up/change-label.component";
+import Label from "../label/label.component";
 
 
 const CreateNote = () => {
@@ -23,6 +26,7 @@ const CreateNote = () => {
     const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const titleTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [noteContent, setNoteContent] = useState(initialNoteContent)
+    const [showLabel, setShowLabel] = useState(false)
     const onEnterPressedOnTitle = (event: KeyboardEvent<HTMLTextAreaElement>) => {
         const {key} = event
         if (key === 'Enter') {
@@ -44,6 +48,12 @@ const CreateNote = () => {
             title: title
         }))
     }
+    const setLabels = (labels: string[]) => {
+        setNoteContent(prevNote => ({
+            ...prevNote,
+            labels: labels
+        }))
+    }
 
     const [clicked, setClicked] = useState(true)
 
@@ -52,6 +62,7 @@ const CreateNote = () => {
     const checkToSeeIfAddNote = () => {
         if (!clicked) {
             setClicked(true)
+            setShowLabel(false)
         }
         if (noteContent.body || noteContent.title) {
             addNote(noteContent)
@@ -68,6 +79,9 @@ const CreateNote = () => {
 
         }
     }
+    const testLabels = noteContent.labels.map(item => <Label
+        labelValue={item}
+    />)
     useEffect(() => {
         checkToSeeIfAddNote()
     }, [createNote])
@@ -76,7 +90,7 @@ const CreateNote = () => {
         <div
             style={{
                 display: "flex",
-                justifyContent: "center"
+                justifyContent: "center",
             }}
 
         >
@@ -131,6 +145,10 @@ const CreateNote = () => {
                                 setText={setBody}
                             />
 
+                            <NotesLabelsContainer>
+                                {testLabels}
+                            </NotesLabelsContainer>
+
                             <NotesItemsContainer>
 
                                 <NoteItemContainer>
@@ -139,8 +157,17 @@ const CreateNote = () => {
                                         style={{
                                             cursor: "pointer"
                                         }}
-                                        onClick={() => console.log("Hello")}
+                                        onClick={() => {
+                                            console.log("Clicked")
+                                            setShowLabel(prev => !prev)
+                                        }}
                                     />
+                                    {
+                                        showLabel &&
+                                        <ChangeLabel
+                                            addLabels={setLabels}
+                                        />
+                                    }
                                 </NoteItemContainer>
                                 <BiDotsVerticalRounded
                                     size={20}

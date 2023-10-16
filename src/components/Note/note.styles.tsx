@@ -12,7 +12,8 @@ export const NoteContainer = styled.div`
   border-radius: 10px;
   padding: 0.1rem;
   margin-bottom: 1rem;
-  overflow: hidden;
+  overflow: visible;
+  
   
 
 `

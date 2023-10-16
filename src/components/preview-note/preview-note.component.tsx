@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
     CrossIcon,
     PreviewBodyTextBox,
@@ -6,11 +6,15 @@ import {
     PreviewTitleTextBox,
     TextAreasContainer
 } from "./preview-note.styles";
-import { TextAreaContainer} from "../text-box/text-box.styles";
+import {TextAreaContainer} from "../text-box/text-box.styles";
 import useAutosizeTextArea from "../text-box/text-box.utils";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {BsXSquareFill, BsXSquare} from 'react-icons/bs'
 import {NotesContext} from "../../contexts/notes.context";
+import {NoteItemContainer, NotesItemsContainer, NotesLabelsContainer} from "../create-note/create-note.styles";
+import {BiDotsVerticalRounded, BiLabel} from "react-icons/bi";
+import ChangeLabel from "../change-label-pop-up/change-label.component";
+import Label from "../label/label.component";
 
 export type PreviewNotePropsType = {
     handleDelete: () => void
@@ -26,6 +30,14 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     const [isShown, setIsShown] = useState(false);
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
+    const [showLabel, setShowLabel] = useState(false)
+    const setLabels = (labels: string[]) => {
+        console.log(labels)
+        setContent(prevNote => ({
+            ...prevNote,
+            labels: labels
+        }))
+    }
 
     useEffect(() => {
         setContent(prevState => ({
@@ -42,7 +54,9 @@ const PreviewNote = (props: PreviewNotePropsType) => {
         setKeyOfModalProp(props.noteContent.id)
     }
 
-
+    const testLabels = content.labels.map(item => <Label
+        labelValue={item}
+    />)
     // useEffect(() => {
     //     let linesArray = editBodyTest(props.noteContent.body)
     //     if(linesArray.length > 15){
@@ -102,29 +116,59 @@ const PreviewNote = (props: PreviewNotePropsType) => {
                     </TextAreaContainer>
                 }
             </TextAreasContainer>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "end",
-                    width: "100%"
-                }}
-            >
-                <CrossIcon
-                    style={{
-                        display: "block"
-                    }}
-                    onClick={props.handleDelete}
-                    onMouseEnter={() => setIsShown(true)}
-                    onMouseLeave={() => setIsShown(false)}
-                >
-                    {isShown
-                        ?
-                        <BsXSquare/>
-                        :
-                        <BsXSquareFill/>}
+            <NotesLabelsContainer>
+                {testLabels}
+            </NotesLabelsContainer>
 
-                </CrossIcon>
-            </div>
+            <NotesItemsContainer>
+
+                <NoteItemContainer>
+                    <BiLabel
+                        size={20}
+                        style={{
+                            cursor: "pointer"
+                        }}
+                        onClick={() => {
+                            console.log("Clicked")
+                            setShowLabel(prev => !prev)
+                        }}
+                    />
+                    {
+                        showLabel &&
+                        <ChangeLabel
+                            addLabels={setLabels}
+                        />
+                    }
+                </NoteItemContainer>
+                <BiDotsVerticalRounded
+                    size={20}
+                />
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "end",
+                        width: "100%"
+                    }}
+                >
+                    <CrossIcon
+                        style={{
+                            display: "block"
+                        }}
+                        onClick={props.handleDelete}
+                        onMouseEnter={() => setIsShown(true)}
+                        onMouseLeave={() => setIsShown(false)}
+                    >
+                        {isShown
+                            ?
+                            <BsXSquare/>
+                            :
+                            <BsXSquareFill/>}
+
+                    </CrossIcon>
+                </div>
+            </NotesItemsContainer>
+
+
         </PreviewNoteContainer>
     )
 }

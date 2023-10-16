@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 
-
 export const NotesItemsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -9,5 +8,11 @@ export const NotesItemsContainer = styled.div`
 `
 
 export const NoteItemContainer = styled.div`
-    position: relative;
+  position: relative;
+`
+
+export const NotesLabelsContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
 `
