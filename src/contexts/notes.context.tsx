@@ -14,6 +14,7 @@ import {
 export type ModalPropsType = {
     open: boolean
     key: string
+    labelOpen: boolean
 }
 export type NotesContextType = {
     notes: NoteType[]
@@ -29,7 +30,8 @@ export type NotesContextType = {
     eventIncoming: () => void
     clearAllNotes: () => void
     labels: string[]
-    addLabel: (label: string) => void
+    addLabels: (labels: string[]) => void,
+    toggleLabelModal: () => void
 }
 
 type NotesProviderPropsType = {
@@ -50,7 +52,9 @@ export const NotesContext = createContext<NotesContextType>({
     updateNote: (key: string, title: string, body: string, updatedAt: Date) => null,
     modalProps: {
         key: "",
-        open: false
+        open: false,
+        labelOpen: false
+
     },
     setKeyOfModalProp: (key: string) => null,
     clearModalProps: () => null,
@@ -61,7 +65,9 @@ export const NotesContext = createContext<NotesContextType>({
     clearAllNotes: () => {
     },
     labels: [],
-    addLabel: (label: string) => {
+    addLabels: (labels: string[]) => {
+    },
+    toggleLabelModal: () => {
     }
 })
 
@@ -84,13 +90,15 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     const [notes, setNotes] = useState<NoteType[]>(intitalNotesState())
     const [modalProps, setModalProps] = useState<ModalPropsType>({
         key: "",
-        open: false
+        open: false,
+        labelOpen: false
     })
     console.log(notes)
     const [createNote, setCreateNote] = useState(false)
     const [labels, setLabels] = useState<string[]>([]);
-    const addLabel = (label: string) => {
-        setLabels(prevState => [...prevState, label])
+
+    const addLabels = (labels: string[]) => {
+        setLabels(labels)
     }
 
     const {user} = useContext(UserContext)
@@ -152,17 +160,26 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         setLabels(labels)
     }
     const setKeyOfModalProp = (key: string) => {
-        setModalProps({
+        setModalProps(prev => ({
+            ...prev,
             open: true,
-            key: key
-        })
+            key: key,
+        }))
     }
 
     const clearModalProps = () => {
-        setModalProps({
+        setModalProps(prev => ({
+            ...prev,
             open: false,
-            key: ""
-        })
+            key: '',
+        }))
+    }
+
+    const toggleLabelModal = () => {
+        setModalProps(prev => ({
+            ...prev,
+            labelOpen: !prev.labelOpen,
+        }))
     }
 
     const eventIncoming = () => {
@@ -195,7 +212,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         eventIncoming,
         clearAllNotes,
         labels,
-        addLabel
+        addLabels,
+        toggleLabelModal
     }
 
     useEffect(() => {

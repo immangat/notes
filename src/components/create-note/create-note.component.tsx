@@ -4,6 +4,8 @@ import {BodyTextBox, NoteContainer, TitleTextBox} from "../Note/note.styles";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {nanoid} from "nanoid";
 import {NotesContext} from "../../contexts/notes.context";
+import {BiLabel, BiSolidLabel, BiDotsVerticalRounded} from 'react-icons/bi'
+import {NoteItemContainer, NotesItemsContainer} from "./create-note.styles";
 
 
 const CreateNote = () => {
@@ -13,8 +15,8 @@ const CreateNote = () => {
         body: '',
         id: nanoid(),
         title: '',
-        createdAt:  new Date(),
-        updatedAt:  new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         labels: []
 
     }
@@ -128,6 +130,22 @@ const CreateNote = () => {
                                 preventEnter={false}
                                 setText={setBody}
                             />
+
+                            <NotesItemsContainer>
+
+                                <NoteItemContainer>
+                                    <BiLabel
+                                        size={20}
+                                        style={{
+                                            cursor: "pointer"
+                                        }}
+                                        onClick={() => console.log("Hello")}
+                                    />
+                                </NoteItemContainer>
+                                <BiDotsVerticalRounded
+                                    size={20}
+                                />
+                            </NotesItemsContainer>
 
                         </NoteContainer>
                     </>

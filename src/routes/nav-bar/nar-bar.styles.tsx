@@ -13,6 +13,7 @@ export const SideBarComponentContainer =styled.div`
 `
 
 export const DirectoryContainer = styled.div`
+  overflow: scroll;
   grid-area: 2 / 2 / 3 / 3;
 `
 

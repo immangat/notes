@@ -22,11 +22,11 @@ export const PreviewNoteContainer = styled.div`
 `
 
 export const PreviewTitleTextBox = styled(TextArea)`
-  overflow: hidden;
+  overflow: clip;
 `
 
 export const PreviewBodyTextBox = styled(TextArea)`
-  overflow: hidden;
+  overflow: clip;
 `
 
 export const CrossIcon = styled.span`

@@ -4,9 +4,11 @@ import {MdOutlineEdit} from 'react-icons/md'
 import {ListItemsContainer, SideBarContainer, SideBarList} from "./side-bar.styles";
 import {useContext, useEffect, useRef, useState} from "react";
 import {SideBarContext} from "../../contexts/side-bar.context";
+import {NotesContext} from "../../contexts/notes.context";
 
 const SideBar = () => {
     const {isOpen} = useContext(SideBarContext)
+    const {toggleLabelModal} = useContext(NotesContext)
     const [showTitle, setShowTitle] = useState(false);
     const sideBarRef = useRef<HTMLDivElement>(null)
     console.log(isOpen)
@@ -15,7 +17,7 @@ const SideBar = () => {
         if (sideBarRef.current && isOpen) {
             sideBarRef.current.style.position = "static"
         }
-        if(sideBarRef.current && !isOpen){
+        if (sideBarRef.current && !isOpen) {
             sideBarRef.current.style.position = "absolute"
         }
     }, [isOpen])
@@ -60,7 +62,9 @@ const SideBar = () => {
                     </ListItemsContainer>
                 </li>
                 <li>
-                    <ListItemsContainer>
+                    <ListItemsContainer
+                        onClick = {toggleLabelModal}
+                    >
                         <div>
                             <MdOutlineEdit/>
                         </div>

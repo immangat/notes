@@ -6,7 +6,7 @@ export const DirectoryContainer = styled.div`
   grid-template: 1fr 9fr / 1fr;
   background-color: white;
   overflow: auto;
-  height: 90%;
+  height: auto;
   padding-top: 1%;
 
 `
@@ -20,7 +20,6 @@ export const CreateNoteGridItem = styled.div`
 export const NotesGridItem = styled.div`
   grid-area: 2 / 1 / 3 /2;
   gap: 2px;
-  height: 90%;
 `
 
 export const NotesContainer = styled.div`

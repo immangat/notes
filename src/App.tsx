@@ -7,6 +7,7 @@ import NavBar from "./routes/nav-bar/nav-bar.component";
 import Home from "./routes/home/home.component";
 import Search from "./routes/search/search.component";
 import SignIn from "./routes/sign-in/sign-in.component";
+import LabelModal from "./components/label-modal/label-modal.component";
 
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
                     key={modalProps.key}
                     id={modalProps.key}
                 />
+            }
+            {
+                modalProps.labelOpen && <LabelModal/>
             }
             <Routes>
                 <Route path='/' element={<NavBar/>}>
