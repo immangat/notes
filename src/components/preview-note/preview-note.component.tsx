@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import {
     CrossIcon,
     PreviewBodyTextBox,
@@ -20,22 +20,33 @@ export type PreviewNotePropsType = {
     handleDelete: () => void
     noteContent: NoteType
 }
-
+const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
+    var temp: { [key: string]: boolean } = {}
+    labels.forEach(item => {
+        temp[item] = false;
+    })
+    checklabels.forEach((item) => {
+        temp[item] = true;
+    })
+    return temp;
+}
 
 const PreviewNote = (props: PreviewNotePropsType) => {
     const [content, setContent] = useState(props.noteContent)
     const [refElement, setRefElement] = useState<HTMLTextAreaElement | null>(null)
     const [refElement2, setRefElement2] = useState<HTMLTextAreaElement | null>(null)
-    const {setKeyOfModalProp} = useContext(NotesContext)
+    const {setKeyOfModalProp, createNote, updateNote, labels} = useContext(NotesContext)
+    const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, content.labels))
     const [isShown, setIsShown] = useState(false);
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
     const [showLabel, setShowLabel] = useState(false)
-    const setLabels = (labels: string[]) => {
-        console.log(labels)
-        setContent(prevNote => ({
-            ...prevNote,
-            labels: labels
+    console.log(content)
+    const manageCheckedData = (e: ChangeEvent<HTMLInputElement>) => {
+        const {target: {id}} = e
+        setCheckedData(prevState => ({
+            ...prevState,
+            [id]: !prevState[id]
         }))
     }
 
@@ -49,15 +60,22 @@ const PreviewNote = (props: PreviewNotePropsType) => {
         setRefElement2(null)
     }, [props.noteContent])
 
+    useEffect(() => {
+        if (showLabel) {
+            console.log("global event created")
+            setShowLabel(false)
+        }
+    }, [createNote])
 
+    useEffect(() => {
+        updateNote(content.id, new Date(),Object.keys(checkedData).filter(key => checkedData[key]), undefined, undefined )
+    }, [checkedData])
     const setKeyOfModal = () => {
         setKeyOfModalProp(props.noteContent.id)
     }
+    console.log("content labels", content.labels)
+    const testLabels = Object.keys(checkedData).filter(key => checkedData[key]).map(key => <Label labelValue={key}/>)
 
-    const testLabels = content.labels.map(item => <Label
-        labelValue={item}
-    />)
-    // useEffect(() => {
     //     let linesArray = editBodyTest(props.noteContent.body)
     //     if(linesArray.length > 15){
     //         let newBody = ''
@@ -128,15 +146,16 @@ const PreviewNote = (props: PreviewNotePropsType) => {
                         style={{
                             cursor: "pointer"
                         }}
-                        onClick={() => {
-                            console.log("Clicked")
+                        onClick={(e) => {
+                            e.stopPropagation()
                             setShowLabel(prev => !prev)
                         }}
                     />
                     {
                         showLabel &&
                         <ChangeLabel
-                            addLabels={setLabels}
+                            addLabels={manageCheckedData}
+                            checkedData={checkedData}
                         />
                     }
                 </NoteItemContainer>

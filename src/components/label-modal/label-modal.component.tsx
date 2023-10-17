@@ -17,14 +17,12 @@ const LabelModal = () => {
 
     const [modalLabels, setModalLabels] = useState(labels)
     const [labelInput, setLabelInput] = useState('')
-    console.log(modalLabels)
     const onClose = () => {
         toggleLabelModal();
         addLabels(modalLabels)
     }
 
     const deleteLabel = (label: string) => {
-        console.log("Insdie delete", label)
         setModalLabels(modalLabels.filter(modalLabel => modalLabel !== label))
     }
 
@@ -78,7 +76,7 @@ const LabelModal = () => {
                     </AddLabelContainer>
                     <ExitButton
                         type="button"
-                        onClick={toggleLabelModal}
+                        onClick={onClose}
                     >
                         DONE
                     </ExitButton>

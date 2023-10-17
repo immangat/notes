@@ -40,7 +40,7 @@ const NoteModal = ({id}: NoteModalTypes) => {
     }
 
     const onClose = () => {
-        updateNote(id, noteContent.title, noteContent.body, noteContent.updatedAt)
+        updateNote(id, noteContent.updatedAt, undefined, noteContent.title, noteContent.body)
         clearModalProps()
     }
 

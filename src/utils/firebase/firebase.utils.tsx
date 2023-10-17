@@ -45,7 +45,6 @@ export const auth = getAuth();
 
 export const signInWithgooglePopUp = async () => {
     try {
-        console.log("Before the gooogle pop up")
         return await signInWithPopup(auth, googleProvider)
     } catch (e) {
         console.log("Error with google popUp", e)

@@ -16,7 +16,6 @@ const SignIn = () => {
     const signInWithGoogle = async () => {
          await signInWithgooglePopUp();
     }
-    console.log(user)
     const signInWithGithub = async () => {
         await signInWithGithubPopUp();
     }

@@ -1,5 +1,5 @@
 import TextBox from "../text-box/text-box.component";
-import React, {KeyboardEvent, useContext, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useContext, useEffect, useRef, useState} from "react";
 import {BodyTextBox, NoteContainer, TitleTextBox} from "../Note/note.styles";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {nanoid} from "nanoid";
@@ -11,9 +11,16 @@ import ChangeLabel from "../change-label-pop-up/change-label.component";
 import Label from "../label/label.component";
 
 
+const makeIntitialCheckedDataPreviewNote = (labels: string[]) => {
+    var temp: { [key: string]: boolean } = {}
+    labels.forEach(item => {
+        temp[item] = false;
+    })
+    return temp;
+}
 const CreateNote = () => {
 
-    const {addNote, createNote} = useContext(NotesContext)
+    const {addNote, createNote, labels} = useContext(NotesContext)
     const initialNoteContent: NoteType = {
         body: '',
         id: nanoid(),
@@ -26,6 +33,7 @@ const CreateNote = () => {
     const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const titleTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [noteContent, setNoteContent] = useState(initialNoteContent)
+    const [checkedData, setCheckedData] = useState(makeIntitialCheckedDataPreviewNote(labels))
     const [showLabel, setShowLabel] = useState(false)
     const onEnterPressedOnTitle = (event: KeyboardEvent<HTMLTextAreaElement>) => {
         const {key} = event
@@ -34,6 +42,13 @@ const CreateNote = () => {
                 bodyTextAreaRef.current.focus()
             }
         }
+    }
+    const manageCheckedData = (e: ChangeEvent<HTMLInputElement>) => {
+        const {target: {id}} = e
+        setCheckedData(prevState => ({
+            ...prevState,
+            [id]: !prevState[id]
+        }))
     }
 
     const setBody = (body: string) => {
@@ -79,9 +94,9 @@ const CreateNote = () => {
 
         }
     }
-    const testLabels = noteContent.labels.map(item => <Label
-        labelValue={item}
-    />)
+    const testLabels = Object.keys(checkedData).filter(key => checkedData[key]).map(key => <Label labelValue={key}/>)
+
+
     useEffect(() => {
         checkToSeeIfAddNote()
     }, [createNote])
@@ -158,14 +173,14 @@ const CreateNote = () => {
                                             cursor: "pointer"
                                         }}
                                         onClick={() => {
-                                            console.log("Clicked")
                                             setShowLabel(prev => !prev)
                                         }}
                                     />
                                     {
                                         showLabel &&
                                         <ChangeLabel
-                                            addLabels={setLabels}
+                                            addLabels={manageCheckedData}
+                                            checkedData={checkedData}
                                         />
                                     }
                                 </NoteItemContainer>

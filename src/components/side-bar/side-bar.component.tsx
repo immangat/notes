@@ -11,7 +11,6 @@ const SideBar = () => {
     const {toggleLabelModal} = useContext(NotesContext)
     const [showTitle, setShowTitle] = useState(false);
     const sideBarRef = useRef<HTMLDivElement>(null)
-    console.log(isOpen)
     useEffect(() => {
         setShowTitle(isOpen)
         if (sideBarRef.current && isOpen) {
@@ -23,7 +22,6 @@ const SideBar = () => {
     }, [isOpen])
 
     useEffect(() => {
-        console.log("Inside the useEffect")
         if (sideBarRef.current && showTitle) {
             sideBarRef.current.style.borderRight = "2px solid gray";
             sideBarRef.current.style.width = "200px"

@@ -3,37 +3,14 @@ import {NotesContext} from "../../contexts/notes.context";
 
 
 type ChangeLabelPropsType = {
-    addLabels: (label: string[]) => void
+    addLabels: (e:ChangeEvent<HTMLInputElement>) => void
+    checkedData: { [key: string]: boolean; }
 }
 
-const makeIntitialCheckedData = (labels: string[]) => {
-    var temp: { [key: string]: boolean } = {}
-    labels.forEach(item => {
-        temp[item] = false;
-    })
-    return temp;
-}
-const ChangeLabel = ({addLabels}: ChangeLabelPropsType) => {
+const ChangeLabel = ({addLabels, checkedData}: ChangeLabelPropsType) => {
+
+
     const {labels} = useContext(NotesContext)
-    const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels))
-    console.log(checkedData)
-    const onClickCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
-        const {target: {id}} = e
-        setCheckedData(prevState => ({
-            ...prevState,
-            [id]: !prevState[id]
-        }))
-    }
-    useEffect(() => {
-        var labels: string[] = []
-        var keys = Object.keys(checkedData)
-        keys.forEach(key => {
-            if (checkedData[key]) {
-                labels.push(key)
-            }
-        })
-        addLabels(labels)
-    }, [checkedData])
     const labelsElements = labels.map(item =>
         <>
             <div
@@ -45,7 +22,13 @@ const ChangeLabel = ({addLabels}: ChangeLabelPropsType) => {
                     type='checkbox'
                     id={item}
                     checked={checkedData[item]}
-                    onChange={onClickCheckBox}
+                    onChange={(e) => {
+                        e.stopPropagation()
+                        addLabels(e)
+                    }}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                    }}
 
                 />
                 <label htmlFor={item}>{item}</label>

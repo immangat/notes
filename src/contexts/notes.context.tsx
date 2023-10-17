@@ -21,7 +21,7 @@ export type NotesContextType = {
     addNote: (note: NoteType) => void
     deleteNote: (key: string) => void
     getNote: (key: string) => NoteType
-    updateNote: (key: string, title: string, body: string, updatedAt: Date) => void
+    updateNote: (key: string, updatedAt: Date, labels?: string[], title?: string, body?: string) => void
     modalProps: ModalPropsType
     setKeyOfModalProp: (key: string) => void
     clearModalProps: () => void
@@ -49,7 +49,7 @@ export const NotesContext = createContext<NotesContextType>({
         updatedAt: new Date(),
         labels: []
     }),
-    updateNote: (key: string, title: string, body: string, updatedAt: Date) => null,
+    updateNote: (key: string, updatedAt: Date, labels?: string[], title?: string, body?: string) => null,
     modalProps: {
         key: "",
         open: false,
@@ -93,7 +93,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         open: false,
         labelOpen: false
     })
-    console.log(notes)
+
     const [createNote, setCreateNote] = useState(false)
     const [labels, setLabels] = useState<string[]>([]);
 
@@ -140,18 +140,35 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         return notes.find(note => note.id === key) as NoteType;
     }
 
-    const updateNote = (key: string, title: string, body: string, updatedAt: Date) => {
-        setNotes(prevNotes => prevNotes.map(note => {
-            if (note.id === key) {
-                return {
-                    ...note,
-                    title: title,
-                    body: body,
-                    updatedAt: updatedAt
+    const updateNote = (key: string, updatedAt: Date, labels?: string[], title?: string, body?: string) => {
+        if (title && body) {
+            setNotes(prevNotes => prevNotes.map(note => {
+                if (note.id === key) {
+                    return {
+                        ...note,
+                        title: title,
+                        body: body,
+                        updatedAt: updatedAt
+                    }
                 }
-            }
-            return note
-        }))
+                return note
+            }))
+            return
+        }
+
+        if (labels) {
+            setNotes(prevNotes => prevNotes.map(note => {
+                if (note.id === key) {
+                    return {
+                        ...note,
+                        labels: labels,
+                        updatedAt: updatedAt
+                    }
+                }
+                return note
+            }))
+        }
+
     }
 
 
@@ -223,7 +240,6 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         }
         return () => {
             if (unsubscribe) {
-                console.log("Inside the unsubscribe")
                 unsubscribe
                     .then((item: () => any) => item())
             }
