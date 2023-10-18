@@ -1,9 +1,12 @@
 import styled from "styled-components";
-import TextBox from "../text-box/text-box.component";
-import {TextArea, TextAreaType} from "../text-box/text-box.styles";
-import {BsXSquareFill, BsXSquare} from 'react-icons/bs'
-import {getSuggestedQuery} from "@testing-library/react";
+import {TextArea} from "../text-box/text-box.styles";
 
+export const NotesItemsContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  opacity: 0;
+`
 export const PreviewNoteContainer = styled.div`
   display: flex;
   height: max-content;
@@ -18,7 +21,13 @@ export const PreviewNoteContainer = styled.div`
 
   &:hover {
     box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+
+    & ${NotesItemsContainer} {
+      opacity: 1;
+    }
   }
+
 `
 
 export const PreviewTitleTextBox = styled(TextArea)`
@@ -42,4 +51,15 @@ export const TextAreasContainer = styled.div`
   &:hover *{
     cursor: pointer;
   }
+`
+
+
+export const NoteItemContainer = styled.div`
+  position: relative;
+`
+
+export const NotesLabelsContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
 `

@@ -3,11 +3,12 @@ import {LabelContainer, LabelValue, LabelX} from "./label.styles";
 
 type LabelProps = {
     labelValue: string
+    deleteLabel: (label: string) => void
 }
-const Label = ({labelValue}: LabelProps) => {
+const Label = ({labelValue, deleteLabel}: LabelProps) => {
 
-    const deleteLabel = () => {
-        console.log("delete me", labelValue)
+    const deleteItself = () => {
+        deleteLabel(labelValue)
     }
     return (
         <LabelContainer>
@@ -15,7 +16,7 @@ const Label = ({labelValue}: LabelProps) => {
                 {labelValue}
             </LabelValue>
             <LabelX
-                onClick={deleteLabel}
+                onClick={deleteItself}
             >
                 x
             </LabelX>

@@ -32,6 +32,8 @@ export type NotesContextType = {
     labels: string[]
     addLabels: (labels: string[]) => void,
     toggleLabelModal: () => void
+    deleteFromAllNotes: (label: string) => void
+
 }
 
 type NotesProviderPropsType = {
@@ -68,6 +70,9 @@ export const NotesContext = createContext<NotesContextType>({
     addLabels: (labels: string[]) => {
     },
     toggleLabelModal: () => {
+    },
+    deleteFromAllNotes: (label: string) => {
+
     }
 })
 
@@ -203,6 +208,17 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         setCreateNote(prev => !prev)
     }
 
+    const deleteFromAllNotes = (label: string) => {
+        setNotes(notes => notes.map(note => {
+            const tempNote = note
+            const index = tempNote.labels.indexOf(label)
+            if (index > -1) {
+                tempNote.labels.splice(index, 1)
+            }
+            return tempNote
+        }))
+    }
+
     useEffect(() => {
         localStorage.setItem("notes", JSON.stringify(notes))
         if (user) {
@@ -230,7 +246,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         clearAllNotes,
         labels,
         addLabels,
-        toggleLabelModal
+        toggleLabelModal,
+        deleteFromAllNotes
     }
 
     useEffect(() => {

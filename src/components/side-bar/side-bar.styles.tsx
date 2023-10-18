@@ -10,6 +10,7 @@ export const SideBarContainer = styled.div`
   background-color: white;
   width: 50px;
   border-right: 2px solid white;
+  z-index: 2;
 `
 
 export const SideBarList = styled.ul`
@@ -20,12 +21,13 @@ export const SideBarList = styled.ul`
   cursor: pointer;
 
   li {
-   
+
     margin-left: 0;
     margin-bottom: 4%;
+
     &:hover {
       background-color: yellow;
-      
+
     }
   }
 `

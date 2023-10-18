@@ -4,14 +4,14 @@ import {
     PreviewBodyTextBox,
     PreviewNoteContainer,
     PreviewTitleTextBox,
-    TextAreasContainer
+    TextAreasContainer,
+    NoteItemContainer, NotesItemsContainer, NotesLabelsContainer
 } from "./preview-note.styles";
 import {TextAreaContainer} from "../text-box/text-box.styles";
 import useAutosizeTextArea from "../text-box/text-box.utils";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {BsXSquareFill, BsXSquare} from 'react-icons/bs'
 import {NotesContext} from "../../contexts/notes.context";
-import {NoteItemContainer, NotesItemsContainer, NotesLabelsContainer} from "../create-note/create-note.styles";
 import {BiDotsVerticalRounded, BiLabel} from "react-icons/bi";
 import ChangeLabel from "../change-label-pop-up/change-label.component";
 import Label from "../label/label.component";
@@ -41,7 +41,6 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
     const [showLabel, setShowLabel] = useState(false)
-    console.log(content)
     const manageCheckedData = (e: ChangeEvent<HTMLInputElement>) => {
         const {target: {id}} = e
         setCheckedData(prevState => ({
@@ -54,7 +53,8 @@ const PreviewNote = (props: PreviewNotePropsType) => {
         setContent(prevState => ({
             ...prevState,
             title: props.noteContent.title + '',
-            body: props.noteContent.body + ''
+            body: props.noteContent.body + '',
+            labels: props.noteContent.labels
         }))
         setRefElement(null);
         setRefElement2(null)
@@ -68,14 +68,20 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     }, [createNote])
 
     useEffect(() => {
-        updateNote(content.id, new Date(),Object.keys(checkedData).filter(key => checkedData[key]), undefined, undefined )
+        updateNote(content.id, new Date(), Object.keys(checkedData).filter(key => checkedData[key]), undefined, undefined)
     }, [checkedData])
     const setKeyOfModal = () => {
         setKeyOfModalProp(props.noteContent.id)
     }
-    console.log("content labels", content.labels)
-    const testLabels = Object.keys(checkedData).filter(key => checkedData[key]).map(key => <Label labelValue={key}/>)
 
+    const deleteLabel = (label: string) => {
+        setCheckedData(prevState => ({
+            ...prevState,
+            [label]: false
+        }))
+    }
+    const testLabels = Object.keys(checkedData).filter(key => checkedData[key]).map(key => <Label labelValue={key}
+                                                                                                  deleteLabel={deleteLabel}/>)
     //     let linesArray = editBodyTest(props.noteContent.body)
     //     if(linesArray.length > 15){
     //         let newBody = ''
@@ -134,6 +140,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
                     </TextAreaContainer>
                 }
             </TextAreasContainer>
+
             <NotesLabelsContainer>
                 {testLabels}
             </NotesLabelsContainer>

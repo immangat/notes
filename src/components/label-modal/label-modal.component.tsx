@@ -13,7 +13,7 @@ import ModalLabelItem from "../modal-label-item/modal-label-item.component";
 
 const LabelModal = () => {
 
-    const {labels, toggleLabelModal, addLabels} = useContext(NotesContext)
+    const {labels, toggleLabelModal, addLabels, deleteFromAllNotes} = useContext(NotesContext)
 
     const [modalLabels, setModalLabels] = useState(labels)
     const [labelInput, setLabelInput] = useState('')
@@ -24,6 +24,7 @@ const LabelModal = () => {
 
     const deleteLabel = (label: string) => {
         setModalLabels(modalLabels.filter(modalLabel => modalLabel !== label))
+        deleteFromAllNotes(label)
     }
 
     const labelElements = modalLabels.map(label =>

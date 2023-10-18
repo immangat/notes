@@ -49,6 +49,7 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
                 )
             }
         )
+
     }, [notes])
 
 

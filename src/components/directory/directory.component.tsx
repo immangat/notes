@@ -1,13 +1,19 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {NotesContext} from "../../contexts/notes.context";
 
-import BasicDirectory from "../basic-directory/basic-directory.component";
+import BasicDirectory, {NoteType} from "../basic-directory/basic-directory.component";
 
 const Directory = () => {
     const {notes} = useContext(NotesContext)
+    const [notesInDirectory, setNotesInDirectory] = useState<NoteType[]>([])
+
+    useEffect(() => {
+        setNotesInDirectory(notes)
+        console.log("notes from directory", notes)
+    }, [notes])
     return <BasicDirectory
-                notes={notes}
-                showNote={true}
+        notes={notesInDirectory}
+        showNote={true}
     />
 }
 

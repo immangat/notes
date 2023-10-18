@@ -71,7 +71,12 @@ const CreateNote = () => {
     }
 
     const [clicked, setClicked] = useState(true)
-
+    const deleteLabel = (label: string) => {
+        setCheckedData(prevState => ({
+            ...prevState,
+            [label]: false
+        }))
+    }
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null)
     const checkToSeeIfAddNote = () => {
@@ -94,7 +99,8 @@ const CreateNote = () => {
 
         }
     }
-    const testLabels = Object.keys(checkedData).filter(key => checkedData[key]).map(key => <Label labelValue={key}/>)
+    const testLabels = Object.keys(checkedData).filter(key => checkedData[key]).map(key => <Label labelValue={key}
+                                                                                                  deleteLabel={deleteLabel}/>)
 
 
     useEffect(() => {
