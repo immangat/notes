@@ -119,6 +119,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
 
     const clearAllNotes = () => {
         setNotes([])
+        setLabels([])
     }
     const addNote = (note: NoteType) => {
         setNotes(prevNotes => [...prevNotes, note])

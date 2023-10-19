@@ -156,7 +156,6 @@ export const getNoteData = async (userId: string) => {
 export const createListerToNoteDatabase = async (userId: string, callback: (notes: NoteType[], labels: string[]) => void) => {
     const unsub = onSnapshot(doc(db, "notes", userId), (doc) => {
         const {notes, labels} = doc.data() as NoteDocumentType
-
         callback(notes, labels)
     });
     return unsub;

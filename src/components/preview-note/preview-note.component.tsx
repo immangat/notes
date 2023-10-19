@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from "react";
 import {
     CrossIcon,
     PreviewBodyTextBox,
@@ -32,12 +32,14 @@ const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
 }
 
 const PreviewNote = (props: PreviewNotePropsType) => {
+
     const [content, setContent] = useState(props.noteContent)
     const [refElement, setRefElement] = useState<HTMLTextAreaElement | null>(null)
     const [refElement2, setRefElement2] = useState<HTMLTextAreaElement | null>(null)
     const {setKeyOfModalProp, createNote, updateNote, labels} = useContext(NotesContext)
     const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, content.labels))
     const [isShown, setIsShown] = useState(false);
+    console.log("Inside the preview note", props.noteContent.labels, checkedData)
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
     const [showLabel, setShowLabel] = useState(false)
@@ -62,7 +64,6 @@ const PreviewNote = (props: PreviewNotePropsType) => {
 
     useEffect(() => {
         if (showLabel) {
-            console.log("global event created")
             setShowLabel(false)
         }
     }, [createNote])
@@ -80,7 +81,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
             [label]: false
         }))
     }
-    const testLabels = Object.keys(checkedData).filter(key => checkedData[key]).map(key => <Label labelValue={key}
+    const testLabels = props.noteContent.labels.map(key => <Label labelValue={key}
                                                                                                   deleteLabel={deleteLabel}/>)
     //     let linesArray = editBodyTest(props.noteContent.body)
     //     if(linesArray.length > 15){

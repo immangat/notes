@@ -25,6 +25,7 @@ export const PreviewNoteContainer = styled.div`
 
     & ${NotesItemsContainer} {
       opacity: 1;
+      transition: all 0.7s;
     }
   }
 

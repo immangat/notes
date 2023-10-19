@@ -5,14 +5,13 @@ import BasicDirectory, {NoteType} from "../basic-directory/basic-directory.compo
 
 const Directory = () => {
     const {notes} = useContext(NotesContext)
-    const [notesInDirectory, setNotesInDirectory] = useState<NoteType[]>([])
+   // const [notesInDirectory, setNotesInDirectory] = useState<NoteType[]>([])
 
-    useEffect(() => {
-        setNotesInDirectory(notes)
-        console.log("notes from directory", notes)
-    }, [notes])
+    // useEffect(() => {
+    //     setNotesInDirectory(notes)
+    // }, [notes])
     return <BasicDirectory
-        notes={notesInDirectory}
+        notes={notes}
         showNote={true}
     />
 }

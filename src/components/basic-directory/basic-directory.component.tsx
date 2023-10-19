@@ -26,13 +26,12 @@ export type BasicDirectoryPropsType = {
 }
 const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
 
-
     const {deleteNote} = useContext(NotesContext)
 
 
     //const [number, setNumber] = useState(0)
     const [notes1, setNotes1] = useState<ReactElement[]>([])
-    const deleteNoteFromArray = (key: string, array: number) => {
+    const deleteNoteFromArray = (key: string) => {
         deleteNote(key)
     }
 
@@ -44,12 +43,12 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
                     prevNotes => [<PreviewNote
                         key={noteContent.id}
                         noteContent={noteContent}
-                        handleDelete={() => deleteNoteFromArray(noteContent.id, 1)}
+                        handleDelete={() => deleteNoteFromArray(noteContent.id)}
                     />, ...prevNotes]
                 )
             }
         )
-
+        console.log("inside the useeffect in basic-directory")
     }, [notes])
 
 
