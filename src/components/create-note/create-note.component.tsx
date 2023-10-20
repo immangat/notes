@@ -4,7 +4,7 @@ import {BodyTextBox, NoteContainer, TitleTextBox} from "../Note/note.styles";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {nanoid} from "nanoid";
 import {NotesContext} from "../../contexts/notes.context";
-import {BiLabel, BiSolidLabel, BiDotsVerticalRounded} from 'react-icons/bi'
+import {BiLabel, BiDotsVerticalRounded} from 'react-icons/bi'
 import {NoteItemContainer, NotesItemsContainer, NotesLabelsContainer} from "./create-note.styles";
 
 import ChangeLabel from "../change-label-pop-up/change-label.component";
@@ -63,12 +63,7 @@ const CreateNote = () => {
             title: title
         }))
     }
-    const setLabels = (labels: string[]) => {
-        setNoteContent(prevNote => ({
-            ...prevNote,
-            labels: labels
-        }))
-    }
+
 
     const [clicked, setClicked] = useState(true)
     const deleteLabel = (label: string) => {
@@ -96,12 +91,18 @@ const CreateNote = () => {
                     labels: []
                 }
             )
+            setCheckedData(makeIntitialCheckedDataPreviewNote(labels))
 
         }
     }
     const testLabels = Object.keys(checkedData).filter(key => checkedData[key]).map(key => <Label labelValue={key}
                                                                                                   deleteLabel={deleteLabel}/>)
-
+    useEffect(() => {
+        setNoteContent(note => ({
+            ...note,
+            labels : Object.keys(checkedData).filter(key => checkedData[key])
+        }))
+    }, [checkedData])
 
     useEffect(() => {
         checkToSeeIfAddNote()

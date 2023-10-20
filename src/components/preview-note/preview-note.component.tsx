@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import {
     CrossIcon,
     PreviewBodyTextBox,
@@ -39,7 +39,6 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     const {setKeyOfModalProp, createNote, updateNote, labels} = useContext(NotesContext)
     const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, content.labels))
     const [isShown, setIsShown] = useState(false);
-    console.log("Inside the preview note", props.noteContent.labels, checkedData)
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
     const [showLabel, setShowLabel] = useState(false)

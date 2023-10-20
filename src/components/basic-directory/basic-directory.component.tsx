@@ -48,7 +48,7 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
                 )
             }
         )
-        console.log("inside the useeffect in basic-directory")
+
     }, [notes])
 
 
