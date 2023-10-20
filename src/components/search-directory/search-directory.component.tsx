@@ -1,7 +1,7 @@
 import React, {ReactElement, useContext, useEffect, useState} from 'react';
 
 import {NotesContext} from "../../contexts/notes.context";
-import BasicDirectory from "../basic-directory/basic-directory.component";
+import BasicDirectory, {NoteType} from "../basic-directory/basic-directory.component";
 import PreviewNote from "../preview-note/preview-note.component";
 import {
     ContainerOfNoteContainer,
@@ -14,10 +14,16 @@ import {SearchDirectoryContainer, SearchNotesGridItem} from "./search-directory.
 
 type SearchDirectoryType = {
     stringToSearch: string
+    labelSearch: boolean
 }
 const SearchDirectory = (props: SearchDirectoryType) => {
-    const {getNotes, deleteNote} = useContext(NotesContext)
-    const notes = getNotes(props.stringToSearch)
+    const {getNotes, deleteNote, getNotesBasedUponLabel} = useContext(NotesContext)
+    var notes: NoteType[];
+    if (!props.labelSearch) {
+        notes = getNotes(props.stringToSearch)
+    } else {
+        notes = getNotesBasedUponLabel(props.stringToSearch)
+    }
 
 
     //const [number, setNumber] = useState(0)

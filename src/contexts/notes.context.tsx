@@ -33,6 +33,7 @@ export type NotesContextType = {
     addLabels: (labels: string[]) => void,
     toggleLabelModal: () => void
     deleteFromAllNotes: (label: string) => void
+    getNotesBasedUponLabel: (label: string) => NoteType[]
 
 }
 
@@ -73,7 +74,8 @@ export const NotesContext = createContext<NotesContextType>({
     },
     deleteFromAllNotes: (label: string) => {
 
-    }
+    },
+    getNotesBasedUponLabel: (label: string) => []
 })
 
 
@@ -137,6 +139,10 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
                 regex.test(note.body)
             );
         })
+    }
+
+    const getNotesBasedUponLabel = (label: string) => {
+        return notes.filter(note => note.labels.indexOf(label) > -1)
     }
     const deleteNote = (key: string) => {
         setNotes(prevNotes => prevNotes.filter(note => note.id !== key))
@@ -248,7 +254,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         labels,
         addLabels,
         toggleLabelModal,
-        deleteFromAllNotes
+        deleteFromAllNotes,
+        getNotesBasedUponLabel
     }
 
     useEffect(() => {

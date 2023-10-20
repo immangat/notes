@@ -8,16 +8,25 @@ type CategoryRouteParam = {
 
 const Search = () => {
     const {cat} = useParams<keyof CategoryRouteParam>() as CategoryRouteParam
-    const catSpliced = cat.substring(4)
+    var catSpliced = ''
+    var labelSearch = false
+    if (cat.substring(0, 3) === 'text') {
+        catSpliced = cat.substring(4)
+    } else {
+        catSpliced = cat.substring(5)
+        labelSearch = true
+    }
+
 
     return (
         <div>
             {
                 catSpliced
                     ?
-            <SearchDirectory
-                stringToSearch={catSpliced}
-            />
+                    <SearchDirectory
+                        stringToSearch={catSpliced}
+                        labelSearch={labelSearch}
+                    />
                     :
 
                     <h1>Enter a word to search {catSpliced}</h1>
