@@ -10,7 +10,7 @@ const Search = () => {
     const {cat} = useParams<keyof CategoryRouteParam>() as CategoryRouteParam
     var catSpliced = ''
     var labelSearch = false
-    if (cat.substring(0, 3) === 'text') {
+    if (cat.substring(0, 4) === 'text') {
         catSpliced = cat.substring(4)
     } else {
         catSpliced = cat.substring(5)
