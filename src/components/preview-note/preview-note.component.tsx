@@ -82,7 +82,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
         }))
     }
     const testLabels = props.noteContent.labels.map(key => <Label labelValue={key}
-                                                                                                  deleteLabel={deleteLabel}/>)
+                                                                  deleteLabel={deleteLabel}/>)
     //     let linesArray = editBodyTest(props.noteContent.body)
     //     if(linesArray.length > 15){
     //         let newBody = ''
@@ -148,7 +148,9 @@ const PreviewNote = (props: PreviewNotePropsType) => {
 
             <NotesItemsContainer>
 
-                <NoteItemContainer>
+                <NoteItemContainer
+                    title="Labels"
+                >
                     <BiLabel
                         size={20}
                         style={{
@@ -167,9 +169,14 @@ const PreviewNote = (props: PreviewNotePropsType) => {
                         />
                     }
                 </NoteItemContainer>
-                <BiDotsVerticalRounded
-                    size={20}
-                />
+                <NoteItemContainer
+                    title="More Options"
+                >
+                    <BiDotsVerticalRounded
+                        size={20}
+                    />
+                </NoteItemContainer>
+
                 <div
                     style={{
                         display: "flex",
@@ -193,6 +200,8 @@ const PreviewNote = (props: PreviewNotePropsType) => {
 
                     </CrossIcon>
                 </div>
+
+
             </NotesItemsContainer>
 
 

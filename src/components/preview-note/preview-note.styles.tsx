@@ -49,14 +49,24 @@ export const CrossIcon = styled.span`
 
 export const TextAreasContainer = styled.div`
   overflow: hidden;
-  &:hover *{
+
+  &:hover * {
     cursor: pointer;
   }
 `
 
 
-export const NoteItemContainer = styled.div`
+export const NoteItemContainer = styled.button`
   position: relative;
+  padding: 0;
+  outline: none;
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+
+  & :hover {
+    background: radial-gradient(ellipse at center, wheat, white);
+  }
 `
 
 export const NotesLabelsContainer = styled.div`
