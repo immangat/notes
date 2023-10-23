@@ -34,6 +34,7 @@ export type NotesContextType = {
     toggleLabelModal: () => void
     deleteFromAllNotes: (label: string) => void
     getNotesBasedUponLabel: (label: string) => NoteType[]
+    loading: boolean
 
 }
 
@@ -75,12 +76,13 @@ export const NotesContext = createContext<NotesContextType>({
     deleteFromAllNotes: (label: string) => {
 
     },
-    getNotesBasedUponLabel: (label: string) => []
+    getNotesBasedUponLabel: (label: string) => [],
+    loading: false
 })
 
 
 const intitalNotesState = () => {
-    const notes = localStorage.getItem("notes");
+    const notes = sessionStorage.getItem("notes");
     if (typeof notes === 'string' && notes.trim() !== '') {
         try {
             return JSON.parse(notes);
@@ -103,6 +105,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
 
     const [createNote, setCreateNote] = useState(false)
     const [labels, setLabels] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false)
 
     const addLabels = (labels: string[]) => {
         setLabels(labels)
@@ -111,7 +114,11 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     const {user} = useContext(UserContext)
 
     const initNotes = async (userID: string) => {
+        setLoading(true)
         await createNoteDocument(userID)
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
         // const noteDocument = await getNoteData(userID)
         // const {notes} = noteDocument as NoteDocumentType
         // addNotesFromFirbase(notes)
@@ -227,7 +234,6 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     }
 
     useEffect(() => {
-        localStorage.setItem("notes", JSON.stringify(notes))
         if (user) {
             updateNotes(user.userId, notes)
         }
@@ -255,13 +261,16 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         addLabels,
         toggleLabelModal,
         deleteFromAllNotes,
-        getNotesBasedUponLabel
+        getNotesBasedUponLabel,
+        loading
     }
 
     useEffect(() => {
         let unsubscribe: any;
         if (user) {
+            setLoading(true)
             unsubscribe = initNotes(user.userId)
+
         }
         return () => {
             if (unsubscribe) {

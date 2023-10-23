@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useState, MouseEvent, useRef} from "react";
 import {
     CrossIcon,
     PreviewBodyTextBox,
@@ -15,6 +15,7 @@ import {NotesContext} from "../../contexts/notes.context";
 import {BiDotsVerticalRounded, BiLabel} from "react-icons/bi";
 import ChangeLabel from "../change-label-pop-up/change-label.component";
 import Label from "../label/label.component";
+
 
 export type PreviewNotePropsType = {
     handleDelete: () => void
@@ -39,6 +40,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     const {setKeyOfModalProp, createNote, updateNote, labels} = useContext(NotesContext)
     const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, content.labels))
     const [isShown, setIsShown] = useState(false);
+    const labelPopUpRef = useRef<HTMLDivElement | null>(null);
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
     const [showLabel, setShowLabel] = useState(false)
@@ -70,6 +72,15 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     useEffect(() => {
         updateNote(content.id, new Date(), Object.keys(checkedData).filter(key => checkedData[key]), undefined, undefined)
     }, [checkedData])
+
+    useEffect(() => {
+        if (showLabel && labelPopUpRef.current) {
+            labelPopUpRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            })
+        }
+    }, [showLabel, labelPopUpRef])
     const setKeyOfModal = () => {
         setKeyOfModalProp(props.noteContent.id)
     }
@@ -79,6 +90,13 @@ const PreviewNote = (props: PreviewNotePropsType) => {
             ...prevState,
             [label]: false
         }))
+    }
+
+    const onClickChangeLabel = (e: MouseEvent<SVGElement>) => {
+        e.stopPropagation()
+        setShowLabel(prev => !prev)
+
+
     }
     const testLabels = props.noteContent.labels.map(key => <Label labelValue={key}
                                                                   deleteLabel={deleteLabel}/>)
@@ -149,19 +167,19 @@ const PreviewNote = (props: PreviewNotePropsType) => {
 
                 <NoteItemContainer
                     title="Labels"
+
                 >
                     <BiLabel
                         size={20}
                         style={{
                             cursor: "pointer"
                         }}
-                        onClick={(e) => {
-                            e.stopPropagation()
-                            setShowLabel(prev => !prev)
-                        }}
+                        onClick={onClickChangeLabel}
+
                     />
                     {
-                        showLabel &&
+                        showLabel
+                        &&
                         <ChangeLabel
                             addLabels={manageCheckedData}
                             checkedData={checkedData}

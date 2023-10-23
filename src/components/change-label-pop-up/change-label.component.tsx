@@ -1,9 +1,9 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import React, {ChangeEvent, useContext, ReactElement, MutableRefObject} from "react";
 import {NotesContext} from "../../contexts/notes.context";
 
 
 type ChangeLabelPropsType = {
-    addLabels: (e:ChangeEvent<HTMLInputElement>) => void
+    addLabels: (e: ChangeEvent<HTMLInputElement>) => void
     checkedData: { [key: string]: boolean; }
 }
 
@@ -38,6 +38,7 @@ const ChangeLabel = ({addLabels, checkedData}: ChangeLabelPropsType) => {
 
     return (
         <div
+
             style={{
                 backgroundColor: "white",
                 position: "absolute",

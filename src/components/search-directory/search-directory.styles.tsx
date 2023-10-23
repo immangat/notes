@@ -5,7 +5,7 @@ export const SearchDirectoryContainer = styled.div`
   display: grid;
   background-color: white;
   overflow: auto;
-  height: 90%;
+  height: auto;
   padding-top: 1%;
 `
 

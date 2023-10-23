@@ -35,9 +35,9 @@ export const NotesItem = styled.div`
 `
 
 export const NotesContainerTest = styled.div`
-
+  
   @media screen and (min-width: 600px) {
-    
+
   }
   columns: 245px;
   column-gap: 1em;
@@ -46,7 +46,7 @@ export const NotesContainerTest = styled.div`
   //  justify-content: center;
   //  flex-direction: column;
   //}
-  
+
   //display: flex;
   //flex-wrap: wrap;
   //justify-content: center;
