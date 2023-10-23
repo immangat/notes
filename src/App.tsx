@@ -35,7 +35,8 @@ function App() {
                         height: "100vh",
                         width: "100vw",
                         backgroundColor: "white",
-                        alignItems: "center"
+                        alignItems: "center",
+                        flexDirection: "column"
                     }}
                 >
                     <TailSpin
@@ -48,6 +49,7 @@ function App() {
                         wrapperClass=""
                         visible={true}
                     />
+                    <h1>Loading Notes</h1>
 
                 </div>
             }
