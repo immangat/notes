@@ -9,6 +9,7 @@ import Search from "./routes/search/search.component";
 import SignIn from "./routes/sign-in/sign-in.component";
 import LabelModal from "./components/label-modal/label-modal.component";
 import {TailSpin, Vortex} from "react-loader-spinner";
+import LoadingSpinner from "./components/loading-spinner/loading-spinnner.component";
 
 
 function App() {
@@ -28,30 +29,7 @@ function App() {
                 modalProps.labelOpen && <LabelModal/>
             }
             {
-                loading && <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        height: "100vh",
-                        width: "100vw",
-                        backgroundColor: "white",
-                        alignItems: "center",
-                        flexDirection: "column"
-                    }}
-                >
-                    <TailSpin
-                        height="80"
-                        width="80"
-                        color="black"
-                        ariaLabel="tail-spin-loading"
-                        radius="1"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                        visible={true}
-                    />
-                    <h1>Loading Notes</h1>
-
-                </div>
+                loading && <LoadingSpinner/>
             }
             <Routes>
                 <Route path='/' element={<NavBar/>}>

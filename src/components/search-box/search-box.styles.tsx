@@ -25,4 +25,27 @@ export const SearchBoxButtons = styled.button<SearchBoxContainerType>`
 
 export const SearchBoxX = styled(SearchBoxButtons)`
   margin-left: auto;
+  opacity: 0;
 `
+export const SearchBoxInput = styled.input`
+  border: none;
+  background-color: inherit;
+  outline: none;
+  width: 0;
+  min-width: 100%;
+
+  &:active {
+    &.${SearchBoxX} {
+      opacity: 1;
+    }
+  }
+`
+
+
+export const SearchBoxInputContainer = styled.div`
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+`
+
