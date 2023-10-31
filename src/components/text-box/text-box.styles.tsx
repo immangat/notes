@@ -1,14 +1,19 @@
 import styled from "styled-components";
 
 export type TextAreaType = {
-    textvalue?: string;
     fontsize? : string
+    containerSize?: number
 };
 
 export const TextAreaContainer = styled.div<TextAreaType>`
   display: flex;
   justify-content: center;
-  max-width:236px ;
+  max-width:${props => {
+      if(props.containerSize){
+          return props.containerSize + 50 + 'px'
+      }
+     return "250px"
+  }} ;
   min-height: 30px;
   overflow: hidden;
 `;
@@ -20,9 +25,20 @@ export const TextArea = styled.textarea<TextAreaType>`
   outline: none;
   padding: 0.5rem;
   font-size: ${props => props.fontsize ||'inherit'};
-  max-width: 250px;
-  min-width: 250px;
+  max-width: ${props => {
+    if(props.containerSize){
+      return props.containerSize - 5 + 'px'
+    }
+    return "250px"
+  }};
+  min-width: ${props => {
+    if(props.containerSize){
+      return props.containerSize - 5 + 'px'
+    }
+    return "250px"
+  }} ; ;
   min-height: 30px;
   white-space: pre-wrap;
   border: none;
+  background-color: inherit;
 `;

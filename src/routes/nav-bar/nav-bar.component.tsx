@@ -5,7 +5,7 @@ import {
     LinkForHome,
     LogoContainer, MainContainer,
     MenuContainer,
-    NavBarContainer,
+    NavBarContainer, NavBarImage,
     NavTitle, NoteIcon, NotesLogoContainer,
     ProfileContainer,
     SearchContainer, SideBarComponentContainer
@@ -39,7 +39,7 @@ const NavBar = () => {
             <NavBarContainer>
                 <LogoContainer>
                     <MenuContainer
-                        onClick = {() => {
+                        onClick={() => {
                             setState()
                         }}
                     >
@@ -68,12 +68,10 @@ const NavBar = () => {
                     <LinkForHome to='/signin'>
                         {
                             user && user.userData ? (
-                                <img alt="profile" src={user.userData.photoURL} style={{
-                                    width: "24px"
-                                }
-                                }/>
+                                <NavBarImage alt="profile" src={user.userData.photoURL}
+                            />
                             ) : (
-                                <GrUserSettings/>
+                            <GrUserSettings/>
                             )
                         }
                     </LinkForHome>

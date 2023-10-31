@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import {TextArea} from "../text-box/text-box.styles";
+import NotesFooter from "../notes-footer/notes-footer.component";
+
 
 export const NotesItemsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 100%;
   opacity: 0;
+`
+
+export const PreviewNotesFooter = styled.div`
+    opacity: 0;
 `
 export const PreviewNoteContainer = styled.div`
   display: flex;
@@ -18,13 +24,13 @@ export const PreviewNoteContainer = styled.div`
   border-radius: 10px;
   padding: 0.1rem;
   margin-bottom: 1rem;
-  
+
 
   &:hover {
     box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 
-    & ${NotesItemsContainer} {
+    ${PreviewNotesFooter} {
       opacity: 1;
       transition: all 0.7s;
     }

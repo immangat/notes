@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext, useEffect, useState} from 'react';
+import React, {ReactElement, useContext, useEffect, useMemo, useState} from 'react';
 import CreateNote from "../create-note/create-note.component";
 import {NotesContext} from "../../contexts/notes.context";
 import PreviewNote from "../preview-note/preview-note.component";
@@ -24,33 +24,26 @@ export type BasicDirectoryPropsType = {
     notes: NoteType[]
     showNote: boolean
 }
+
+
 const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
 
     const {deleteNote} = useContext(NotesContext)
+    
 
-
-    //const [number, setNumber] = useState(0)
-    const [notes1, setNotes1] = useState<ReactElement[]>([])
-    const deleteNoteFromArray = (key: string) => {
-        deleteNote(key)
-    }
-
-
-    useEffect(() => {
-        setNotes1([])
-        notes.forEach(noteContent => {
-                setNotes1(
-                    prevNotes => [<PreviewNote
-                        key={noteContent.id}
-                        noteContent={noteContent}
-                        handleDelete={() => deleteNoteFromArray(noteContent.id)}
-                    />, ...prevNotes]
-                )
-            }
-        )
-
-    }, [notes])
-
+    const getPreviewNotes = useMemo(() => {
+        const deleteNoteFromArray = (key: string) => {
+            deleteNote(key)
+        }
+        console.log("Inside the memo hahahhahahah" + showNote)
+        return notes.map(noteContent => (
+            <PreviewNote
+                key={noteContent.id}
+                noteContent={noteContent}
+                handleDelete={() => deleteNoteFromArray(noteContent.id)}
+            />
+        ));
+    }, [notes, deleteNote]);
 
     return (
         <DirectoryContainer>
@@ -65,7 +58,7 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
             <NotesGridItem>
                 <ContainerOfNoteContainer>
                     <NotesContainerTest>
-                        {notes1}
+                        {getPreviewNotes}
                     </NotesContainerTest>
                 </ContainerOfNoteContainer>
             </NotesGridItem>

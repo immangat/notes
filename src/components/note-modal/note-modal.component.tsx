@@ -1,20 +1,42 @@
-import React, {KeyboardEvent, useContext, useRef, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useContext, useRef, useState} from "react";
 import {NotesContext} from "../../contexts/notes.context";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {BodyTextBox, NoteContainer, TitleTextBox} from "../Note/note.styles";
-import {ModalBody, ModalContainer, ModalContent} from "./note-modal.styles";
+import {
+    CloseButton,
+    ModalBody,
+    ModalContainer,
+    ModalContent,
+    ModalNoteContainer,
+    NoteModalFooterContainer
+} from "./note-modal.styles";
+import NotesFooter from "../notes-footer/notes-footer.component";
+import Label from "../label/label.component";
+import {NotesLabelsContainer} from "../preview-note/preview-note.styles";
 
 export type NoteModalTypes = {
     id: string
 }
+
+const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
+    var temp: { [key: string]: boolean } = {}
+    labels.forEach(item => {
+        temp[item] = false;
+    })
+    checklabels.forEach((item) => {
+        temp[item] = true;
+    })
+    return temp;
+}
 const NoteModal = ({id}: NoteModalTypes) => {
 
-    const {getNote, deleteNote, updateNote, clearModalProps} = useContext(NotesContext)
+    const {getNote, deleteNote, updateNote, clearModalProps, labels} = useContext(NotesContext)
 
     const initialNoteContent: NoteType = getNote(id)
     const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const titleTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [noteContent, setNoteContent] = useState(initialNoteContent)
+    const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, noteContent.labels))
     const onEnterPressedOnTitle = (event: KeyboardEvent<HTMLTextAreaElement>) => {
         const {key} = event
         if (key === 'Enter') {
@@ -40,21 +62,35 @@ const NoteModal = ({id}: NoteModalTypes) => {
     }
 
     const onClose = () => {
-        updateNote(id, noteContent.updatedAt, undefined, noteContent.title, noteContent.body)
+        const labels = Object.keys(checkedData).filter(label => checkedData[label])
+        updateNote(id, noteContent.updatedAt, labels, noteContent.title, noteContent.body)
         clearModalProps()
     }
 
-    const deleteNoteFromModal = () => {
-        clearModalProps()
-        deleteNote(id)
+
+    const manageCheckedData = (e: ChangeEvent<HTMLInputElement>) => {
+        const {target: {id}} = e
+        setCheckedData(prevState => ({
+            ...prevState,
+            [id]: !prevState[id]
+        }))
     }
+    const deleteLabel = (label: string) => {
+        setCheckedData(prevState => ({
+            ...prevState,
+            [label]: false
+        }))
+    }
+
+    const modalLabels = Object.keys(checkedData).filter(label => checkedData[label]).map(key => <Label labelValue={key}
+                                                                                                       deleteLabel={deleteLabel}/>)
 
     return (
 
         <ModalContainer className="modal" onClick={onClose}>
             <ModalContent className="modal-content" onClick={onClose}>
                 <ModalBody className="modal-body" onClick={e => e.stopPropagation()}>
-                    <NoteContainer
+                    <ModalNoteContainer
                         onClick={
                             (event) => {
                                 event.stopPropagation()
@@ -70,6 +106,7 @@ const NoteModal = ({id}: NoteModalTypes) => {
                             refObject={titleTextAreaRef}
                             preventEnter={true}
                             setText={setTitle}
+                            containerSize={500}
                         />
                         <BodyTextBox
                             placeholder={"Take a note..."}
@@ -77,24 +114,29 @@ const NoteModal = ({id}: NoteModalTypes) => {
                             refObject={bodyTextAreaRef}
                             preventEnter={false}
                             setText={setBody}
+                            containerSize={500}
                         />
-                        <span
-                            style={{
-                                display: "block"
-                            }}
-                            onClick={deleteNoteFromModal}
-                        >
-                X</span>
-                        <span
-                            style={{
-                                display: "block"
-                            }}
-                            onClick={onClose}
-                        >
-                                Close
-                            </span>
+                        <NotesLabelsContainer>
+                            {modalLabels}
+                        </NotesLabelsContainer>
 
-                    </NoteContainer>
+                        <NoteModalFooterContainer>
+                            <NotesFooter
+                                noteID={id}
+                                checkedData={checkedData}
+                                manageCheckedData={manageCheckedData}
+                            />
+                            <CloseButton
+                                title='Close Note'
+                                onClick={onClose}
+                            >
+                                Close
+                            </CloseButton>
+
+                        </NoteModalFooterContainer>
+
+
+                    </ModalNoteContainer>
                 </ModalBody>
             </ModalContent>
         </ModalContainer>

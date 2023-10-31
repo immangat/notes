@@ -31,3 +31,36 @@ export const ModalBody = styled.div`
   //height: 300px;
   padding: 10px;
 `
+
+export const ModalNoteContainer = styled.div`
+  background-color: lightyellow;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid black;
+  max-width: 500px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 0.4rem;
+  margin-bottom: 1rem;
+  overflow: visible;
+  flex-grow: 1;
+  
+`
+
+export const NoteModalFooterContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1% 0;
+`
+
+export const CloseButton = styled.button`
+    background-color: inherit;
+    cursor: pointer;
+  border: none;
+  
+  &:hover{
+    opacity: 0.5;
+  }
+`

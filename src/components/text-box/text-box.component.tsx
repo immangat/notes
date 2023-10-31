@@ -3,7 +3,6 @@ import {TextArea, TextAreaContainer} from "./text-box.styles";
 import useAutosizeTextArea from "./text-box.utils";
 
 
-
 export type TextBoxPropType = {
     textValue: string
     fontsize?: string
@@ -11,15 +10,24 @@ export type TextBoxPropType = {
     preventEnter: boolean
     onClickHandle?: () => void
     setText: (text: string) => void
+    containerSize?: number
 } & TextareaHTMLAttributes<HTMLTextAreaElement>
 
-const TextBox = ({textValue,setText,preventEnter,fontsize, refObject, onClickHandle,...otherProps} : TextBoxPropType) => {
-
+const TextBox = ({
+                     textValue,
+                     setText,
+                     preventEnter,
+                     fontsize,
+                     refObject,
+                     onClickHandle,
+                     containerSize,
+                     ...otherProps
+                 }: TextBoxPropType) => {
 
 
     const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const {target: {value}} = event;
-        if(preventEnter && value.substring(value.length - 1, value.length) === '\n'){
+        if (preventEnter && value.substring(value.length - 1, value.length) === '\n') {
             return
         }
         setText(value)
@@ -33,18 +41,20 @@ const TextBox = ({textValue,setText,preventEnter,fontsize, refObject, onClickHan
     return (
 
         <TextAreaContainer
-                    onClick = {() => {
-                        if (onClickHandle) {
-                            onClickHandle()
-                        }
-                    }}
+            onClick={() => {
+                if (onClickHandle) {
+                    onClickHandle()
+                }
+            }}
+            containerSize={containerSize}
         >
             <TextArea
                 onChange={handleInputChange}
                 ref={refObject}
                 rows={1}
                 value={textValue}
-                fontsize = {fontsize}
+                fontsize={fontsize}
+                containerSize={containerSize}
                 {...otherProps}
             >
             </TextArea>

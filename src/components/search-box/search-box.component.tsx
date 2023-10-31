@@ -1,4 +1,4 @@
-import {InputHTMLAttributes, useContext, useEffect, useRef, useState} from "react";
+import {InputHTMLAttributes, useContext, useEffect, useState} from "react";
 import {AiOutlineSearch} from 'react-icons/ai'
 import {RxCross1} from 'react-icons/rx'
 import {useNavigate} from "react-router-dom";
@@ -18,6 +18,7 @@ const SearchBox = (props: SearchBoxTypes) => {
     const navigate = useNavigate()
     const [searchUrl, setSearchUrl] = useState('')
     const [backgroundColor, switchBackGroundColor] = useState(true)
+    const [showX, setShowX] = useState(false)
 
 
     useEffect(() => {
@@ -27,6 +28,7 @@ const SearchBox = (props: SearchBoxTypes) => {
     useEffect(() => {
         // if(!isInitialRender.current){
         setSearchUrl('')
+        setShowX(false)
         switchBackGroundColor(true)
         // }
     }, [reset])
@@ -43,6 +45,7 @@ const SearchBox = (props: SearchBoxTypes) => {
                 onClick={() => {
                     navigate(`/search/text${searchUrl}`)
                     switchBackGroundColor(false)
+                    setShowX(true)
                 }}
                 backgroundColor={backgroundColor}
             >
@@ -56,6 +59,7 @@ const SearchBox = (props: SearchBoxTypes) => {
                     onClick={() => {
                         navigate(`/search/text${searchUrl}`)
                         switchBackGroundColor(false)
+                        setShowX(true)
                     }}
                     onChange={(e) => {
                         setSearchUrl(e.target.value);
@@ -67,14 +71,19 @@ const SearchBox = (props: SearchBoxTypes) => {
             <SearchBoxX
                 onClick={() => {
                     setSearchUrl('')
+                    setShowX(false)
                     switchBackGroundColor(true)
                     navigate('/')
                 }}
                 backgroundColor={backgroundColor}
             >
-                <RxCross1
-                    size={30}
-                />
+                {
+                    showX
+                    &&
+                    <RxCross1
+                        size={30}
+                    />
+                }
 
             </SearchBoxX>
 

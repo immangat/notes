@@ -30,7 +30,8 @@ export type NotesContextType = {
     eventIncoming: () => void
     clearAllNotes: () => void
     labels: string[]
-    addLabels: (labels: string[]) => void,
+    addLabels: (labels: string[]) => void
+    getLabelsOfANote: (noteID: string) => string[]
     toggleLabelModal: () => void
     deleteFromAllNotes: (label: string) => void
     getNotesBasedUponLabel: (label: string) => NoteType[]
@@ -71,6 +72,8 @@ export const NotesContext = createContext<NotesContextType>({
     labels: [],
     addLabels: (labels: string[]) => {
     },
+    getLabelsOfANote: (noteID) => [],
+
     toggleLabelModal: () => {
     },
     deleteFromAllNotes: (label: string) => {
@@ -153,6 +156,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     }
     const deleteNote = (key: string) => {
         setNotes(prevNotes => prevNotes.filter(note => note.id !== key))
+        clearModalProps()
     }
 
     const getNote = (key: string) => {
@@ -160,6 +164,23 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     }
 
     const updateNote = (key: string, updatedAt: Date, labels?: string[], title?: string, body?: string) => {
+        if (title && body && labels) {
+            setNotes(prevNotes => prevNotes.map(note => {
+                if (note.id === key) {
+                    return {
+                        ...note,
+                        title: title,
+                        body: body,
+                        updatedAt: updatedAt,
+                        labels: labels
+                    }
+                }
+                return note
+            }))
+            return
+        }
+
+
         if (title && body) {
             setNotes(prevNotes => prevNotes.map(note => {
                 if (note.id === key) {
@@ -190,6 +211,19 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
 
     }
 
+
+    const updateLabelsForNote = (key: string, updatedAt: Date, labels: string[]) => {
+        setNotes(prevNotes => prevNotes.map(note => {
+            if (note.id === key) {
+                return {
+                    ...note,
+                    labels: labels,
+                    updatedAt: updatedAt
+                }
+            }
+            return note
+        }))
+    }
 
     const addNotesFromFirbase = (notes: NoteType[], labels: string[]) => {
         setNotes(notes)
@@ -233,6 +267,10 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         }))
     }
 
+    const getLabelsOfANote = (noteID: string) => {
+        return notes.find(note => note.id === noteID)?.labels || []
+    }
+
     useEffect(() => {
         if (user) {
             updateNotes(user.userId, notes)
@@ -262,7 +300,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         toggleLabelModal,
         deleteFromAllNotes,
         getNotesBasedUponLabel,
-        loading
+        loading,
+        getLabelsOfANote
     }
 
     useEffect(() => {

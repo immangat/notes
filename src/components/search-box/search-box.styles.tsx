@@ -4,15 +4,7 @@ type SearchBoxContainerType = {
     backgroundColor: boolean
 }
 
-export const SearchBoxContainer = styled.div<SearchBoxContainerType>`
-  display: flex;
-  flex-direction: row;
-  background-color: ${props => props.backgroundColor ? "lightgrey" : "white"};
-  padding: 0;
-  border: ${props => props.backgroundColor ? "1px white solid" : "1px black solid"};
-  border-radius: 5%;
-  overflow: hidden;
-`
+
 
 export const SearchBoxButtons = styled.button<SearchBoxContainerType>`
   display: flex;
@@ -21,11 +13,33 @@ export const SearchBoxButtons = styled.button<SearchBoxContainerType>`
   background-color: ${props => props.backgroundColor ? "lightgrey" : "white"};
   border: none;
   cursor: pointer;
+  overflow: hidden;
+
+  &:hover {
+    opacity: 0.5;
+  }
 `
 
 export const SearchBoxX = styled(SearchBoxButtons)`
   margin-left: auto;
-  opacity: 0;
+  overflow: hidden;
+
+  
+`
+export const SearchBoxContainer = styled.div<SearchBoxContainerType>`
+  display: flex;
+  flex-direction: row;
+  background-color: ${props => props.backgroundColor ? "lightgrey" : "white"};
+  padding: 0;
+  border: ${props => props.backgroundColor ? "1px white solid" : "1px black solid"};
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s;
+  
+    /* Add other styles you want when the input is focused or interacted with */
+  }
+
+
 `
 export const SearchBoxInput = styled.input`
   border: none;
@@ -33,12 +47,7 @@ export const SearchBoxInput = styled.input`
   outline: none;
   width: 0;
   min-width: 100%;
-
-  &:active {
-    &.${SearchBoxX} {
-      opacity: 1;
-    }
-  }
+  
 `
 
 
@@ -47,5 +56,6 @@ export const SearchBoxInputContainer = styled.div`
   flex-grow: 1;
   align-items: center;
   justify-content: center;
+  
 `
 
