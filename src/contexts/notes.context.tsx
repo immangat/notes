@@ -5,8 +5,7 @@ import {UserContext} from "./user.context";
 import {
     createListerToNoteDatabase,
     createNoteDocument,
-    getNoteData,
-    NoteDocumentType, updateLabels,
+    updateLabels,
     updateNotes
 } from "../utils/firebase/firebase.utils";
 

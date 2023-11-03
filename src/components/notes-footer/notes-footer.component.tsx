@@ -30,7 +30,7 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData}: NotesFooterPropsT
     const [isCrossFilled, setIsCrossFilled] = useState(true);
     const [showLabel, setShowLabel] = useState(false)
     const [checkedData2, setCheckedData2] = useState(makeIntitialCheckedData(labels, getLabelsOfANote(noteID)))
-    console.log(noteID, checkedData2)
+
 
 
     const deleteNoteFromModal = () => {

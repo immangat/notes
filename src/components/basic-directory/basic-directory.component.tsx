@@ -35,7 +35,6 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
         const deleteNoteFromArray = (key: string) => {
             deleteNote(key)
         }
-        console.log("Inside the memo hahahhahahah" + showNote)
         return notes.map(noteContent => (
             <PreviewNote
                 key={noteContent.id}
