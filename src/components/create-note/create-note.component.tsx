@@ -1,6 +1,6 @@
 import TextBox from "../text-box/text-box.component";
 import React, {ChangeEvent, KeyboardEvent, useContext, useEffect, useRef, useState} from "react";
-import {BodyTextBox, NoteContainer, TitleTextBox} from "../Note/note.styles";
+import {BodyTextBox, NoteContainer, TitleTextBox} from "../note/note.styles";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {nanoid} from "nanoid";
 import {NotesContext} from "../../contexts/notes.context";

@@ -2,11 +2,43 @@ import {BsFillTrashFill, BsArchive, BsBell} from 'react-icons/bs'
 import {BiLabel} from "react-icons/bi";
 import {FaRegStickyNote} from 'react-icons/fa'
 import {MdOutlineEdit} from 'react-icons/md'
-import {ListItemsContainer, SideBarContainer, SideBarList} from "./side-bar.styles";
+import {ListItemsContainer, SideBarContainer, SideBarList, SideBarListElement} from "./side-bar.styles";
 import {useContext, useEffect, useRef, useState} from "react";
 import {SideBarContext} from "../../contexts/side-bar.context";
 import {NotesContext} from "../../contexts/notes.context";
 import {useNavigate} from "react-router-dom";
+
+
+type ClickedObject = {
+    [key: string]: boolean;
+};
+
+const initialClickedObject = {
+    "notesClicked": true,
+    "remindersClicked": false,
+    "editLabelsClicked": false,
+    "archiveClicked": false,
+    "trashClicked": false
+}
+
+const initialClickedObjectAfter = {
+    "notesClicked": false,
+    "remindersClicked": false,
+    "editLabelsClicked": false,
+    "archiveClicked": false,
+    "trashClicked": false
+}
+
+const makeClickedObject = (labels: string[], selectInitialObject : boolean = true) => {
+    let temp = selectInitialObject ? initialClickedObjectAfter : initialClickedObject
+    labels.forEach(label => {
+        temp = {
+            ...temp,
+            [label.toLowerCase() + "Clicked"]: false
+        }
+    })
+    return temp
+}
 
 const SideBar = () => {
     const {isOpen} = useContext(SideBarContext)
@@ -14,11 +46,29 @@ const SideBar = () => {
     const {toggleLabelModal, labels} = useContext(NotesContext)
     const [showTitle, setShowTitle] = useState(false);
     const sideBarRef = useRef<HTMLDivElement>(null)
-    const labelElemets = labels.map(label =>
-        <li>
+    const [sideBarClicked, setSideBarClicked] = useState<ClickedObject>(makeClickedObject(labels, false))
+
+    const changeClickedObject = (value: string ) => {
+        const temp = makeClickedObject(labels)
+        console.log(value)
+        setSideBarClicked({
+            ...temp,
+            [value.toLowerCase() + "Clicked"]: true
+        })
+
+    }
+    console.log(sideBarClicked)
+    const labelElements = labels.map(label =>
+        <SideBarListElement
+            onClick={() => {
+                changeClickedObject(label)
+            }}
+            selectList={sideBarClicked[label.toLowerCase() + "Clicked"]}
+        >
             <ListItemsContainer
                 onClick={() => {
                     navigate(`/search/label${label}`)
+
                 }}
             >
                 <div>
@@ -26,7 +76,7 @@ const SideBar = () => {
                 </div>
                 {showTitle && <span>{label}</span>}
             </ListItemsContainer>
-        </li>
+        </SideBarListElement>
     )
     useEffect(() => {
         setShowTitle(isOpen)
@@ -49,6 +99,12 @@ const SideBar = () => {
             }
         }
     }, [showTitle, sideBarRef])
+
+    useEffect(() => {
+        setSideBarClicked(makeClickedObject(labels, false))
+    }, [labels])
+
+
     return (
         <SideBarContainer
             ref={sideBarRef}
@@ -60,10 +116,13 @@ const SideBar = () => {
             }}
         >
             <SideBarList>
-                <li>
+                <SideBarListElement
+                    selectList={sideBarClicked.notesClicked}
+                >
                     <ListItemsContainer
                         onClick={() => {
                             navigate('/')
+
                         }}
                     >
                         <div>
@@ -71,16 +130,21 @@ const SideBar = () => {
                         </div>
                         {showTitle && <span>Notes</span>}
                     </ListItemsContainer>
-                </li>
-                <li>
+                </SideBarListElement>
+                <SideBarListElement
+                    selectList={sideBarClicked.remindersClicked}
+                >
                     <ListItemsContainer>
                         <div>
                             <BsBell/>
                         </div>
                         {showTitle && <span>Reminders</span>}
                     </ListItemsContainer>
-                </li>
-                <li>
+                </SideBarListElement>
+                <SideBarListElement
+                    selectList={sideBarClicked.editLabelsClicked}
+
+                >
                     <ListItemsContainer
                         onClick={toggleLabelModal}
                     >
@@ -89,24 +153,28 @@ const SideBar = () => {
                         </div>
                         {showTitle && <span>Edit Labels</span>}
                     </ListItemsContainer>
-                </li>
-                {labelElemets}
-                <li>
+                </SideBarListElement>
+                {labelElements}
+                <SideBarListElement
+                    selectList={sideBarClicked.archiveClicked}
+                >
                     <ListItemsContainer>
                         <div>
                             <BsArchive/>
                         </div>
                         {showTitle && <span>Archive</span>}
                     </ListItemsContainer>
-                </li>
-                <li>
+                </SideBarListElement>
+                <SideBarListElement
+                    selectList={sideBarClicked.trashClicked}
+                >
                     <ListItemsContainer>
                         <div>
                             <BsFillTrashFill/>
                         </div>
                         {showTitle && <span>Trash</span>}
                     </ListItemsContainer>
-                </li>
+                </SideBarListElement>
 
             </SideBarList>
         </SideBarContainer>)

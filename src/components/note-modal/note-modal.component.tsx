@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useContext, useRef, useState} from "react";
 import {NotesContext} from "../../contexts/notes.context";
 import {NoteType} from "../basic-directory/basic-directory.component";
-import {BodyTextBox, NoteContainer, TitleTextBox} from "../Note/note.styles";
+import {BodyTextBox, NoteContainer, TitleTextBox} from "../note/note.styles";
 import {
     CloseButton,
     ModalBody,
