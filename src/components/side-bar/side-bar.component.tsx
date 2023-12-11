@@ -16,19 +16,7 @@ const SideBar = () => {
     const {toggleLabelModal, labels} = useContext(NotesContext)
     const [showTitle, setShowTitle] = useState(false);
     const sideBarRef = useRef<HTMLDivElement>(null)
-    //const [sideBarClicked, setSideBarClicked] = useState<ClickedObject>(makeClickedObject(labels, false))
-    console.log("location[3]", location[3])
 
-    // const changeClickedObject = (value: string) => {
-    //     const temp = makeClickedObject(labels)
-    //     console.log(value)
-    //     setSideBarClicked({
-    //         ...temp,
-    //         [value.toLowerCase() + "Clicked"]: true
-    //     })
-    //
-    // }
-    // console.log(sideBarClicked)
     const labelElements = labels.map(label =>
         <SideBarListElement
             selectList={location[4] === `label${label}`}
@@ -68,10 +56,6 @@ const SideBar = () => {
             }
         }
     }, [showTitle, sideBarRef])
-    // useEffect(() => {
-    //     setSideBarClicked(makeClickedObject(labels, false))
-    // }, [labels])
-
 
     return (
         <SideBarContainer
