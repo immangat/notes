@@ -1,11 +1,10 @@
-import {GrNote, GrUserSettings} from 'react-icons/gr'
-import {Link, Outlet, useNavigate} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import {
     DirectoryContainer,
     LinkForHome,
     LogoContainer, MainContainer,
     MenuContainer,
-    NavBarContainer, NavBarImage,
+    NavBarContainer,
     NavTitle, NoteIcon, NotesLogoContainer,
     ProfileContainer,
     SearchContainer, SideBarComponentContainer
@@ -24,9 +23,7 @@ import NavbarProfile from "../../components/navbar-profile/navbar-profile.compon
 const NavBar = () => {
     const {resetURL} = useContext(NavBarContext)
     const {eventIncoming} = useContext(NotesContext)
-    const {user} = useContext(UserContext)
     const {setState} = useContext(SideBarContext)
-    const navigate = useNavigate()
 
     return (
         <MainContainer

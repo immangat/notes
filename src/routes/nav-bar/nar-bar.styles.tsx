@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import {GrNote, GrUserSettings} from 'react-icons/gr'
+import {GrNote} from 'react-icons/gr'
 
 
 export const MainContainer = styled.div`
