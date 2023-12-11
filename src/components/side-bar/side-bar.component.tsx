@@ -9,67 +9,34 @@ import {NotesContext} from "../../contexts/notes.context";
 import {useNavigate} from "react-router-dom";
 
 
-type ClickedObject = {
-    [key: string]: boolean;
-};
-
-const initialClickedObject = {
-    "notesClicked": true,
-    "remindersClicked": false,
-    "editLabelsClicked": false,
-    "archiveClicked": false,
-    "trashClicked": false
-}
-
-const initialClickedObjectAfter = {
-    "notesClicked": false,
-    "remindersClicked": false,
-    "editLabelsClicked": false,
-    "archiveClicked": false,
-    "trashClicked": false
-}
-
-const makeClickedObject = (labels: string[], selectInitialObject: boolean = true) => {
-    let temp = selectInitialObject ? initialClickedObjectAfter : initialClickedObject
-    labels.forEach(label => {
-        temp = {
-            ...temp,
-            [label.toLowerCase() + "Clicked"]: false
-        }
-    })
-    return temp
-}
-
 const SideBar = () => {
-    const location = window.location.href
+    const [location, setLocation] = useState(window.location.href.split('/'))
     const {isOpen} = useContext(SideBarContext)
     const navigate = useNavigate();
     const {toggleLabelModal, labels} = useContext(NotesContext)
     const [showTitle, setShowTitle] = useState(false);
     const sideBarRef = useRef<HTMLDivElement>(null)
-    const [sideBarClicked, setSideBarClicked] = useState<ClickedObject>(makeClickedObject(labels, false))
-    console.log("location", location)
+    //const [sideBarClicked, setSideBarClicked] = useState<ClickedObject>(makeClickedObject(labels, false))
+    console.log("location[3]", location[3])
 
-    const changeClickedObject = (value: string) => {
-        const temp = makeClickedObject(labels)
-        console.log(value)
-        setSideBarClicked({
-            ...temp,
-            [value.toLowerCase() + "Clicked"]: true
-        })
-
-    }
-    console.log(sideBarClicked)
+    // const changeClickedObject = (value: string) => {
+    //     const temp = makeClickedObject(labels)
+    //     console.log(value)
+    //     setSideBarClicked({
+    //         ...temp,
+    //         [value.toLowerCase() + "Clicked"]: true
+    //     })
+    //
+    // }
+    // console.log(sideBarClicked)
     const labelElements = labels.map(label =>
         <SideBarListElement
-            onClick={() => {
-                changeClickedObject(label)
-            }}
-            selectList={sideBarClicked[label.toLowerCase() + "Clicked"]}
+            selectList={location[4] === `label${label}`}
         >
             <ListItemsContainer
                 onClick={() => {
                     navigate(`/search/label${label}`)
+                    setLocation(window.location.href.split('/'))
 
                 }}
             >
@@ -101,10 +68,9 @@ const SideBar = () => {
             }
         }
     }, [showTitle, sideBarRef])
-
-    useEffect(() => {
-        setSideBarClicked(makeClickedObject(labels, false))
-    }, [labels])
+    // useEffect(() => {
+    //     setSideBarClicked(makeClickedObject(labels, false))
+    // }, [labels])
 
 
     return (
@@ -119,11 +85,12 @@ const SideBar = () => {
         >
             <SideBarList>
                 <SideBarListElement
-                    selectList={sideBarClicked.notesClicked}
+                    selectList={location[3] === ''}
                 >
                     <ListItemsContainer
                         onClick={() => {
                             navigate('/')
+                            setLocation(window.location.href.split('/'))
 
                         }}
                     >
@@ -134,11 +101,12 @@ const SideBar = () => {
                     </ListItemsContainer>
                 </SideBarListElement>
                 <SideBarListElement
-                    selectList={sideBarClicked.remindersClicked}
+                    selectList={location[3] === 'reminders'}
                 >
                     <ListItemsContainer
                         onClick={() => {
                             navigate('/reminders')
+                            setLocation(window.location.href.split('/'))
 
                         }}
                     >
@@ -149,7 +117,7 @@ const SideBar = () => {
                     </ListItemsContainer>
                 </SideBarListElement>
                 <SideBarListElement
-                    selectList={sideBarClicked.editLabelsClicked}
+                    selectList={false}
 
                 >
                     <ListItemsContainer
@@ -163,11 +131,12 @@ const SideBar = () => {
                 </SideBarListElement>
                 {labelElements}
                 <SideBarListElement
-                    selectList={sideBarClicked.archiveClicked}
+                    selectList={location[3] === 'archive'}
                 >
                     <ListItemsContainer
                         onClick={() => {
                             navigate('/archive')
+                            setLocation(window.location.href.split('/'))
                         }}
                     >
                         <div>
@@ -177,11 +146,12 @@ const SideBar = () => {
                     </ListItemsContainer>
                 </SideBarListElement>
                 <SideBarListElement
-                    selectList={sideBarClicked.trashClicked}
+                    selectList={location[3] === 'trash'}
                 >
                     <ListItemsContainer
                         onClick={() => {
                             navigate('/trash')
+                            setLocation(window.location.href.split('/'))
 
                         }}
                     >
