@@ -18,6 +18,7 @@ import {NotesContext} from "../../contexts/notes.context";
 import {UserContext} from "../../contexts/user.context";
 import SideBar from "../../components/side-bar/side-bar.component";
 import {SideBarContext} from "../../contexts/side-bar.context";
+import NavbarProfile from "../../components/navbar-profile/navbar-profile.component";
 
 
 const NavBar = () => {
@@ -66,14 +67,15 @@ const NavBar = () => {
                 <ProfileContainer
                 >
                     <LinkForHome to='/signin'>
-                        {
-                            user && user.userData ? (
-                                <NavBarImage alt="profile" src={user.userData.photoURL}
-                            />
-                            ) : (
-                            <GrUserSettings/>
-                            )
-                        }
+                        <NavbarProfile/>
+                        {/*{*/}
+                        {/*    user && user.userData ? (*/}
+                        {/*        <NavBarImage alt="profile" src={user.userData.photoURL}*/}
+                        {/*    />*/}
+                        {/*    ) : (*/}
+                        {/*    <GrUserSettings/>*/}
+                        {/*    )*/}
+                        {/*}*/}
                     </LinkForHome>
                 </ProfileContainer>
             </NavBarContainer>
