@@ -29,7 +29,7 @@ const initialClickedObjectAfter = {
     "trashClicked": false
 }
 
-const makeClickedObject = (labels: string[], selectInitialObject : boolean = true) => {
+const makeClickedObject = (labels: string[], selectInitialObject: boolean = true) => {
     let temp = selectInitialObject ? initialClickedObjectAfter : initialClickedObject
     labels.forEach(label => {
         temp = {
@@ -41,14 +41,16 @@ const makeClickedObject = (labels: string[], selectInitialObject : boolean = tru
 }
 
 const SideBar = () => {
+    const location = window.location.href
     const {isOpen} = useContext(SideBarContext)
     const navigate = useNavigate();
     const {toggleLabelModal, labels} = useContext(NotesContext)
     const [showTitle, setShowTitle] = useState(false);
     const sideBarRef = useRef<HTMLDivElement>(null)
     const [sideBarClicked, setSideBarClicked] = useState<ClickedObject>(makeClickedObject(labels, false))
+    console.log("location", location)
 
-    const changeClickedObject = (value: string ) => {
+    const changeClickedObject = (value: string) => {
         const temp = makeClickedObject(labels)
         console.log(value)
         setSideBarClicked({
@@ -134,7 +136,12 @@ const SideBar = () => {
                 <SideBarListElement
                     selectList={sideBarClicked.remindersClicked}
                 >
-                    <ListItemsContainer>
+                    <ListItemsContainer
+                        onClick={() => {
+                            navigate('/reminders')
+
+                        }}
+                    >
                         <div>
                             <BsBell/>
                         </div>
@@ -158,7 +165,11 @@ const SideBar = () => {
                 <SideBarListElement
                     selectList={sideBarClicked.archiveClicked}
                 >
-                    <ListItemsContainer>
+                    <ListItemsContainer
+                        onClick={() => {
+                            navigate('/archive')
+                        }}
+                    >
                         <div>
                             <BsArchive/>
                         </div>
@@ -168,7 +179,12 @@ const SideBar = () => {
                 <SideBarListElement
                     selectList={sideBarClicked.trashClicked}
                 >
-                    <ListItemsContainer>
+                    <ListItemsContainer
+                        onClick={() => {
+                            navigate('/trash')
+
+                        }}
+                    >
                         <div>
                             <BsFillTrashFill/>
                         </div>
