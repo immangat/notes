@@ -1,4 +1,4 @@
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import {
     DirectoryContainer,
     LinkForHome,
@@ -14,7 +14,6 @@ import SearchBox from "../../components/search-box/search-box.component";
 import {useContext} from "react";
 import {NavBarContext} from "../../contexts/nav-bar.context";
 import {NotesContext} from "../../contexts/notes.context";
-import {UserContext} from "../../contexts/user.context";
 import SideBar from "../../components/side-bar/side-bar.component";
 import {SideBarContext} from "../../contexts/side-bar.context";
 import NavbarProfile from "../../components/navbar-profile/navbar-profile.component";

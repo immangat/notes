@@ -98,7 +98,7 @@ const intitalNotesState = () => {
     }
 }
 export const NotesProvider = ({children}: NotesProviderPropsType) => {
-    const [notes, setNotes] = useState<NoteType[]>(intitalNotesState())
+    const [notes, setNotes] = useState<NoteType[]>(() => intitalNotesState())
     const [modalProps, setModalProps] = useState<ModalPropsType>({
         key: "",
         open: false,

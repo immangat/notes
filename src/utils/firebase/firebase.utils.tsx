@@ -132,6 +132,7 @@ one to update the notes, we can just do bulk update
 export const updateNotes = async (userId: string, notes: NoteType[]) => {
     const noteDocRef = doc(db, 'notes', userId)
     const noteSnapshot = await getDoc(noteDocRef)
+    console.log("writing to the database")
     try {
         await setDoc(noteDocRef, {
             notes: notes
@@ -156,6 +157,7 @@ export const getNoteData = async (userId: string) => {
 export const createListerToNoteDatabase = async (userId: string, callback: (notes: NoteType[], labels: string[]) => void) => {
     const unsub = onSnapshot(doc(db, "notes", userId), (doc) => {
         const {notes, labels} = doc.data() as NoteDocumentType
+        console.log('getting data from the database')
         callback(notes, labels)
     });
     return unsub;
