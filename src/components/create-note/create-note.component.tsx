@@ -11,7 +11,7 @@ import ChangeLabel from "../change-label-pop-up/change-label.component";
 import Label from "../label/label.component";
 
 
-const makeIntitialCheckedDataPreviewNote = (labels: string[]) => {
+const makeInitialCheckedDataPreviewNote = (labels: string[]) => {
     var temp: { [key: string]: boolean } = {}
     labels.forEach(item => {
         temp[item] = false;
@@ -25,15 +25,15 @@ const CreateNote = () => {
         body: '',
         id: nanoid(),
         title: '',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: new Date().toString(),
+        updatedAt: new Date().toString(),
         labels: []
 
     }
     const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const titleTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [noteContent, setNoteContent] = useState(initialNoteContent)
-    const [checkedData, setCheckedData] = useState(makeIntitialCheckedDataPreviewNote(labels))
+    const [checkedData, setCheckedData] = useState(makeInitialCheckedDataPreviewNote(labels))
     const [showLabel, setShowLabel] = useState(false)
     const onEnterPressedOnTitle = (event: KeyboardEvent<HTMLTextAreaElement>) => {
         const {key} = event
@@ -86,12 +86,12 @@ const CreateNote = () => {
                     body: '',
                     id: nanoid(),
                     title: '',
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                    createdAt: new Date().toString(),
+                    updatedAt: new Date().toString(),
                     labels: []
                 }
             )
-            setCheckedData(makeIntitialCheckedDataPreviewNote(labels))
+            setCheckedData(makeInitialCheckedDataPreviewNote(labels))
 
         }
     }
@@ -100,7 +100,7 @@ const CreateNote = () => {
     useEffect(() => {
         setNoteContent(note => ({
             ...note,
-            labels : Object.keys(checkedData).filter(key => checkedData[key])
+            labels: Object.keys(checkedData).filter(key => checkedData[key])
         }))
     }, [checkedData])
 

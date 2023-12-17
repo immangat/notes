@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import {GrNote, GrUserSettings} from 'react-icons/gr'
+import {GrNote} from 'react-icons/gr'
 
 
 export const MainContainer = styled.div`
@@ -87,12 +87,4 @@ export const NoteIcon = styled(GrNote)`
   @media screen and (min-width: 450px) {
     display: block;
   }
-`
-
-export const NavBarImage = styled.img`
-  background: rgba(15, 28, 63, 0.125);
-  border-radius: 50%;
-  height: 1.7em;
-  object-fit: cover;
-  width: 1.7em;
 `

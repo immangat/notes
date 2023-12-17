@@ -13,8 +13,8 @@ const Note = (props: NotePropsType) => {
         body: props.noteContent.body || '',
         id: props.noteContent.id,
         title: props.noteContent.title || '',
-        updatedAt: new Date(),
-        createdAt: new Date(),
+        updatedAt: new Date().toString(),
+        createdAt: new Date().toString(),
         labels: []
     }
     const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)

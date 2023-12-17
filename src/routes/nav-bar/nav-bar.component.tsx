@@ -1,11 +1,10 @@
-import {GrNote, GrUserSettings} from 'react-icons/gr'
-import {Link, Outlet, useNavigate} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import {
     DirectoryContainer,
     LinkForHome,
     LogoContainer, MainContainer,
     MenuContainer,
-    NavBarContainer, NavBarImage,
+    NavBarContainer,
     NavTitle, NoteIcon, NotesLogoContainer,
     ProfileContainer,
     SearchContainer, SideBarComponentContainer
@@ -15,17 +14,15 @@ import SearchBox from "../../components/search-box/search-box.component";
 import {useContext} from "react";
 import {NavBarContext} from "../../contexts/nav-bar.context";
 import {NotesContext} from "../../contexts/notes.context";
-import {UserContext} from "../../contexts/user.context";
 import SideBar from "../../components/side-bar/side-bar.component";
 import {SideBarContext} from "../../contexts/side-bar.context";
+import NavbarProfile from "../../components/navbar-profile/navbar-profile.component";
 
 
 const NavBar = () => {
     const {resetURL} = useContext(NavBarContext)
     const {eventIncoming} = useContext(NotesContext)
-    const {user} = useContext(UserContext)
     const {setState} = useContext(SideBarContext)
-    const navigate = useNavigate()
 
     return (
         <MainContainer
@@ -66,14 +63,15 @@ const NavBar = () => {
                 <ProfileContainer
                 >
                     <LinkForHome to='/signin'>
-                        {
-                            user && user.userData ? (
-                                <NavBarImage alt="profile" src={user.userData.photoURL}
-                            />
-                            ) : (
-                            <GrUserSettings/>
-                            )
-                        }
+                        <NavbarProfile/>
+                        {/*{*/}
+                        {/*    user && user.userData ? (*/}
+                        {/*        <NavBarImage alt="profile" src={user.userData.photoURL}*/}
+                        {/*    />*/}
+                        {/*    ) : (*/}
+                        {/*    <GrUserSettings/>*/}
+                        {/*    )*/}
+                        {/*}*/}
                     </LinkForHome>
                 </ProfileContainer>
             </NavBarContainer>

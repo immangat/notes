@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useEffect, useState, MouseEvent, useRef} from "react";
+import React, {ChangeEvent, useContext, useEffect, useState} from "react";
 import {
     PreviewBodyTextBox,
     PreviewNoteContainer,
@@ -66,7 +66,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     }, [createNote])
 
     useEffect(() => {
-        updateNote(content.id, new Date(), Object.keys(checkedData).filter(key => checkedData[key]), undefined, undefined)
+        updateNote(content.id, new Date().toString(), Object.keys(checkedData).filter(key => checkedData[key]), undefined, undefined)
     }, [checkedData])
 
     const setKeyOfModal = () => {
