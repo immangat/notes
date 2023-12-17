@@ -9,6 +9,7 @@ import {
     ProfileContainer,
     SearchContainer, SideBarComponentContainer
 } from "./nar-bar.styles";
+import {TailSpin} from "react-loader-spinner";
 import {AiOutlineMenu} from 'react-icons/ai'
 import SearchBox from "../../components/search-box/search-box.component";
 import {useContext} from "react";
@@ -21,7 +22,7 @@ import NavbarProfile from "../../components/navbar-profile/navbar-profile.compon
 
 const NavBar = () => {
     const {resetURL} = useContext(NavBarContext)
-    const {eventIncoming} = useContext(NotesContext)
+    const {eventIncoming, loadingNavBar} = useContext(NotesContext)
     const {setState} = useContext(SideBarContext)
 
     return (
@@ -60,18 +61,27 @@ const NavBar = () => {
                 <SearchContainer>
                     <SearchBox/>
                 </SearchContainer>
+                <div>
+                    {
+                        loadingNavBar
+                        &&
+                        <TailSpin
+                            height="20"
+                            width="20"
+                            color="black"
+                            ariaLabel="tail-spin-loading"
+                            radius="1"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                        />
+
+                    }
+                </div>
                 <ProfileContainer
                 >
                     <LinkForHome to='/signin'>
                         <NavbarProfile/>
-                        {/*{*/}
-                        {/*    user && user.userData ? (*/}
-                        {/*        <NavBarImage alt="profile" src={user.userData.photoURL}*/}
-                        {/*    />*/}
-                        {/*    ) : (*/}
-                        {/*    <GrUserSettings/>*/}
-                        {/*    )*/}
-                        {/*}*/}
                     </LinkForHome>
                 </ProfileContainer>
             </NavBarContainer>
