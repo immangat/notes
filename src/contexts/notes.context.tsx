@@ -133,7 +133,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         setLabels([])
     }
     const addNote = (note: NoteType) => {
-        setNotes(prevNotes => [...prevNotes, note])
+        setNotes(prevNotes => [note,...prevNotes])
     }
 
     const getNotes = (searchString: string) => {
