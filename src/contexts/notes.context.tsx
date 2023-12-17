@@ -20,7 +20,7 @@ export type NotesContextType = {
     addNote: (note: NoteType) => void
     deleteNote: (key: string) => void
     getNote: (key: string) => NoteType
-    updateNote: (key: string, updatedAt: Date, labels?: string[], title?: string, body?: string) => void
+    updateNote: (key: string, updatedAt: string, labels?: string[], title?: string, body?: string) => void
     modalProps: ModalPropsType
     setKeyOfModalProp: (key: string) => void
     clearModalProps: () => void
@@ -49,11 +49,11 @@ export const NotesContext = createContext<NotesContextType>({
         id: "",
         title: "",
         body: "",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: new Date().toString(),
+        updatedAt: new Date().toString(),
         labels: []
     }),
-    updateNote: (key: string, updatedAt: Date, labels?: string[], title?: string, body?: string) => null,
+    updateNote: (key: string, updatedAt: string, labels?: string[], title?: string, body?: string) => null,
     modalProps: {
         key: "",
         open: false,
@@ -162,7 +162,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         return notes.find(note => note.id === key) as NoteType;
     }
 
-    const updateNote = (key: string, updatedAt: Date, labels?: string[], title?: string, body?: string) => {
+    const updateNote = (key: string, updatedAt: string, labels?: string[], title?: string, body?: string) => {
         if (title && body && labels) {
             setNotes(prevNotes => prevNotes.map(note => {
                 if (note.id === key) {
@@ -217,7 +217,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
                 return {
                     ...note,
                     labels: labels,
-                    updatedAt: updatedAt
+                    updatedAt: updatedAt.toString()
                 }
             }
             return note
@@ -272,6 +272,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
 
     useEffect(() => {
         if (user) {
+            console.log("Updating the note")
             updateNotes(user.userId, notes)
         }
     }, [notes])

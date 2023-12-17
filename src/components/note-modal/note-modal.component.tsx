@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useContext, useRef, useState} from "react";
 import {NotesContext} from "../../contexts/notes.context";
 import {NoteType} from "../basic-directory/basic-directory.component";
-import {BodyTextBox, NoteContainer, TitleTextBox} from "../note/note.styles";
+import {BodyTextBox, TitleTextBox} from "../note/note.styles";
 import {
     CloseButton,
     ModalBody,
@@ -30,7 +30,7 @@ const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
 }
 const NoteModal = ({id}: NoteModalTypes) => {
 
-    const {getNote, deleteNote, updateNote, clearModalProps, labels} = useContext(NotesContext)
+    const {getNote, updateNote, clearModalProps, labels} = useContext(NotesContext)
 
     const initialNoteContent: NoteType = getNote(id)
     const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -50,14 +50,14 @@ const NoteModal = ({id}: NoteModalTypes) => {
         setNoteContent(prevNote => ({
             ...prevNote,
             body: body,
-            updatedAt: new Date()
+            updatedAt: new Date().toString()
         }))
     }
     const setTitle = (title: string) => {
         setNoteContent(prevNote => ({
             ...prevNote,
             title: title,
-            updatedAt: new Date()
+            updatedAt: new Date().toString()
         }))
     }
 

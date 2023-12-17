@@ -25,8 +25,8 @@ const CreateNote = () => {
         body: '',
         id: nanoid(),
         title: '',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: new Date().toString(),
+        updatedAt: new Date().toString(),
         labels: []
 
     }
@@ -86,8 +86,8 @@ const CreateNote = () => {
                     body: '',
                     id: nanoid(),
                     title: '',
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
+                    createdAt: new Date().toString(),
+                    updatedAt: new Date().toString(),
                     labels: []
                 }
             )

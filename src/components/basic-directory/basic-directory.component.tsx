@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext, useEffect, useMemo, useState} from 'react';
+import React, {useContext, useMemo,} from 'react';
 import CreateNote from "../create-note/create-note.component";
 import {NotesContext} from "../../contexts/notes.context";
 import PreviewNote from "../preview-note/preview-note.component";
@@ -15,8 +15,8 @@ export type NoteType = {
     id: string,
     title: string,
     body: string
-    createdAt: Date
-    updatedAt: Date
+    createdAt: string
+    updatedAt: string
     labels: string[]
 }
 
