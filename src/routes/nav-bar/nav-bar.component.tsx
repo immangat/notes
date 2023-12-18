@@ -4,7 +4,7 @@ import {
     LinkForHome,
     LogoContainer, MainContainer,
     MenuContainer,
-    NavBarContainer,
+    NavBarContainer, NavBarSpinnerContainer,
     NavTitle, NoteIcon, NotesLogoContainer,
     ProfileContainer,
     SearchContainer, SideBarComponentContainer
@@ -61,7 +61,7 @@ const NavBar = () => {
                 <SearchContainer>
                     <SearchBox/>
                 </SearchContainer>
-                <div>
+                <NavBarSpinnerContainer>
                     {
                         loadingNavBar
                         &&
@@ -77,7 +77,7 @@ const NavBar = () => {
                         />
 
                     }
-                </div>
+                </NavBarSpinnerContainer>
                 <ProfileContainer
                 >
                     <LinkForHome to='/signin'>

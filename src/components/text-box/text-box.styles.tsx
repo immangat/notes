@@ -9,11 +9,11 @@ export const TextAreaContainer = styled.div<TextAreaType>`
   display: flex;
   justify-content: center;
   max-width:${props => {
-      if(props.containerSize){
-          return props.containerSize + 50 + 'px'
-      }
-     return "250px"
-  }} ;
+    if(props.containerSize){
+        return props.containerSize + 50 + 'px'
+    }
+    return "250px"
+}} ;
   min-height: 30px;
   overflow: hidden;
 `;
@@ -27,16 +27,16 @@ export const TextArea = styled.textarea<TextAreaType>`
   font-size: ${props => props.fontsize ||'inherit'};
   max-width: ${props => {
     if(props.containerSize){
-      return props.containerSize - 5 + 'px'
+        return props.containerSize - 5 + 'px'
     }
     return "250px"
-  }};
+}};
   min-width: ${props => {
     if(props.containerSize){
-      return props.containerSize - 5 + 'px'
+        return props.containerSize - 5 + 'px'
     }
     return "250px"
-  }} ; ;
+}} ; ;
   min-height: 30px;
   white-space: pre-wrap;
   border: none;

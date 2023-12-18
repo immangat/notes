@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 export const ModalContainer = styled.div`
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 3; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -21,7 +21,7 @@ export const ModalContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 500px;
+  width: 100%;
   background-color: rgba(255, 255, 255, 0.4);
   transition: all 0.3s ease-in-out;
   //transform: translateY(+50);
@@ -29,30 +29,33 @@ export const ModalContent = styled.div`
 
 export const ModalBody = styled.div`
   //height: 300px;
-  padding: 10px;
+  padding:  0 1%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 `
 
 export const ModalNoteContainer = styled.div`
-  background-color: lightyellow;
-  display: flex;
-  flex-direction: column;
-  border: 3px solid black;
-  max-width: 500px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  padding: 0.4rem;
-  margin-bottom: 1rem;
-  overflow: visible;
-  flex-grow: 1;
-  
+    background-color: lightyellow;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+    max-width: 500px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 0.4rem;
+    margin-bottom: 1rem;
+    overflow: visible;
+    flex-grow: 1;
+
 `
 
 export const NoteModalFooterContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 1% 0;
+  padding: 1rem 0.5rem;
 `
 
 export const CloseButton = styled.button`
