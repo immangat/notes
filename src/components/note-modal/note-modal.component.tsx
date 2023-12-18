@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useContext, useRef, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useContext, useEffect, useRef, useState} from "react";
 import {NotesContext} from "../../contexts/notes.context";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {BodyTextBox, TitleTextBox} from "../note/note.styles";
@@ -37,6 +37,8 @@ const NoteModal = ({id}: NoteModalTypes) => {
     const titleTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [noteContent, setNoteContent] = useState(initialNoteContent)
     const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, noteContent.labels))
+    const [containerSize, setContainerSize] = useState(500); // Default container size
+
     const onEnterPressedOnTitle = (event: KeyboardEvent<HTMLTextAreaElement>) => {
         const {key} = event
         if (key === 'Enter') {
@@ -45,6 +47,15 @@ const NoteModal = ({id}: NoteModalTypes) => {
             }
         }
     }
+
+    const setContainerWidth = () => {
+        const width = window.innerWidth;
+        if (width <= 768) {
+            setContainerSize(350); // Set container size for smaller screens
+        } else {
+            setContainerSize(500); // Set container size for larger screens
+        }
+    };
 
     const setBody = (body: string) => {
         setNoteContent(prevNote => ({
@@ -85,8 +96,15 @@ const NoteModal = ({id}: NoteModalTypes) => {
     const modalLabels = Object.keys(checkedData).filter(label => checkedData[label]).map(key => <Label labelValue={key}
                                                                                                        deleteLabel={deleteLabel}/>)
 
-    return (
+    useEffect(() => {
+        setContainerWidth();
+        window.addEventListener("resize", setContainerWidth);
+        return () => {
+            window.removeEventListener("resize", setContainerWidth);
+        };
+    }, [])
 
+    return (
         <ModalContainer className="modal" onClick={onClose}>
             <ModalContent className="modal-content" onClick={onClose}>
                 <ModalBody className="modal-body" onClick={e => e.stopPropagation()}>
@@ -96,6 +114,7 @@ const NoteModal = ({id}: NoteModalTypes) => {
                                 event.stopPropagation()
                             }
                         }
+                        className="testing3"
                     >
                         <TitleTextBox
 
@@ -106,7 +125,7 @@ const NoteModal = ({id}: NoteModalTypes) => {
                             refObject={titleTextAreaRef}
                             preventEnter={true}
                             setText={setTitle}
-                            containerSize={500}
+                            containerSize={containerSize}
                         />
                         <BodyTextBox
                             placeholder={"Take a note..."}
@@ -114,13 +133,15 @@ const NoteModal = ({id}: NoteModalTypes) => {
                             refObject={bodyTextAreaRef}
                             preventEnter={false}
                             setText={setBody}
-                            containerSize={500}
+                            containerSize={containerSize}
                         />
                         <NotesLabelsContainer>
                             {modalLabels}
                         </NotesLabelsContainer>
 
-                        <NoteModalFooterContainer>
+                        <NoteModalFooterContainer
+                            className="foort"
+                        >
                             <NotesFooter
                                 noteID={id}
                                 checkedData={checkedData}

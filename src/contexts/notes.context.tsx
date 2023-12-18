@@ -34,7 +34,8 @@ export type NotesContextType = {
     toggleLabelModal: () => void
     deleteFromAllNotes: (label: string) => void
     getNotesBasedUponLabel: (label: string) => NoteType[]
-    loading: boolean
+    loading: boolean,
+    loadingNavBar: boolean,
 
 }
 
@@ -79,7 +80,8 @@ export const NotesContext = createContext<NotesContextType>({
 
     },
     getNotesBasedUponLabel: (label: string) => [],
-    loading: false
+    loading: false,
+    loadingNavBar: false
 })
 
 
@@ -108,6 +110,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     const [createNote, setCreateNote] = useState(false)
     const [labels, setLabels] = useState<string[]>([]);
     const [loading, setLoading] = useState(false)
+    const [loadingNavBar, setLoadingNavBar] = useState(false)
 
     const addLabels = (labels: string[]) => {
         setLabels(labels)
@@ -133,7 +136,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         setLabels([])
     }
     const addNote = (note: NoteType) => {
-        setNotes(prevNotes => [...prevNotes, note])
+        setNotes(prevNotes => [note, ...prevNotes])
     }
 
     const getNotes = (searchString: string) => {
@@ -273,7 +276,14 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     useEffect(() => {
         if (user) {
             console.log("Updating the note")
-            updateNotes(user.userId, notes)
+            setLoadingNavBar(true)
+            updateNotes(user.userId, notes).then(() => {
+                setTimeout(() => {
+                    setLoadingNavBar(false);
+                }, 500);
+            })
+            console.log("done uploading")
+
         }
     }, [notes])
 
@@ -301,7 +311,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         deleteFromAllNotes,
         getNotesBasedUponLabel,
         loading,
-        getLabelsOfANote
+        getLabelsOfANote,
+        loadingNavBar
     }
 
     useEffect(() => {

@@ -88,3 +88,10 @@ export const NoteIcon = styled(GrNote)`
     display: block;
   }
 `
+
+export const NavBarSpinnerContainer = styled.div`
+    width: 20px;
+    height:40px;
+    display: flex;
+    align-items: center;
+`
