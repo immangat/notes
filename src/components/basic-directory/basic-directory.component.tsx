@@ -18,6 +18,10 @@ export type NoteType = {
     createdAt: string
     updatedAt: string
     labels: string[]
+    markedForTrash?: boolean
+    dateWhenMarkedForTrash?: string
+    markedForArchive?: boolean
+    dateWhenMarkedForArchive?: string
 }
 
 export type BasicDirectoryPropsType = {

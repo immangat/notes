@@ -36,6 +36,7 @@ export type NotesContextType = {
     getNotesBasedUponLabel: (label: string) => NoteType[]
     loading: boolean,
     loadingNavBar: boolean,
+    trash: NoteType[]
 
 }
 
@@ -81,7 +82,8 @@ export const NotesContext = createContext<NotesContextType>({
     },
     getNotesBasedUponLabel: (label: string) => [],
     loading: false,
-    loadingNavBar: false
+    loadingNavBar: false,
+    trash: []
 })
 
 
@@ -111,6 +113,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     const [labels, setLabels] = useState<string[]>([]);
     const [loading, setLoading] = useState(false)
     const [loadingNavBar, setLoadingNavBar] = useState(false)
+    const [trash, setTrash] = useState<NoteType[]>([])
 
     const addLabels = (labels: string[]) => {
         setLabels(labels)
@@ -157,7 +160,18 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         return notes.filter(note => note.labels.indexOf(label) > -1)
     }
     const deleteNote = (key: string) => {
-        setNotes(prevNotes => prevNotes.filter(note => note.id !== key))
+        //setNotes(prevNotes => prevNotes.filter(note => note.id !== key))
+        setNotes(prevNotes => prevNotes.map(note => {
+            if (note.id === key) {
+                return {
+                    ...note,
+                    markedForTrash: true,
+                    dateWhenMarkedForTrash: Date().toString()
+                }
+            }
+            return note
+
+        }))
         clearModalProps()
     }
 
@@ -227,9 +241,10 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         }))
     }
 
-    const addNotesFromFirbase = (notes: NoteType[], labels: string[]) => {
+    const addNotesFromFirbase = (notes: NoteType[], labels: string[], trash: NoteType[]) => {
         setNotes(notes)
         setLabels(labels)
+        setTrash(trash ? trash : [])
     }
     const setKeyOfModalProp = (key: string) => {
         setModalProps(prev => ({
@@ -312,7 +327,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         getNotesBasedUponLabel,
         loading,
         getLabelsOfANote,
-        loadingNavBar
+        loadingNavBar,
+        trash
     }
 
     useEffect(() => {

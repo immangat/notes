@@ -98,7 +98,8 @@ one to get the notes
 export type NoteDocumentType = {
     notes: NoteType[]
     createdAt: Date
-    labels: string[]
+    labels: string[],
+    trash: NoteType[]
 }
 
 export const createNoteDocument = async (userId: string) => {
@@ -149,11 +150,11 @@ export const getNoteData = async (userId: string) => {
 }
 
 
-export const createListerToNoteDatabase = async (userId: string, callback: (notes: NoteType[], labels: string[]) => void) => {
+export const createListerToNoteDatabase = async (userId: string, callback: (notes: NoteType[], labels: string[], trash: NoteType[]) => void) => {
     const unsub = onSnapshot(doc(db, "notes", userId), (doc) => {
-        const {notes, labels} = doc.data() as NoteDocumentType
+        const {notes, labels, trash} = doc.data() as NoteDocumentType
         console.log('getting data from the database')
-        callback(notes, labels)
+        callback(notes, labels, trash)
     });
     return unsub;
 }

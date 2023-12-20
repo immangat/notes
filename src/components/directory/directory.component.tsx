@@ -5,9 +5,10 @@ import BasicDirectory, {NoteType} from "../basic-directory/basic-directory.compo
 
 const Directory = () => {
     const {notes} = useContext(NotesContext)
+    const notesToDisplay = notes.filter(note => !note.markedForTrash)
   
     return <BasicDirectory
-        notes={notes}
+        notes={notesToDisplay}
         showNote={true}
     />
 }
