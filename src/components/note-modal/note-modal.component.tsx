@@ -107,7 +107,7 @@ const NoteModal = ({id}: NoteModalTypes) => {
     return (
         <ModalContainer className="modal" onClick={onClose}>
             <ModalContent className="modal-content" onClick={onClose}>
-                <ModalBody className="modal-body" onClick={e => e.stopPropagation()}>
+                <ModalBody className="modal-body" onClick={onClose}>
                     <ModalNoteContainer
                         onClick={
                             (event) => {
