@@ -36,7 +36,6 @@ export type NotesContextType = {
     getNotesBasedUponLabel: (label: string) => NoteType[]
     loading: boolean,
     loadingNavBar: boolean,
-    trash: NoteType[]
 
 }
 
@@ -83,7 +82,6 @@ export const NotesContext = createContext<NotesContextType>({
     getNotesBasedUponLabel: (label: string) => [],
     loading: false,
     loadingNavBar: false,
-    trash: []
 })
 
 
@@ -113,7 +111,6 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     const [labels, setLabels] = useState<string[]>([]);
     const [loading, setLoading] = useState(false)
     const [loadingNavBar, setLoadingNavBar] = useState(false)
-    const [trash, setTrash] = useState<NoteType[]>([])
 
     const addLabels = (labels: string[]) => {
         setLabels(labels)
@@ -241,10 +238,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         }))
     }
 
-    const addNotesFromFirbase = (notes: NoteType[], labels: string[], trash: NoteType[]) => {
+    const addNotesFromFirbase = (notes: NoteType[], labels: string[]) => {
         setNotes(notes)
         setLabels(labels)
-        setTrash(trash ? trash : [])
     }
     const setKeyOfModalProp = (key: string) => {
         setModalProps(prev => ({
@@ -327,8 +323,7 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         getNotesBasedUponLabel,
         loading,
         getLabelsOfANote,
-        loadingNavBar,
-        trash
+        loadingNavBar
     }
 
     useEffect(() => {

@@ -150,11 +150,11 @@ export const getNoteData = async (userId: string) => {
 }
 
 
-export const createListerToNoteDatabase = async (userId: string, callback: (notes: NoteType[], labels: string[], trash: NoteType[]) => void) => {
+export const createListerToNoteDatabase = async (userId: string, callback: (notes: NoteType[], labels: string[]) => void) => {
     const unsub = onSnapshot(doc(db, "notes", userId), (doc) => {
-        const {notes, labels, trash} = doc.data() as NoteDocumentType
+        const {notes, labels} = doc.data() as NoteDocumentType
         console.log('getting data from the database')
-        callback(notes, labels, trash)
+        callback(notes, labels)
     });
     return unsub;
 }
