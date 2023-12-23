@@ -4,10 +4,11 @@ import {
     NotesItemsContainer,
     NotesLabelsContainer,
     NotesFooterTrashRestore,
-    NotesFooterTrashPermanently
+    NotesFooterTrashPermanently,
+    NotesFooterArchiveNote, NotesFooterUnArchiveNote
 } from "./notes-footer.styles";
 import {BiDotsVerticalRounded, BiLabel} from "react-icons/bi";
-import {FaTrashRestore, FaTrashAlt} from "react-icons/fa";
+import {FaArchive} from "react-icons/fa";
 import ChangeLabel from "../change-label-pop-up/change-label.component";
 import {BsXSquare, BsXSquareFill} from "react-icons/bs";
 import React, {ChangeEvent, MouseEvent, useContext, useState} from "react";
@@ -20,6 +21,7 @@ type NotesFooterPropsType = {
     checkedData: { [p: string]: boolean }
     manageCheckedData: (e: ChangeEvent<HTMLInputElement>) => void,
     inTrash?: boolean
+    inArchive?: boolean
 }
 
 const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
@@ -33,9 +35,17 @@ const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
     return temp;
 }
 
-const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash}: NotesFooterPropsType) => {
+const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive}: NotesFooterPropsType) => {
 
-    const {labels, getLabelsOfANote, trashNote, deleteNote, undoTrash} = useContext(NotesContext)
+    const {
+        labels,
+        getLabelsOfANote,
+        trashNote,
+        deleteNote,
+        undoTrash,
+        archiveNote,
+        undoNoteArchival
+    } = useContext(NotesContext)
     const [isCrossFilled, setIsCrossFilled] = useState(true);
     const [showLabel, setShowLabel] = useState(false)
     const [checkedData2, setCheckedData2] = useState(makeIntitialCheckedData(labels, getLabelsOfANote(noteID)))
@@ -130,6 +140,24 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash}: NotesFoo
                     <BiDotsVerticalRounded
                         size={20}
                     />
+                </NoteItemContainer>
+                <NoteItemContainer
+                    title="Archive Note"
+                    onClick={inArchive ? () => undoNoteArchival(noteID) : () => archiveNote(noteID)}
+                >
+                    {
+                        inArchive
+                            ?
+                            <NotesFooterUnArchiveNote
+                                size={20}
+
+                            /> :
+                            <NotesFooterArchiveNote
+                                size={20}
+                            />
+
+                    }
+
                 </NoteItemContainer>
 
                 <div

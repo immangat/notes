@@ -21,6 +21,8 @@ export type NotesContextType = {
     deleteNote: (key: string) => void
     trashNote: (key: string) => void
     undoTrash: (key: string) => void
+    archiveNote: (key: string) => void
+    undoNoteArchival: (key: string) => void
     getNote: (key: string) => NoteType
     updateNote: (key: string, updatedAt: string, labels?: string[], title?: string, body?: string) => void
     modalProps: ModalPropsType
@@ -50,6 +52,8 @@ export const NotesContext = createContext<NotesContextType>({
     deleteNote: (key) => null,
     trashNote: (key) => null,
     undoTrash: (key) => null,
+    archiveNote: (key) => null,
+    undoNoteArchival: (key) => null,
     getNote: (key) => ({
         id: "",
         title: "",
@@ -195,6 +199,37 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
 
     const getNote = (key: string) => {
         return notes.find(note => note.id === key) as NoteType;
+    }
+
+
+    const archiveNote = (key: string) => {
+        setNotes(prevNotes => prevNotes.map(note => {
+            if (note.id === key) {
+                return {
+                    ...note,
+                    markedForArchive: true,
+                    dateWhenMarkedForTrash: Date().toString()
+                }
+            }
+            return note
+
+        }))
+        clearModalProps()
+    }
+
+    const undoNoteArchival = (key: string) => {
+        setNotes(prevNotes => prevNotes.map(note => {
+            if (note.id === key) {
+                return {
+                    ...note,
+                    markedForArchive: false,
+                    dateWhenMarkedForTrash: ''
+                }
+            }
+            return note
+
+        }))
+        clearModalProps()
     }
 
     const updateNote = (key: string, updatedAt: string, labels?: string[], title?: string, body?: string) => {
@@ -346,7 +381,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         getLabelsOfANote,
         loadingNavBar,
         trashNote,
-        undoTrash
+        undoTrash,
+        archiveNote,
+        undoNoteArchival
     }
 
     useEffect(() => {

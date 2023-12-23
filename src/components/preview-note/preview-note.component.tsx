@@ -70,7 +70,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     }, [checkedData])
 
     const setKeyOfModal = () => {
-        setKeyOfModalProp(props.noteContent.id)
+        !props.noteContent.markedForTrash && setKeyOfModalProp(props.noteContent.id)
     }
 
     const deleteLabel = (label: string) => {
@@ -134,6 +134,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
                     checkedData={checkedData}
                     manageCheckedData={manageCheckedData}
                     inTrash={props.noteContent.markedForTrash}
+                    inArchive={props.noteContent.markedForArchive}
                 />
             </PreviewNotesFooter>
         </PreviewNoteContainer>

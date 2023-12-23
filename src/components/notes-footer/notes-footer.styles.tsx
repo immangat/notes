@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import {FaTrashRestore, FaTrashAlt} from "react-icons/fa";
+import { RiInboxArchiveLine, RiInboxUnarchiveLine   } from "react-icons/ri";
+
 
 
 
@@ -8,6 +10,17 @@ import {FaTrashRestore, FaTrashAlt} from "react-icons/fa";
 export const NotesFooterTrashRestore = styled(FaTrashRestore)`
     &:hover{
         color: green;
+    }
+`
+export const NotesFooterArchiveNote = styled(RiInboxArchiveLine)`
+    &:hover{
+        background-color: yellow;
+    }
+`
+
+export const NotesFooterUnArchiveNote = styled(RiInboxUnarchiveLine)`
+    &:hover{
+        background-color: yellow;
     }
 `
 
