@@ -22,6 +22,7 @@ export type NotesContextType = {
     trashNote: (key: string) => void
     undoTrash: (key: string) => void
     archiveNote: (key: string) => void
+    emptyTrash: () => void
     undoNoteArchival: (key: string) => void
     getNote: (key: string) => NoteType
     updateNote: (key: string, updatedAt: string, labels?: string[], title?: string, body?: string) => void
@@ -54,6 +55,7 @@ export const NotesContext = createContext<NotesContextType>({
     undoTrash: (key) => null,
     archiveNote: (key) => null,
     undoNoteArchival: (key) => null,
+    emptyTrash: () => null,
     getNote: (key) => ({
         id: "",
         title: "",
@@ -176,6 +178,10 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
 
     const getNotesBasedUponLabel = (label: string) => {
         return notes.filter(note => note.labels.indexOf(label) > -1)
+    }
+
+    const emptyTrash = () => {
+        setNotes(notes => notes.filter(note => !note.markedForTrash))
     }
 
     const trashNote = (key: string) => {
@@ -383,7 +389,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         trashNote,
         undoTrash,
         archiveNote,
-        undoNoteArchival
+        undoNoteArchival,
+        emptyTrash
     }
 
     useEffect(() => {

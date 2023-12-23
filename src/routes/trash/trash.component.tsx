@@ -2,11 +2,12 @@ import React, {useContext} from 'react';
 import {NotesContext} from "../../contexts/notes.context";
 import BasicDirectory from "../../components/basic-directory/basic-directory.component";
 import {BsFillTrashFill} from "react-icons/bs";
+import {EmptyTrash} from "./trash.styles";
 
 const Trash = () => {
-    const {notes} = useContext(NotesContext)
+    const {notes, emptyTrash} = useContext(NotesContext)
     const trash = notes.filter(note => note.markedForTrash)
-    if(!trash.length) {
+    if (!trash.length) {
         return (
             <div style={{
                 display: "flex",
@@ -22,12 +23,26 @@ const Trash = () => {
         )
     }
     return (
-        <div>
-            <h1
-                style={{textAlign: "center",
-                    margin: "0"
-            }}
-            >This is trash</h1>
+        <div
+        >
+            <header
+                style={{textAlign: "center"}}
+            >
+                <h1
+                    style={{
+                        margin: "0"
+                    }}
+                >This is trash</h1>
+                <span>
+                Notes in Trash are deleted after 7 days.
+            </span>
+                <EmptyTrash
+                    onClick={emptyTrash}
+                >
+                    Empty Trash
+                </EmptyTrash>
+
+            </header>
             <BasicDirectory notes={trash} showNote={false}/>
         </div>
     );
