@@ -1,5 +1,13 @@
-import {CrossIcon, NoteItemContainer, NotesItemsContainer,NotesLabelsContainer} from "./notes-footer.styles";
+import {
+    CrossIcon,
+    NoteItemContainer,
+    NotesItemsContainer,
+    NotesLabelsContainer,
+    NotesFooterTrashRestore,
+    NotesFooterTrashPermanently
+} from "./notes-footer.styles";
 import {BiDotsVerticalRounded, BiLabel} from "react-icons/bi";
+import {FaTrashRestore, FaTrashAlt} from "react-icons/fa";
 import ChangeLabel from "../change-label-pop-up/change-label.component";
 import {BsXSquare, BsXSquareFill} from "react-icons/bs";
 import React, {ChangeEvent, MouseEvent, useContext, useState} from "react";
@@ -10,7 +18,8 @@ import Label from "../label/label.component";
 type NotesFooterPropsType = {
     noteID: string
     checkedData: { [p: string]: boolean }
-    manageCheckedData: (e: ChangeEvent<HTMLInputElement>) => void
+    manageCheckedData: (e: ChangeEvent<HTMLInputElement>) => void,
+    inTrash?: boolean
 }
 
 const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
@@ -24,17 +33,16 @@ const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
     return temp;
 }
 
-const NotesFooter = ({noteID, checkedData, manageCheckedData}: NotesFooterPropsType) => {
+const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash}: NotesFooterPropsType) => {
 
-    const {deleteNote, labels, getLabelsOfANote} = useContext(NotesContext)
+    const {labels, getLabelsOfANote, trashNote, deleteNote, undoTrash} = useContext(NotesContext)
     const [isCrossFilled, setIsCrossFilled] = useState(true);
     const [showLabel, setShowLabel] = useState(false)
     const [checkedData2, setCheckedData2] = useState(makeIntitialCheckedData(labels, getLabelsOfANote(noteID)))
 
 
-
-    const deleteNoteFromModal = () => {
-        deleteNote(noteID)
+    const trashNoteInsideFooter = () => {
+        trashNote(noteID)
     }
 
     const onClickChangeLabel = (e: MouseEvent<SVGElement>) => {
@@ -42,12 +50,16 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData}: NotesFooterPropsT
         setShowLabel(prev => !prev)
     }
 
+    const deleteNoteFromModal = () => {
+        deleteNote(noteID)
+    }
     const deleteLabel = (label: string) => {
         setCheckedData2(prevState => ({
             ...prevState,
             [label]: false
         }))
     }
+
 
     // const notesFooterLabels = noteLabels.map(key => <Label
     //     labelValue={key}
@@ -61,6 +73,29 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData}: NotesFooterPropsT
     //         [id]: !prevState[id]
     //     }))
     // }
+
+    if (inTrash) {
+        return (
+            <NotesItemsContainer>
+                <NoteItemContainer
+                    title='Undo Trash'
+                    onClick={() => undoTrash(noteID)}
+                >
+                    <NotesFooterTrashRestore
+                        size={20}
+                    />
+                </NoteItemContainer>
+                <NoteItemContainer
+                    title='Delete Permanant'
+                    onClick={deleteNoteFromModal}
+                >
+                    <NotesFooterTrashPermanently
+                        size={20}
+                    />
+                </NoteItemContainer>
+            </NotesItemsContainer>
+        )
+    }
     return (
         <div>
             {/*<NotesLabelsContainer>*/}
@@ -105,8 +140,8 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData}: NotesFooterPropsT
                     }}
                 >
                     <CrossIcon
-                        title = {'delete note'}
-                        onClick={deleteNoteFromModal}
+                        title={'delete note'}
+                        onClick={trashNoteInsideFooter}
                         onMouseEnter={() => setIsCrossFilled(false)}
                         onMouseLeave={() => setIsCrossFilled(true)}
                     >

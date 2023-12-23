@@ -12,6 +12,8 @@ export const NotesItemsContainer = styled.div`
 
 export const PreviewNotesFooter = styled.div`
     opacity: 0;
+    width: 100%;
+    padding: 0.2rem 1rem;
 `
 export const PreviewNoteContainer = styled.div`
   display: flex;

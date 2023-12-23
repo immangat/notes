@@ -32,12 +32,12 @@ export type BasicDirectoryPropsType = {
 
 const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
 
-    const {deleteNote} = useContext(NotesContext)
+    const {trashNote} = useContext(NotesContext)
     
 
     const getPreviewNotes = useMemo(() => {
         const deleteNoteFromArray = (key: string) => {
-            deleteNote(key)
+            trashNote(key)
         }
         return notes.map(noteContent => (
             <PreviewNote
@@ -46,7 +46,7 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
                 handleDelete={() => deleteNoteFromArray(noteContent.id)}
             />
         ));
-    }, [notes, deleteNote]);
+    }, [notes, trashNote]);
 
     return (
         <DirectoryContainer>

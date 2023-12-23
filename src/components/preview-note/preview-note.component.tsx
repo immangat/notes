@@ -133,6 +133,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
                     noteID={props.noteContent.id}
                     checkedData={checkedData}
                     manageCheckedData={manageCheckedData}
+                    inTrash={props.noteContent.markedForTrash}
                 />
             </PreviewNotesFooter>
         </PreviewNoteContainer>

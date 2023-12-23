@@ -1,11 +1,24 @@
 import styled from "styled-components";
+import {FaTrashRestore, FaTrashAlt} from "react-icons/fa";
 
 
 
 
+
+export const NotesFooterTrashRestore = styled(FaTrashRestore)`
+    &:hover{
+        color: green;
+    }
+`
+
+export const NotesFooterTrashPermanently = styled(FaTrashAlt)`
+    &:hover{
+        color: Red;
+    }
+`
 export const NotesItemsContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   width: 100%;
   opacity: 1;
 `

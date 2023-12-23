@@ -17,7 +17,7 @@ type SearchDirectoryType = {
     labelSearch: boolean
 }
 const SearchDirectory = (props: SearchDirectoryType) => {
-    const {getNotes, deleteNote, getNotesBasedUponLabel} = useContext(NotesContext)
+    const {getNotes, trashNote, getNotesBasedUponLabel} = useContext(NotesContext)
     var notes: NoteType[];
     if (!props.labelSearch) {
         notes = getNotes(props.stringToSearch)
@@ -29,7 +29,7 @@ const SearchDirectory = (props: SearchDirectoryType) => {
     //const [number, setNumber] = useState(0)
     const [notes1, setNotes1] = useState<ReactElement[]>([])
     const deleteNoteFromArray = (key: string, array: number) => {
-        deleteNote(key)
+        trashNote(key)
     }
 
 

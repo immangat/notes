@@ -19,6 +19,8 @@ export type NotesContextType = {
     notes: NoteType[]
     addNote: (note: NoteType) => void
     deleteNote: (key: string) => void
+    trashNote: (key: string) => void
+    undoTrash: (key: string) => void
     getNote: (key: string) => NoteType
     updateNote: (key: string, updatedAt: string, labels?: string[], title?: string, body?: string) => void
     modalProps: ModalPropsType
@@ -46,6 +48,8 @@ export const NotesContext = createContext<NotesContextType>({
     notes: [],
     addNote: (note) => null,
     deleteNote: (key) => null,
+    trashNote: (key) => null,
+    undoTrash: (key) => null,
     getNote: (key) => ({
         id: "",
         title: "",
@@ -139,6 +143,19 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         setNotes(prevNotes => [note, ...prevNotes])
     }
 
+    const undoTrash = (key: string) => {
+        setNotes(prevNotes => prevNotes.map(note => {
+            if (note.id === key) {
+                return {
+                    ...note,
+                    markedForTrash: false,
+                    dateWhenMarkedForTrash: ''
+                }
+            }
+            return note
+
+        }))
+    }
     const getNotes = (searchString: string) => {
 
         const regex = new RegExp(searchString, 'i'); // 'i' flag makes the regex case-insensitive
@@ -156,8 +173,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     const getNotesBasedUponLabel = (label: string) => {
         return notes.filter(note => note.labels.indexOf(label) > -1)
     }
-    const deleteNote = (key: string) => {
-        //setNotes(prevNotes => prevNotes.filter(note => note.id !== key))
+
+    const trashNote = (key: string) => {
         setNotes(prevNotes => prevNotes.map(note => {
             if (note.id === key) {
                 return {
@@ -169,6 +186,10 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
             return note
 
         }))
+        clearModalProps()
+    }
+    const deleteNote = (key: string) => {
+        setNotes(prevNotes => prevNotes.filter(note => note.id !== key))
         clearModalProps()
     }
 
@@ -323,7 +344,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         getNotesBasedUponLabel,
         loading,
         getLabelsOfANote,
-        loadingNavBar
+        loadingNavBar,
+        trashNote,
+        undoTrash
     }
 
     useEffect(() => {
