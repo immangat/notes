@@ -42,14 +42,20 @@ const ChangeLabel = ({addLabels, checkedData}: ChangeLabelPropsType) => {
             style={{
                 backgroundColor: "white",
                 position: "absolute",
-                top: "19px",
+                bottom: "2.2rem",
+                left: "0rem",
                 zIndex: "999",
-                border: "1px solid black",
-                padding: "10%"
+                padding: "0.2rem",
+                boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
             }}
         >
-            <span>
-                Label Note
+            <span
+                style={{
+                    width: "100%",
+                    whiteSpace: "nowrap"
+                }}
+            >
+                Label Notes
             </span>
             <div style={{
                 marginTop: "4%"
