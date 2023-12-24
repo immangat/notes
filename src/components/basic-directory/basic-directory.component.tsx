@@ -22,6 +22,7 @@ export type NoteType = {
     dateWhenMarkedForTrash?: string
     markedForArchive?: boolean
     dateWhenMarkedForArchive?: string
+    notePinned?: boolean
 }
 
 export type BasicDirectoryPropsType = {
@@ -33,7 +34,7 @@ export type BasicDirectoryPropsType = {
 const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
 
     const {trashNote} = useContext(NotesContext)
-    
+
 
     const getPreviewNotes = useMemo(() => {
         const deleteNoteFromArray = (key: string) => {
@@ -68,5 +69,6 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
         </DirectoryContainer>
     );
 }
+
 
 export default BasicDirectory;
