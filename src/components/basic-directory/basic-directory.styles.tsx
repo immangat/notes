@@ -60,7 +60,7 @@ export const NotesContainerTest = styled.div`
   }
 `
 
-export const ContainerOfNoteContainer= styled.div`
+export const ContainerOfNoteContainer = styled.div`
   padding: 1%;
   @media screen and (max-width: 550px) {
     display: flex;

@@ -18,18 +18,18 @@ export const SideBarContainer = styled.div`
 `
 
 export const SideBarListElement = styled.li<SideBarListProps>`
-  margin-left: 0;
-  margin-bottom: 4%;
-  background-color: ${(props) => (props.selectList ? "yellow" : "white")};
+    margin-left: 0;
+    margin-bottom: 4%;
+    background-color: ${(props) => (props.selectList ? "yellow" : "white")};
+    
+    &:hover {
+        background-color: lightyellow;
 
-  &:hover {
-    background-color: lightyellow;
+    }
 
-  }
-
-  &:active {
-    background-color: yellow;
-  }
+    &:active {
+        background-color: yellow;
+    }
 `
 
 export const SideBarList = styled.ul`

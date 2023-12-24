@@ -5,7 +5,8 @@ import {
     PreviewTitleTextBox,
     TextAreasContainer,
     NotesLabelsContainer,
-    PreviewNotesFooter
+    PreviewNotesFooter,
+    NotesPin
 } from "./preview-note.styles";
 import {TextAreaContainer} from "../text-box/text-box.styles";
 import useAutosizeTextArea from "../text-box/text-box.utils";
@@ -13,6 +14,9 @@ import {NoteType} from "../basic-directory/basic-directory.component";
 import {NotesContext} from "../../contexts/notes.context";
 import Label from "../label/label.component";
 import NotesFooter from "../notes-footer/notes-footer.component";
+import {IconContainerStyles} from "../icon-container/icon-container.styles";
+import IconContainer from "../icon-container/icon-container.component";
+import {AiFillPushpin, AiOutlinePushpin} from "react-icons/ai";
 
 
 export type PreviewNotePropsType = {
@@ -35,7 +39,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     const [content, setContent] = useState(props.noteContent)
     const [refElement, setRefElement] = useState<HTMLTextAreaElement | null>(null)
     const [refElement2, setRefElement2] = useState<HTMLTextAreaElement | null>(null)
-    const {setKeyOfModalProp, createNote, updateNote, labels} = useContext(NotesContext)
+    const {setKeyOfModalProp, createNote, updateNote, labels, pinNote, unPinNote} = useContext(NotesContext)
     const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, content.labels))
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
@@ -47,7 +51,6 @@ const PreviewNote = (props: PreviewNotePropsType) => {
             [id]: !prevState[id]
         }))
     }
-
     useEffect(() => {
         setContent(prevState => ({
             ...prevState,
@@ -83,11 +86,18 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     const testLabels = props.noteContent.labels.map(key => <Label labelValue={key}
                                                                   deleteLabel={deleteLabel}/>)
 
+    const togglePinnedStatus = () => {
+        content.notePinned ? unPinNote(content.id) : pinNote(content.id)
+    }
 
     return (
         <PreviewNoteContainer
 
         >
+            <NotesPin
+                onClick={togglePinnedStatus}
+                Icon={content.notePinned ? AiFillPushpin : AiOutlinePushpin}
+            />
             <TextAreasContainer
                 onClick={setKeyOfModal}
             >

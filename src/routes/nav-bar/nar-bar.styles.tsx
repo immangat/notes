@@ -8,7 +8,7 @@ export const MainContainer = styled.div`
   grid-template: 1fr 9fr/ 1fr 20fr;
 `
 
-export const SideBarComponentContainer =styled.div`
+export const SideBarComponentContainer = styled.div`
   grid-area: 2 / 1 / 3 / 2;
 `
 
@@ -17,7 +17,7 @@ export const DirectoryContainer = styled.div`
   grid-area: 2 / 2 / 3 / 3;
 `
 
-export const NavBarContainer  = styled.div`
+export const NavBarContainer = styled.div`
     grid-area: 1 / 1 / 2 / 3;
     display: flex;
     flex-direction: row;
@@ -70,7 +70,7 @@ export const MenuContainer = styled.div`
   margin: 0 8% 0 0 ;
 `
 
-export const NotesLogoContainer =styled.div`
+export const NotesLogoContainer = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;

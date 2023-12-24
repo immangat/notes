@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {TextArea} from "../text-box/text-box.styles";
 import NotesFooter from "../notes-footer/notes-footer.component";
+import IconContainer from "../icon-container/icon-container.component";
 
 
 export const NotesItemsContainer = styled.div`
@@ -16,27 +17,28 @@ export const PreviewNotesFooter = styled.div`
     padding: 0.2rem 1rem;
 `
 export const PreviewNoteContainer = styled.div`
-  display: flex;
-  height: max-content;
-  flex-direction: column;
-  border: 1px solid black;
-  max-width: 259px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  padding: 0.1rem;
-  margin-bottom: 1rem;
+    position: relative;
+    display: flex;
+    height: max-content;
+    flex-direction: column;
+    border: 1px solid black;
+    max-width: 259px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 0.1rem;
+    margin-bottom: 1rem;
 
 
-  &:hover {
-    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+    &:hover {
+        box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
 
-    ${PreviewNotesFooter} {
-      opacity: 1;
-      transition: all 0.7s;
+        ${PreviewNotesFooter} {
+            opacity: 1;
+            transition: all 0.7s;
+        }
     }
-  }
 
 `
 
@@ -83,3 +85,15 @@ export const NotesLabelsContainer = styled.div`
   justify-content: flex-start;
   width: 100%;
 `
+
+export const NotesPin = styled(IconContainer)`
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    right: 0;
+
+    &:hover {
+        color: yellow;
+    }
+`
+

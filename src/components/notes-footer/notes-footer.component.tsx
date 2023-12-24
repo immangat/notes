@@ -2,18 +2,17 @@ import {
     CrossIcon,
     NoteItemContainer,
     NotesItemsContainer,
-    NotesLabelsContainer,
     NotesFooterTrashRestore,
     NotesFooterTrashPermanently,
     NotesFooterArchiveNote, NotesFooterUnArchiveNote
 } from "./notes-footer.styles";
 import {BiDotsVerticalRounded, BiLabel} from "react-icons/bi";
-import {FaArchive} from "react-icons/fa";
+
 import ChangeLabel from "../change-label-pop-up/change-label.component";
-import {BsXSquare, BsXSquareFill} from "react-icons/bs";
+
 import React, {ChangeEvent, MouseEvent, useContext, useState} from "react";
 import {NotesContext} from "../../contexts/notes.context";
-import Label from "../label/label.component";
+import IconContainer from "../icon-container/icon-container.component";
 
 
 type NotesFooterPropsType = {
@@ -46,7 +45,6 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
         archiveNote,
         undoNoteArchival
     } = useContext(NotesContext)
-    const [isCrossFilled, setIsCrossFilled] = useState(true);
     const [showLabel, setShowLabel] = useState(false)
     const [checkedData2, setCheckedData2] = useState(makeIntitialCheckedData(labels, getLabelsOfANote(noteID)))
 
@@ -55,7 +53,7 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
         trashNote(noteID)
     }
 
-    const onClickChangeLabel = (e: MouseEvent<SVGElement>) => {
+    const onClickChangeLabel = (e: MouseEvent<HTMLDivElement>) => {
         e.stopPropagation()
         setShowLabel(prev => !prev)
     }
@@ -115,16 +113,9 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
 
                 <NoteItemContainer
                     title="Labels"
-
+                    onClick={onClickChangeLabel}
                 >
-                    <BiLabel
-                        size={20}
-                        style={{
-                            cursor: "pointer"
-                        }}
-                        onClick={onClickChangeLabel}
-
-                    />
+                    <IconContainer Icon={BiLabel}/>
                     {
                         showLabel
                         &&
@@ -135,56 +126,37 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
                     }
                 </NoteItemContainer>
                 <NoteItemContainer
-                    title="More Options"
-                >
-                    <BiDotsVerticalRounded
-                        size={20}
-                    />
-                </NoteItemContainer>
-                <NoteItemContainer
                     title="Archive Note"
                     onClick={inArchive ? () => undoNoteArchival(noteID) : () => archiveNote(noteID)}
                 >
                     {
                         inArchive
                             ?
-                            <NotesFooterUnArchiveNote
-                                size={20}
-
-                            /> :
-                            <NotesFooterArchiveNote
-                                size={20}
+                            <IconContainer
+                                Icon={NotesFooterUnArchiveNote}
                             />
+
+                            :
+                            <IconContainer Icon={NotesFooterArchiveNote}/>
+
 
                     }
 
                 </NoteItemContainer>
-
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "end",
-                        width: "100%"
-                    }}
+                <NoteItemContainer
+                    title="More Options"
                 >
-                    <CrossIcon
-                        title={'delete note'}
-                        onClick={trashNoteInsideFooter}
-                        onMouseEnter={() => setIsCrossFilled(false)}
-                        onMouseLeave={() => setIsCrossFilled(true)}
-                    >
-                        {isCrossFilled
-                            ?
-                            <BsXSquare
-                                color={"red"}
-                            />
-                            :
-                            <BsXSquareFill
-                                color={"red"}
-                            />}
+                    <IconContainer Icon={BiDotsVerticalRounded}/>
+                </NoteItemContainer>
 
-                    </CrossIcon>
-                </div>
+                <NoteItemContainer
+                    title={'delete note'}
+                    onClick={trashNoteInsideFooter}
+                >
+
+                    <IconContainer Icon={NotesFooterTrashPermanently}/>
+
+                </NoteItemContainer>
 
 
             </NotesItemsContainer>

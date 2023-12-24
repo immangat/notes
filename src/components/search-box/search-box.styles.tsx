@@ -5,7 +5,6 @@ type SearchBoxContainerType = {
 }
 
 
-
 export const SearchBoxButtons = styled.button<SearchBoxContainerType>`
   display: flex;
   justify-content: center;
