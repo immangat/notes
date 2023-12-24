@@ -7,8 +7,8 @@ export const IconContainerStyles = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    &:hover{
+
+    &:hover {
         //background-color: yellow;
         cursor: pointer;
     }

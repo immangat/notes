@@ -9,8 +9,8 @@ export const NotesFooterTrashRestore = styled(FaTrashRestore)`
     }
 `
 export const NotesFooterArchiveNote = styled(RiInboxArchiveLine)`
- 
- 
+
+
 `
 
 export const NotesFooterUnArchiveNote = styled(RiInboxUnarchiveLine)`
@@ -36,6 +36,7 @@ export const NoteItemContainer = styled.div`
     align-items: center;
     border-radius: 50%;
     position: relative;
+
     &:hover {
         //background: radial-gradient(ellipse at center, wheat, white);
         background: yellow;
