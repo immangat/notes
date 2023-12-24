@@ -22,6 +22,8 @@ export type NotesContextType = {
     trashNote: (key: string) => void
     undoTrash: (key: string) => void
     archiveNote: (key: string) => void
+    pinNote: (key: string) => void
+    unPinNote: (key: string) => void
     emptyTrash: () => void
     undoNoteArchival: (key: string) => void
     getNote: (key: string) => NoteType
@@ -55,6 +57,8 @@ export const NotesContext = createContext<NotesContextType>({
     undoTrash: (key) => null,
     archiveNote: (key) => null,
     undoNoteArchival: (key) => null,
+    pinNote: (key) => null,
+    unPinNote: (key) => null,
     emptyTrash: () => null,
     getNote: (key) => ({
         id: "",
@@ -201,6 +205,33 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     const deleteNote = (key: string) => {
         setNotes(prevNotes => prevNotes.filter(note => note.id !== key))
         clearModalProps()
+    }
+
+    const pinNote = (key: string) => {
+        setNotes(prevNotes => prevNotes.map(note => {
+            if (note.id === key) {
+                return {
+                    ...note,
+                    notePinned: true
+                }
+            }
+            return note
+
+        }))
+
+    }
+
+    const unPinNote = (key: string) => {
+        setNotes(prevNotes => prevNotes.map(note => {
+            if (note.id === key) {
+                return {
+                    ...note,
+                    notePinned: false
+                }
+            }
+            return note
+
+        }))
     }
 
     const getNote = (key: string) => {
@@ -390,7 +421,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         undoTrash,
         archiveNote,
         undoNoteArchival,
-        emptyTrash
+        emptyTrash,
+        pinNote,
+        unPinNote
     }
 
     useEffect(() => {
