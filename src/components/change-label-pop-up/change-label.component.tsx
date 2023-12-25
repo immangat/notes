@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, ReactElement, MutableRefObject} from "react";
+import React, {ChangeEvent, useContext} from "react";
 import {NotesContext} from "../../contexts/notes.context";
 
 
@@ -16,6 +16,9 @@ const ChangeLabel = ({addLabels, checkedData}: ChangeLabelPropsType) => {
             <div
                 style={{
                     display: "flex",
+                }}
+                onClick={(e) => {
+                    e.stopPropagation()
                 }}
             >
                 <input

@@ -23,6 +23,7 @@ export type NoteType = {
     markedForArchive?: boolean
     dateWhenMarkedForArchive?: string
     notePinned?: boolean
+    noteColor?: string
 }
 
 export type BasicDirectoryPropsType = {

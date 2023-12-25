@@ -3,6 +3,9 @@ import {TextArea} from "../text-box/text-box.styles";
 import IconContainer from "../icon-container/icon-container.component";
 
 
+type PreviewNoteContainerType = {
+    color?: string
+}
 export const NotesItemsContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
@@ -11,7 +14,6 @@ export const NotesItemsContainer = styled.div`
 `
 
 export const PreviewNotesFooter = styled.div`
-    opacity: 0;
     width: 100%;
     padding: 0.2rem 1rem;
     @media only screen and (max-width: 768px) {
@@ -19,7 +21,7 @@ export const PreviewNotesFooter = styled.div`
         opacity: 1;
     }
 `
-export const PreviewNoteContainer = styled.div`
+export const PreviewNoteContainer = styled.div<PreviewNoteContainerType>`
     position: relative;
     display: flex;
     height: max-content;
@@ -31,16 +33,16 @@ export const PreviewNoteContainer = styled.div`
     border-radius: 10px;
     padding: 0.1rem;
     margin-bottom: 1rem;
-
+    background-color: ${props => props.color};
 
     &:hover {
         box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
         cursor: pointer;
 
-        ${PreviewNotesFooter} {
-            opacity: 1;
-            transition: all 0.7s;
-        }
+            // ${PreviewNotesFooter} {
+        //     opacity: 1;
+        //     transition: all 0.7s;
+        // }
     }
 
 `

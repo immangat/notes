@@ -28,6 +28,7 @@ export type NotesContextType = {
     undoNoteArchival: (key: string) => void
     getNote: (key: string) => NoteType
     updateNote: (key: string, updatedAt: string, labels?: string[], title?: string, body?: string) => void
+    setNoteColor: (Key: string, color: string) => void
     modalProps: ModalPropsType
     setKeyOfModalProp: (key: string) => void
     clearModalProps: () => void
@@ -59,6 +60,7 @@ export const NotesContext = createContext<NotesContextType>({
     undoNoteArchival: (key) => null,
     pinNote: (key) => null,
     unPinNote: (key) => null,
+    setNoteColor: (Key: string) => null,
     emptyTrash: () => null,
     getNote: (key) => ({
         id: "",
@@ -180,6 +182,19 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         })
     }
 
+    const setNoteColor = (key: string, color: string) => {
+        console.log(color, "color")
+        setNotes(prevNotes => prevNotes.map(note => {
+            if (note.id === key) {
+                return {
+                    ...note,
+                    noteColor: color
+                }
+            }
+            return note
+
+        }))
+    }
     const getNotesBasedUponLabel = (label: string) => {
         return notes.filter(note => note.labels.indexOf(label) > -1)
     }
@@ -423,7 +438,8 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         undoNoteArchival,
         emptyTrash,
         pinNote,
-        unPinNote
+        unPinNote,
+        setNoteColor
     }
 
     useEffect(() => {

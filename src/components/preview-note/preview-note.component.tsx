@@ -14,8 +14,6 @@ import {NoteType} from "../basic-directory/basic-directory.component";
 import {NotesContext} from "../../contexts/notes.context";
 import Label from "../label/label.component";
 import NotesFooter from "../notes-footer/notes-footer.component";
-import {IconContainerStyles} from "../icon-container/icon-container.styles";
-import IconContainer from "../icon-container/icon-container.component";
 import {AiFillPushpin, AiOutlinePushpin} from "react-icons/ai";
 
 
@@ -41,6 +39,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     const [refElement2, setRefElement2] = useState<HTMLTextAreaElement | null>(null)
     const {setKeyOfModalProp, createNote, updateNote, labels, pinNote, unPinNote} = useContext(NotesContext)
     const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, content.labels))
+    const [footerActive, setFooterActive] = useState(false)
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
     const [showLabel, setShowLabel] = useState(false)
@@ -92,6 +91,10 @@ const PreviewNote = (props: PreviewNotePropsType) => {
 
     return (
         <PreviewNoteContainer
+            onMouseEnter={() => setFooterActive(true)}
+            onMouseLeave={() => setFooterActive(false)}
+            color={props.noteContent.noteColor && props.noteContent.noteColor}
+
 
         >
             <NotesPin
@@ -140,6 +143,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
 
             <PreviewNotesFooter>
                 <NotesFooter
+                    active={footerActive}
                     noteID={props.noteContent.id}
                     checkedData={checkedData}
                     manageCheckedData={manageCheckedData}

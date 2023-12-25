@@ -3,6 +3,10 @@ import {FaTrashRestore, FaTrashAlt} from "react-icons/fa";
 import {RiInboxArchiveLine, RiInboxUnarchiveLine} from "react-icons/ri";
 
 
+
+type NotesItemsContainerType = {
+    showFooter?: boolean
+}
 export const NotesFooterTrashRestore = styled(FaTrashRestore)`
     &:hover {
         color: green;
@@ -21,11 +25,12 @@ export const NotesFooterTrashPermanently = styled(FaTrashAlt)`
         color: Red;
     }
 `
-export const NotesItemsContainer = styled.div`
+export const NotesItemsContainer = styled.div<NotesItemsContainerType>`
     display: flex;
     justify-content: flex-start;
     width: 100%;
-    opacity: 1;
+    opacity: ${props => props.showFooter ? "1" : "0"};
+    transition: all 0.7s;
 `
 
 export const NoteItemContainer = styled.div`
@@ -36,6 +41,7 @@ export const NoteItemContainer = styled.div`
     align-items: center;
     border-radius: 50%;
     position: relative;
+    opacity: 1;
 
     &:hover {
         //background: radial-gradient(ellipse at center, wheat, white);
