@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const ModalContainer = styled.div`
     position: fixed; /* Stay in place */
-    z-index: 3; /* Sit on top */
+    z-index: 10; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
