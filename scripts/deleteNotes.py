@@ -8,13 +8,14 @@ cred = credentials.Certificate("/PathToCrendentials")
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+
 def deleteNoteFromTrash(noteID):
     # Get today's date
     dateToday = date.today()
 
     noteID = noteID.replace('GMT', '')
 
-# Remove the parentheses and content inside
+    # Remove the parentheses and content inside
     noteID = noteID.split('(')[0].strip()
 
     # Convert noteID to a datetime object (assuming it's a Unix timestamp)
@@ -54,7 +55,6 @@ def main():
             print("Document updated:", doc.id)
         else:
             print("No changes to update for document:", doc.id)
-
 
 
 if __name__ == "__main__":

@@ -10,6 +10,7 @@ import {NavBarProvider} from "./contexts/nav-bar.context";
 import {UserProvider} from "./contexts/user.context";
 import {SideBarProvider} from "./contexts/side-bar.context";
 
+
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );

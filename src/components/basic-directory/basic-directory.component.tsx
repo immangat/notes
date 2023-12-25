@@ -7,7 +7,7 @@ import {
     CreateNoteGridItem,
     DirectoryContainer,
     NotesContainerTest,
-    NotesGridItem,
+    NotesGridItem, PinnedMessage,
 } from "./basic-directory.styles";
 
 
@@ -34,20 +34,36 @@ export type BasicDirectoryPropsType = {
 const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
 
     const {trashNote} = useContext(NotesContext)
-
+    const notesPinned = notes.filter(note => note.notePinned)
+    const notPinned = notes.filter(note => !note.notePinned)
+    console.log(notes)
 
     const getPreviewNotes = useMemo(() => {
         const deleteNoteFromArray = (key: string) => {
             trashNote(key)
         }
-        return notes.map(noteContent => (
+        return notPinned.map(noteContent => (
             <PreviewNote
                 key={noteContent.id}
                 noteContent={noteContent}
                 handleDelete={() => deleteNoteFromArray(noteContent.id)}
             />
         ));
-    }, [notes, trashNote]);
+    }, [notPinned, trashNote, notes]);
+
+    const getPinnedNotes = useMemo(() => {
+        const deleteNoteFromArray = (key: string) => {
+            trashNote(key)
+        }
+        return notesPinned.map(noteContent => (
+            <PreviewNote
+                key={noteContent.id}
+                noteContent={noteContent}
+                handleDelete={() => deleteNoteFromArray(noteContent.id)}
+            />
+        ));
+    }, [notesPinned, trashNote, notes])
+    console.log(getPinnedNotes)
 
     return (
         <DirectoryContainer>
@@ -58,7 +74,19 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
                 </CreateNoteGridItem>
 
             }
+            {
+                notesPinned.length !== 0
+                &&
+                <NotesGridItem>
+                    <ContainerOfNoteContainer>
+                        <PinnedMessage>Pinned</PinnedMessage>
+                        <NotesContainerTest>
+                            {getPinnedNotes}
+                        </NotesContainerTest>
+                    </ContainerOfNoteContainer>
+                </NotesGridItem>
 
+            }
             <NotesGridItem>
                 <ContainerOfNoteContainer>
                     <NotesContainerTest>

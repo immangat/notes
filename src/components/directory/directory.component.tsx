@@ -5,12 +5,10 @@ import BasicDirectory from "../basic-directory/basic-directory.component";
 
 const Directory = () => {
     const {notes} = useContext(NotesContext)
-    const notesToDisplay = notes.filter(note => !note.markedForTrash && !note.markedForArchive && !note.notePinned)
-    const notesPinned = notes.filter(note => !note.markedForTrash && !note.markedForArchive && note.notePinned)
+    const notesToDisplay = notes.filter(note => !note.markedForTrash && !note.markedForArchive)
 
     return (
         <>
-            <BasicDirectory notes={notesPinned} showNote={false}/>
             <BasicDirectory
                 notes={notesToDisplay}
                 showNote={true}

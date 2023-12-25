@@ -18,7 +18,7 @@ export const CreateNoteGridItem = styled.div`
 
 
 export const NotesGridItem = styled.div`
-    grid-area: 2 / 1 / 3 /2;
+    //grid-area: 2 / 1 / 3 /2;
     gap: 2px;
 `
 
@@ -63,8 +63,16 @@ export const NotesContainerTest = styled.div`
 
 export const ContainerOfNoteContainer = styled.div`
     padding: 1%;
+    
     @media screen and (max-width: 550px) {
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
     }
+`
+
+export const PinnedMessage = styled.span`
+    margin-bottom: 10px;
+    
 `

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {TextArea} from "../text-box/text-box.styles";
-import NotesFooter from "../notes-footer/notes-footer.component";
 import IconContainer from "../icon-container/icon-container.component";
 
 
@@ -15,6 +14,10 @@ export const PreviewNotesFooter = styled.div`
     opacity: 0;
     width: 100%;
     padding: 0.2rem 1rem;
+    @media only screen and (max-width: 768px) {
+        /* Apply styles for mobile or tablet devices */
+        opacity: 1;
+    }
 `
 export const PreviewNoteContainer = styled.div`
     position: relative;
