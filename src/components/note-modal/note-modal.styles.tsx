@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 
+type ModalNoteContainerPropsType = {
+    color?: string
+}
 export const ModalContainer = styled.div`
     position: fixed; /* Stay in place */
     z-index: 10; /* Sit on top */
@@ -33,8 +36,8 @@ export const ModalBody = styled.div`
     justify-content: center;
 `
 
-export const ModalNoteContainer = styled.div`
-    background-color: lightyellow;
+export const ModalNoteContainer = styled.div<ModalNoteContainerPropsType>`
+    background-color: ${props => props.color};
     display: flex;
     flex-direction: column;
     border: 3px solid black;
