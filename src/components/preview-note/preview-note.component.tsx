@@ -9,7 +9,7 @@ import {
     NotesPin
 } from "./preview-note.styles";
 import {TextAreaContainer} from "../text-box/text-box.styles";
-import useAutosizeTextArea from "../text-box/text-box.utils";
+import useAutosizeTextArea from "../../hooks/text-box.utils";
 import {NoteType} from "../basic-directory/basic-directory.component";
 import {NotesContext} from "../../contexts/notes.context";
 import Label from "../label/label.component";
