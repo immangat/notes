@@ -24,7 +24,7 @@ function App() {
             {
                 modalProps.open && <NoteModal
                     key={modalProps.key}
-                    id={modalProps.key}
+                    noteId={modalProps.key}
                 />
             }
             {
