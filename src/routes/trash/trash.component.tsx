@@ -3,23 +3,18 @@ import {NotesContext} from "../../contexts/notes.context";
 import BasicDirectory from "../../components/basic-directory/basic-directory.component";
 import {BsFillTrashFill} from "react-icons/bs";
 import {EmptyTrash} from "./trash.styles";
+import EmptyMessage from "../../components/empty-message/empty-message.component";
 
 const Trash = () => {
     const {notes, emptyTrash} = useContext(NotesContext)
     const trash = notes.filter(note => note.markedForTrash)
     if (!trash.length) {
         return (
-            <div style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                flexDirection: "column"
-            }}>
-                <BsFillTrashFill size={100}/>
-                <h1>Your Trash is Empty </h1>
+            <EmptyMessage
+                Icon={BsFillTrashFill}
+                message={"Your Trash is Empty."}
+            />
 
-            </div>
         )
     }
     return (
