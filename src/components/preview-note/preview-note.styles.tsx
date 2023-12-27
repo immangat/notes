@@ -110,5 +110,9 @@ export const SelectNoteContainer = styled.div<SelectNoteContainerType>`
     top: -10px;
     left: -10px;
     display: ${(props) => props.hover? "block" : "none"};
+    @media only screen and (max-width: 768px) {
+        /* Apply styles for mobile or tablet devices */
+        display: block;
+    }
 `
 
