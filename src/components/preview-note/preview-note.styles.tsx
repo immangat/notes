@@ -16,10 +16,6 @@ export const NotesItemsContainer = styled.div`
 export const PreviewNotesFooter = styled.div`
     width: 100%;
     padding: 0.2rem 1rem;
-    @media only screen and (max-width: 768px) {
-        /* Apply styles for mobile or tablet devices */
-        opacity: 1;
-    }
 `
 export const PreviewNoteContainer = styled.div<PreviewNoteContainerType>`
     position: relative;
@@ -89,6 +85,7 @@ export const NotesLabelsContainer = styled.div`
     display: flex;
     justify-content: flex-start;
     width: 100%;
+    grid-area: "1 / 1 / 2 / 2"
 `
 
 export const NotesPin = styled(IconContainer)`

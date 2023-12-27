@@ -31,6 +31,11 @@ export const NotesItemsContainer = styled.div<NotesItemsContainerType>`
     width: 100%;
     opacity: ${props => props.showFooter ? "1" : "0"};
     transition: all 0.7s;
+    @media only screen and (max-width: 768px) {
+        /* Apply styles for mobile or tablet devices */
+        opacity: 1;
+    }
+    
 `
 
 export const NoteItemContainer = styled.div`

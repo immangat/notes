@@ -14,6 +14,7 @@ import NotesFooter from "../notes-footer/notes-footer.component";
 import Label from "../label/label.component";
 import {NotesLabelsContainer} from "../preview-note/preview-note.styles";
 import useMouseHover from "../../hooks/useMouseHover";
+import Time from "../time/time.component";
 
 export type NoteModalTypes = {
     noteId: string
@@ -123,7 +124,7 @@ const NoteModal = ({noteId}: NoteModalTypes) => {
                         }
                         className="testing3"
                         color={noteContent && color.current}
-                        ref = {divRef}
+                        ref={divRef}
                     >
                         <TitleTextBox
 
@@ -144,9 +145,20 @@ const NoteModal = ({noteId}: NoteModalTypes) => {
                             setText={setBody}
                             containerSize={containerSize}
                         />
-                        <NotesLabelsContainer>
-                            {modalLabels}
-                        </NotesLabelsContainer>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridAutoFlow: "column",
+                                width: "100%"
+                            }}
+                        >
+                            <NotesLabelsContainer>
+                                {modalLabels}
+                            </NotesLabelsContainer>
+                            <Time
+                                time={noteContent.updatedAt}
+                            />
+                        </div>
 
                         <NoteModalFooterContainer
                             className="foort"

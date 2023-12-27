@@ -7,7 +7,7 @@ import {
 } from "./notes-footer.styles";
 import {BiDotsVerticalRounded, BiLabel} from "react-icons/bi";
 import ChangeLabel from "../change-label-pop-up/change-label.component";
-import React, {ChangeEvent, MouseEvent, useContext, useEffect, useState} from "react";
+import React, {ChangeEvent, MouseEvent, useContext, useEffect, useRef, useState} from "react";
 import {NotesContext} from "../../contexts/notes.context";
 import IconContainer from "../icon-container/icon-container.component";
 import MoreOptions from "../more-options/more-options.component";
@@ -44,14 +44,14 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
         deleteNote,
         undoTrash,
         archiveNote,
-        undoNoteArchival
+        undoNoteArchival,
+        createNote
     } = useContext(NotesContext)
     const [showLabel, setShowLabel] = useState(false)
     const [moreOptions, setMoreOptions] = useState(false)
     const [colorPicker, setColorPicker] = useState(false)
     const [checkedData2, setCheckedData2] = useState(makeIntitialCheckedData(labels, getLabelsOfANote(noteID)))
-
-
+    const notesContainerRef = useRef<HTMLDivElement>(null)
 
 
     const trashNoteInsideFooter = () => {
@@ -59,9 +59,29 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
     }
 
     const onClickChangeLabel = (e?: MouseEvent<HTMLDivElement>) => {
-        e && e.stopPropagation()
-        setShowLabel(prev => !prev)
-        setMoreOptions(false)
+        //e && e.stopPropagation()
+        const title = e?.currentTarget.getAttribute('title') || ""
+        switch (title) {
+            case "More Options":
+                setShowLabel(false)
+                setMoreOptions(prev => !prev)
+                setColorPicker(false)
+                break
+            case "Labels":
+                setShowLabel(prev => !prev)
+                setMoreOptions(false)
+                setColorPicker(false)
+                break
+            case "Change Backgroud Color":
+                setShowLabel(false)
+                setMoreOptions(false)
+                setColorPicker(prev => !prev)
+                break
+            default:
+                setShowLabel(false)
+                setMoreOptions(false)
+                setColorPicker(false)
+        }
     }
 
     const deleteNoteFromModal = () => {
@@ -74,27 +94,43 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
         }))
     }
 
+    // useEffect(() => {
+    //     window.addEventListener("click", (e) => {
+    //         // console.log(showLabel)
+    //         // setShowLabel(prev => {
+    //         //     if (prev) {
+    //         //         return false
+    //         //     }
+    //         //     return prev
+    //         // })
+    //         // setMoreOptions(prev => {
+    //         //     if (prev) {
+    //         //         return false
+    //         //     }
+    //         //     return prev
+    //         // })
+    //         console.log("running")
+    //         onClickChangeLabel()
+    //
+    //     })
+    //     return () => window.removeEventListener("click", () => {
+    //
+    //     })
+    // }, [showLabel, moreOptions]);
+
     useEffect(() => {
-        window.addEventListener("click", (e) => {
-            console.log(showLabel)
-            setShowLabel(prev => {
-                if (prev) {
-                    return false
-                }
-                return prev
-            })
-            setMoreOptions(prev => {
-                if (prev) {
-                    return false
-                }
-                return prev
-            })
+        const handleClickOutside = (event: MouseEvent<HTMLDivElement>) => {
+            if (notesContainerRef.current && !notesContainerRef.current.contains(event.target as Node)) {
+                onClickChangeLabel();
+            }
+        };
 
-        })
-        return () => window.removeEventListener("click", () => {
+        document.addEventListener('click', (e) => handleClickOutside(e as unknown as MouseEvent<HTMLDivElement>), true);
+        return () => {
+            document.removeEventListener('click', (e) => handleClickOutside(e as unknown as MouseEvent<HTMLDivElement>), true);
+        };
+    }, [onClickChangeLabel, notesContainerRef]);
 
-        })
-    }, [showLabel, moreOptions]);
 
     if (inTrash) {
         return (
@@ -121,9 +157,15 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
         )
     }
     return (
-        <div>
+        <div
+            onClick={(e) => {
+                //e.stopPropagation()
+
+            }}
+            ref={notesContainerRef}
+        >
             <NotesItemsContainer
-                showFooter={moreOptions || showLabel || active}
+                showFooter={moreOptions || showLabel || colorPicker || active}
             >
 
                 <NoteItemContainer
@@ -141,8 +183,21 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
                     }
                 </NoteItemContainer>
                 <NoteItemContainer
-                    title="Archive Note"
-                    onClick={inArchive ? () => undoNoteArchival(noteID) : () => archiveNote(noteID)}
+                    title
+                        =
+                        "Archive Note"
+                    onClick
+                        ={
+                        inArchive ?
+                            () =>
+                                undoNoteArchival
+                                (
+                                    noteID) :
+                            () =>
+                                archiveNote
+                                (
+                                    noteID)
+                    }
                 >
                     {
                         inArchive
@@ -160,12 +215,7 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
                 </NoteItemContainer>
                 <NoteItemContainer
                     title="More Options"
-                    onClick={(e) => setMoreOptions(prev => {
-                        e.stopPropagation()
-                        console.log("clicking")
-                        setShowLabel(false)
-                        return !prev
-                    })}
+                    onClick={onClickChangeLabel}
                 >
                     <IconContainer Icon={BiDotsVerticalRounded}/>
                     {
@@ -177,7 +227,7 @@ const NotesFooter = ({noteID, checkedData, manageCheckedData, inTrash, inArchive
                 </NoteItemContainer>
                 <NoteItemContainer
                     title="Change Backgroud Color"
-                    onClick={() => setColorPicker(prev => !prev)}
+                    onClick={onClickChangeLabel}
                 >
                     <IconContainer Icon={IoIosColorPalette}/>
                     {
