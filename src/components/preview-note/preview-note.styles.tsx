@@ -5,6 +5,11 @@ import IconContainer from "../icon-container/icon-container.component";
 
 type PreviewNoteContainerType = {
     color?: string
+    checkMarkActive: boolean
+}
+
+type SelectNoteContainerType = {
+    hover: boolean
 }
 export const NotesItemsContainer = styled.div`
     display: flex;
@@ -22,7 +27,8 @@ export const PreviewNoteContainer = styled.div<PreviewNoteContainerType>`
     display: flex;
     height: max-content;
     flex-direction: column;
-    border: 1px solid black;
+    //border: 1px solid black;
+    border: ${(props) => props.checkMarkActive ? "1px solid black": "1px solid white"};
     max-width: 259px;
     align-items: center;
     justify-content: center;
@@ -97,5 +103,12 @@ export const NotesPin = styled(IconContainer)`
     &:hover {
         color: yellow;
     }
+`
+
+export const SelectNoteContainer = styled.div<SelectNoteContainerType>`
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    display: ${(props) => props.hover? "block" : "none"};
 `
 

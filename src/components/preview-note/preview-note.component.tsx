@@ -6,7 +6,7 @@ import {
     TextAreasContainer,
     NotesLabelsContainer,
     PreviewNotesFooter,
-    NotesPin
+    NotesPin, SelectNoteContainer
 } from "./preview-note.styles";
 import {TextAreaContainer} from "../text-box/text-box.styles";
 import useAutosizeTextArea from "../../hooks/text-box.utils";
@@ -15,7 +15,7 @@ import {NotesContext} from "../../contexts/notes.context";
 import Label from "../label/label.component";
 import NotesFooter from "../notes-footer/notes-footer.component";
 import {AiFillPushpin, AiOutlinePushpin} from "react-icons/ai";
-
+import {FaCheckCircle} from "react-icons/fa";
 
 export type PreviewNotePropsType = {
     handleDelete: () => void
@@ -39,6 +39,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     const [refElement2, setRefElement2] = useState<HTMLTextAreaElement | null>(null)
     const {setKeyOfModalProp, createNote, updateNote, labels, pinNote, unPinNote} = useContext(NotesContext)
     const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, content.labels))
+    const [checkMarkActive, setCheckMarkActive] = useState(false)
     const [footerActive, setFooterActive] = useState(false)
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
@@ -94,9 +95,15 @@ const PreviewNote = (props: PreviewNotePropsType) => {
             onMouseEnter={() => setFooterActive(true)}
             onMouseLeave={() => setFooterActive(false)}
             color={props.noteContent.noteColor && props.noteContent.noteColor}
-
-
+            checkMarkActive={checkMarkActive}
         >
+            <SelectNoteContainer
+                onClick={() => setCheckMarkActive(prev => !prev)}
+                hover={footerActive || checkMarkActive}
+            >
+                <FaCheckCircle/>
+            </SelectNoteContainer>
+
             <NotesPin
                 onClick={togglePinnedStatus}
                 Icon={content.notePinned ? AiFillPushpin : AiOutlinePushpin}
