@@ -2,14 +2,28 @@ import React, {useContext} from 'react';
 import {ColorPickerCircle} from "./color-picker.styles";
 import {NotesContext} from "../../contexts/notes.context";
 
+const colorsArray1 = [
+    {name: "Light Gray", hex: "#CCCCCC"},    // Light Gray
+    {name: "Light Green", hex: "#B7E1CD"},   // Light Green
+    {name: "Light Blue", hex: "#ADD8E6"},    // Light Blue
+    {name: "Light Yellow", hex: "#FFFFCC"},  // Light Yellow
+    {name: "Light Pink", hex: "#FFCCFF"},    // Light Pink
+    {name: "Light Cyan", hex: "#E0FFFF"},    // Light Cyan
+    {name: "Light Purple", hex: "#D8BFD8"}   // Light Purple
+];
 const colorsArray = [
-    { name: "Light Gray", hex: "#CCCCCC" },    // Light Gray
-    { name: "Light Green", hex: "#B7E1CD" },   // Light Green
-    { name: "Light Blue", hex: "#ADD8E6" },    // Light Blue
-    { name: "Light Yellow", hex: "#FFFFCC" },  // Light Yellow
-    { name: "Light Pink", hex: "#FFCCFF" },    // Light Pink
-    { name: "Light Cyan", hex: "#E0FFFF" },    // Light Cyan
-    { name: "Light Purple", hex: "#D8BFD8" }   // Light Purple
+    {name: "White", hex: "#FFFFFF"},
+    {name: "Light Gray", hex: "#CCCCCC"},       // Light Gray
+    {name: "Light Green", hex: "#B7E1CD"},     // Light Green
+    {name: "Light Blue", hex: "#ADD8E6"},      // Light Blue
+    {name: "Light Yellow", hex: "#FFFFCC"},    // Light Yellow
+    {name: "Light Pink", hex: "#FFCCFF"},      // Light Pink
+    {name: "Light Cyan", hex: "#E0FFFF"},      // Light Cyan
+    {name: "Light Purple", hex: "#D8BFD8"},    // Light Purple
+    {name: "Lavender", hex: "#E6E6FA"},        // Lavender
+    {name: "Misty Rose", hex: "#FFE4E1"},      // Misty Rose
+    {name: "Light Coral", hex: "#F08080"},     // Light Coral
+    // You can continue adding more light colors here
 ];
 
 type ColorPickerPropsType = {
