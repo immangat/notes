@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useRef, useState} from "react";
 import {
     PreviewBodyTextBox,
     PreviewNoteContainer,
@@ -16,6 +16,10 @@ import Label from "../label/label.component";
 import NotesFooter from "../notes-footer/notes-footer.component";
 import {AiFillPushpin, AiOutlinePushpin} from "react-icons/ai";
 import {FaCheckCircle} from "react-icons/fa";
+import {SelectNotesContext} from "../../contexts/select.context";
+import noteComponent from "../note/note.component";
+import * as querystring from "querystring";
+import useMouseHover from "../../hooks/useMouseHover";
 
 export type PreviewNotePropsType = {
     handleDelete: () => void
@@ -40,7 +44,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
     const {setKeyOfModalProp, createNote, updateNote, labels, pinNote, unPinNote} = useContext(NotesContext)
     const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, content.labels))
     const [checkMarkActive, setCheckMarkActive] = useState(false)
-    const [footerActive, setFooterActive] = useState(false)
+    const {addNoteToSelectedNotes, removeNoteFromSelectedNotes} = useContext(SelectNotesContext)
     useAutosizeTextArea(refElement, props.noteContent.body, 400);
     useAutosizeTextArea(refElement2, props.noteContent.title, 72);
     const [showLabel, setShowLabel] = useState(false)
@@ -90,23 +94,34 @@ const PreviewNote = (props: PreviewNotePropsType) => {
         content.notePinned ? unPinNote(content.id) : pinNote(content.id)
     }
 
+    const pinRef = useRef<HTMLDivElement>(null)
+    const pinHovering = useMouseHover(pinRef)
+    const previewContainerRef = useRef<HTMLDivElement>(null)
+    const previewContainerRefHovering = useMouseHover(previewContainerRef)
     return (
         <PreviewNoteContainer
-            onMouseEnter={() => setFooterActive(true)}
-            onMouseLeave={() => setFooterActive(false)}
+            ref={previewContainerRef}
             color={props.noteContent.noteColor && props.noteContent.noteColor}
             checkMarkActive={checkMarkActive}
         >
             <SelectNoteContainer
-                onClick={() => setCheckMarkActive(prev => !prev)}
-                hover={footerActive || checkMarkActive}
+                onClick={() => {
+                    setCheckMarkActive(prev => !prev)
+                    if (!checkMarkActive) {
+                        addNoteToSelectedNotes(content.id)
+                    } else {
+                        removeNoteFromSelectedNotes(content.id)
+                    }
+                }}
+                hover={previewContainerRefHovering || checkMarkActive}
             >
                 <FaCheckCircle/>
             </SelectNoteContainer>
 
             <NotesPin
+                refCustom={pinRef}
                 onClick={togglePinnedStatus}
-                Icon={content.notePinned ? AiFillPushpin : AiOutlinePushpin}
+                Icon={content.notePinned ? (pinHovering ? AiOutlinePushpin : AiFillPushpin) : (pinHovering ? AiFillPushpin : AiOutlinePushpin)}
             />
             <TextAreasContainer
                 onClick={setKeyOfModal}
@@ -150,7 +165,7 @@ const PreviewNote = (props: PreviewNotePropsType) => {
 
             <PreviewNotesFooter>
                 <NotesFooter
-                    active={footerActive}
+                    active={previewContainerRefHovering}
                     noteID={props.noteContent.id}
                     checkedData={checkedData}
                     manageCheckedData={manageCheckedData}

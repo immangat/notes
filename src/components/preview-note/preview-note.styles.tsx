@@ -99,10 +99,6 @@ export const NotesPin = styled(IconContainer)`
     z-index: 3;
     top: 0;
     right: 0;
-
-    &:hover {
-        color: yellow;
-    }
 `
 
 export const SelectNoteContainer = styled.div<SelectNoteContainerType>`
