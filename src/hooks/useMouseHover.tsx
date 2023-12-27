@@ -1,6 +1,6 @@
 import {RefObject, useEffect, useState} from 'react';
 
-function useMouseHover(ref: RefObject<HTMLElement>) {
+function useMouseHover(ref: RefObject<HTMLDivElement>) {
     const [isHovering, setIsHovering] = useState(false);
 
     const handleMouseEnter = () => setIsHovering(true);
