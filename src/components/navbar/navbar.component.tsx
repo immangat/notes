@@ -15,6 +15,8 @@ import NavbarProfile from "../navbar-profile/navbar-profile.component";
 import SearchBox from "../search-box/search-box.component";
 import {SideBarContext} from "../../contexts/side-bar.context";
 import {NavBarContext} from "../../contexts/nav-bar.context";
+import {SelectNotesContext} from "../../contexts/select.context";
+import SelectNavbar from "../select-narbar/select-navbar.component";
 
 
 const Navbar = () => {
@@ -53,6 +55,8 @@ const Navbar = () => {
                     </LogoLink>
                 </HeaderContentItem>
             </HeaderContentContainer>
+
+
         </Header>
     );
 };
