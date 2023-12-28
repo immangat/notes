@@ -101,7 +101,6 @@ const SearchBox = (props: SearchBoxTypes) => {
                             />
 
                     }
-
                 </NavBarSearchButton>
             </ReloadContainer>
         </NavBarSearchContainer>)
