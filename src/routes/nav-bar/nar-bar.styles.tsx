@@ -5,7 +5,7 @@ import {GrNote} from 'react-icons/gr'
 
 export const MainContainer = styled.div`
     display: grid;
-    grid-template: 1fr 9fr/ 1fr 20fr;
+    grid-template: 1fr 11fr/ 1fr 20fr;
 `
 
 export const SideBarComponentContainer = styled.div`
