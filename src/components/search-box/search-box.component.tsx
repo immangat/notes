@@ -1,4 +1,4 @@
-import {InputHTMLAttributes, useContext, useEffect, useState} from "react";
+import React, {InputHTMLAttributes, useContext, useEffect, useState} from "react";
 import {AiOutlineSearch} from 'react-icons/ai'
 import {RxCross1} from 'react-icons/rx'
 import {useNavigate} from "react-router-dom";
@@ -8,17 +8,26 @@ import {
     SearchBoxContainer,
     SearchBoxInput,
     SearchBoxInputContainer,
-    SearchBoxX
-} from "./search-box.styles";
+    SearchBoxX,
+    CancelButton, NavBarSearchButton, NavBarSearchContainer,
+    NavBarSearchInput,
+    NavBarSearchInputContainer, ReloadContainer,
+    SearchButton,
+    SearchForm,
+    SearchFormContainer
+} from "./search-box.styles"
+import {TailSpin} from "react-loader-spinner";
+import {IoReload} from "react-icons/io5";
+import {NotesContext} from "../../contexts/notes.context";
 
 type SearchBoxTypes = {} & InputHTMLAttributes<HTMLInputElement>
 const SearchBox = (props: SearchBoxTypes) => {
 
-    const {reset} = useContext(NavBarContext)
     const navigate = useNavigate()
     const [searchUrl, setSearchUrl] = useState('')
-    const [backgroundColor, switchBackGroundColor] = useState(true)
     const [showX, setShowX] = useState(false)
+    const {reset} = useContext(NavBarContext)
+    const {loadingNavBar} = useContext(NotesContext)
 
 
     useEffect(() => {
@@ -26,69 +35,81 @@ const SearchBox = (props: SearchBoxTypes) => {
     }, [searchUrl])
 
     useEffect(() => {
-        // if(!isInitialRender.current){
         setSearchUrl('')
         setShowX(false)
-        switchBackGroundColor(true)
-        // }
     }, [reset])
-
     useEffect(() => {
         navigate('/')
     }, [])
 
     return (
-        <SearchBoxContainer
-            backgroundColor={backgroundColor}
-        >
-            <SearchBoxButtons
-                onClick={() => {
-                    navigate(`/search/text${searchUrl}`)
-                    switchBackGroundColor(false)
-                    setShowX(true)
-                }}
-                backgroundColor={backgroundColor}
-            >
-                <AiOutlineSearch size={30}/>
-            </SearchBoxButtons>
-            <SearchBoxInputContainer>
-                <SearchBoxInput
-                    value={searchUrl}
-                    placeholder='search'
-                    type='input'
-                    onClick={() => {
-                        navigate(`/search/text${searchUrl}`)
-                        switchBackGroundColor(false)
-                        setShowX(true)
-                    }}
-                    onChange={(e) => {
-                        setSearchUrl(e.target.value);
-                    }}
-                />
-            </SearchBoxInputContainer>
+        <NavBarSearchContainer>
+            <SearchFormContainer>
+                <SearchForm
+                    showBorder={showX}
+                    onClick={e => e.preventDefault()}
+                >
+                    <SearchButton
+                        title="search"
+                        onClick={() => {
+                            navigate(`/search/text${searchUrl}`)
+                            setShowX(true)
+                        }}
+                    >
+                        <AiOutlineSearch size={25}/>
+                    </SearchButton>
+                    <NavBarSearchInputContainer>
+                        <NavBarSearchInput
+                            value={searchUrl}
+                            type={'text'}
+                            placeholder={"Search"}
+                            onChange={e => setSearchUrl(e.target.value)}
+                            onClick={() => {
+                                //navigate(`/search/text${searchUrl}`)
+                                setShowX(true)
+                            }}
+                        />
 
+                    </NavBarSearchInputContainer>
+                    <CancelButton
+                        showX={showX}
+                        onClick={() => {
+                            setSearchUrl('')
+                            setShowX(false)
+                            navigate('/')
+                        }}
+                    >
+                        <RxCross1
+                            size={25}
+                        />
+                    </CancelButton>
+                </SearchForm>
+            </SearchFormContainer>
+            <ReloadContainer>
+                <NavBarSearchButton>
+                    {
+                        loadingNavBar
+                            ?
+                            <TailSpin
+                                height="20"
+                                width="20"
+                                color="black"
+                                ariaLabel="tail-spin-loading"
+                                radius="1"
+                                wrapperStyle={{}}
+                                wrapperClass=""
+                                visible={true}
+                            />
+                            :
+                            <IoReload
+                                size={25}
+                            />
 
-            <SearchBoxX
-                onClick={() => {
-                    setSearchUrl('')
-                    setShowX(false)
-                    switchBackGroundColor(true)
-                    navigate('/')
-                }}
-                backgroundColor={backgroundColor}
-            >
-                {
-                    showX
-                    &&
-                    <RxCross1
-                        size={30}
-                    />
-                }
+                    }
 
-            </SearchBoxX>
-
-        </SearchBoxContainer>
-    )
+                </NavBarSearchButton>
+            </ReloadContainer>
+        </NavBarSearchContainer>)
 }
 
 export default SearchBox;

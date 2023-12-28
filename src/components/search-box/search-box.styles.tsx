@@ -4,6 +4,13 @@ type SearchBoxContainerType = {
     backgroundColor: boolean
 }
 
+type CancelButtonPropsType = {
+    showX: boolean
+}
+
+type SearchFormPropsType ={
+    showBorder: boolean
+}
 
 export const SearchBoxButtons = styled.button<SearchBoxContainerType>`
     display: flex;
@@ -57,4 +64,71 @@ export const SearchBoxInputContainer = styled.div`
     justify-content: center;
 
 `
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const NavBarSearchInputContainer = styled.div`
+    margin: 0 40px;
+`
+
+export const NavBarSearchInput = styled.input`
+    height: 46px;
+    outline: none;
+    border: none;
+    width: 100%;
+`
+
+export const ReloadContainer = styled.div`
+    display: flex;
+    margin-right: 1rem;
+
+
+`
+export const NavBarSearchButton = styled.button`
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+`
+
+export const SearchButton = styled(NavBarSearchButton)`
+    position: absolute;
+    top: 25%;
+    float: left;
+`
+
+export const CancelButton = styled(NavBarSearchButton)<CancelButtonPropsType>`
+    position: absolute;
+    top: 25%;
+    right: 0;
+    display: ${(props) => props.showX ? "inline-block" : "none"};
+`
+
+
+export const NavBarSearchContainer = styled.div`
+    flex: 1 1 100%;
+    display: flex;
+    vertical-align: center;
+    margin-left: 1rem;
+`
+
+export const SearchFormContainer = styled.div`
+    flex: 1 1 auto;
+    width: 100%;
+`
+
+export const SearchForm = styled.form<SearchFormPropsType>`
+    position: relative;
+    max-width: 720px;
+    border: 1px solid transparent;
+    overflow: hidden;
+    border-top: ${(props) => props.showBorder ? "1px solid black" : "1px solid transparent"};
+    border-bottom: ${(props) => props.showBorder ? "1px solid black" : "1px solid transparent"};
+`
+
 
