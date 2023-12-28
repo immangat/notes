@@ -4,11 +4,6 @@ import {RxCross1} from 'react-icons/rx'
 import {useNavigate} from "react-router-dom";
 import {NavBarContext} from "../../contexts/nav-bar.context";
 import {
-    SearchBoxButtons,
-    SearchBoxContainer,
-    SearchBoxInput,
-    SearchBoxInputContainer,
-    SearchBoxX,
     CancelButton, NavBarSearchButton, NavBarSearchContainer,
     NavBarSearchInput,
     NavBarSearchInputContainer, ReloadContainer,
