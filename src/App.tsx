@@ -12,6 +12,7 @@ import LoadingSpinner from "./components/loading-spinner/loading-spinnner.compon
 import Reminders from "./routes/reminders/reminders.component";
 import Trash from "./routes/trash/trash.component";
 import Archive from "./routes/archive/archive.component";
+import Test from "./routes/test/test";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
                     <Route path='/trash' element={<Trash/>}/>
                     <Route path='/archive' element={<Archive/>}/>
                 </Route>
+                <Route path='/test' element={<Test/>}/>
             </Routes>
         </>
     );
