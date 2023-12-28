@@ -90,6 +90,7 @@ export const NavBarSearchButton = styled.button`
     outline: none;
     cursor: pointer;
     transition: transform 0.3s ease;
+    background-color: transparent;
 
     &:hover {
         transform: scale(1.1);
