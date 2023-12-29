@@ -9,6 +9,8 @@ import {IconContext} from "react-icons";
 import {NavBarProvider} from "./contexts/nav-bar.context";
 import {UserProvider} from "./contexts/user.context";
 import {SideBarProvider} from "./contexts/side-bar.context";
+import {SelectNotesProvider} from "./contexts/select.context";
+
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -18,15 +20,17 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <UserProvider>
-                <NotesProvider>
-                    <NavBarProvider>
-                        <SideBarProvider>
-                            <IconContext.Provider value={{size: "24"}}>
-                                <App/>
-                            </IconContext.Provider>
-                        </SideBarProvider>
-                    </NavBarProvider>
-                </NotesProvider>
+                <SelectNotesProvider>
+                    <NotesProvider>
+                        <NavBarProvider>
+                            <SideBarProvider>
+                                <IconContext.Provider value={{size: "24"}}>
+                                    <App/>
+                                </IconContext.Provider>
+                            </SideBarProvider>
+                        </NavBarProvider>
+                    </NotesProvider>
+                </SelectNotesProvider>
             </UserProvider>
         </BrowserRouter>
     </React.StrictMode>

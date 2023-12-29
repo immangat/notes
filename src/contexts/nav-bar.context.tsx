@@ -7,7 +7,8 @@ export type NavBarContextType = {
 }
 export const NavBarContext = createContext<NavBarContextType>({
     reset: false,
-    resetURL: () => {}
+    resetURL: () => {
+    }
 })
 
 type NavBarProviderPropsType = {

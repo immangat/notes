@@ -27,7 +27,8 @@ const CreateNote = () => {
         title: '',
         createdAt: new Date().toString(),
         updatedAt: new Date().toString(),
-        labels: []
+        labels: [],
+        noteColor: "#F08080"
 
     }
     const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -88,7 +89,8 @@ const CreateNote = () => {
                     title: '',
                     createdAt: new Date().toString(),
                     updatedAt: new Date().toString(),
-                    labels: []
+                    labels: [],
+                    noteColor: "#F08080"
                 }
             )
             setCheckedData(makeInitialCheckedDataPreviewNote(labels))

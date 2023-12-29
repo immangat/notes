@@ -1,10 +1,13 @@
 import React from 'react';
+import EmptyMessage from "../../components/empty-message/empty-message.component";
+import {BsBell} from 'react-icons/bs'
 
 const Reminders = () => {
     return (
-        <div>
-            <h1>This is reminders</h1>
-        </div>
+        <EmptyMessage
+            Icon={BsBell}
+            message={"Reminders are empty."}
+        />
     );
 };
 

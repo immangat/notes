@@ -14,7 +14,7 @@ const SignIn = () => {
     const {user, setCurrentUser} = useContext(UserContext)
     const {clearAllNotes} = useContext(NotesContext)
     const signInWithGoogle = async () => {
-         await signInWithgooglePopUp();
+        await signInWithgooglePopUp();
     }
     const signInWithGithub = async () => {
         await signInWithGithubPopUp();
@@ -58,47 +58,47 @@ const SignIn = () => {
                 {
                     !user ? <>
 
-                        <div
-                            onClick={signInWithGoogle}
-                            style={{
-                                display: "flex",
-                                margin: "1%",
-                                width: "70%",
-                                border: "1px solid grey",
-                                borderRadius: "2%",
-                                justifyContent: "center",
-                                padding: "1% 0",
-                                cursor: "pointer"
-                            }}
-                        >
-                            <span> Sign in With Google</span>
-                            <BsGoogle
+                            <div
+                                onClick={signInWithGoogle}
                                 style={{
-                                    marginLeft: "2px"
+                                    display: "flex",
+                                    margin: "1%",
+                                    width: "70%",
+                                    border: "1px solid grey",
+                                    borderRadius: "2%",
+                                    justifyContent: "center",
+                                    padding: "1% 0",
+                                    cursor: "pointer"
                                 }}
-                            />
-                        </div>
-                        <div
-                            onClick={signInWithGithub}
-                            style={{
-                                display: "flex",
-                                margin: "1%",
-                                width: "70%",
-                                border: "1px solid grey",
-                                borderRadius: "10%",
-                                justifyContent: "center",
-                                padding: "1% 0",
-                                cursor: "pointer"
-                            }}
-                        >
-                            <span> Sign in With GitHub</span>
-                            <BsGithub
+                            >
+                                <span> Sign in With Google</span>
+                                <BsGoogle
+                                    style={{
+                                        marginLeft: "2px"
+                                    }}
+                                />
+                            </div>
+                            <div
+                                onClick={signInWithGithub}
                                 style={{
-                                    marginLeft: "2px"
+                                    display: "flex",
+                                    margin: "1%",
+                                    width: "70%",
+                                    border: "1px solid grey",
+                                    borderRadius: "10%",
+                                    justifyContent: "center",
+                                    padding: "1% 0",
+                                    cursor: "pointer"
                                 }}
-                            />
-                        </div>
-                    </>
+                            >
+                                <span> Sign in With GitHub</span>
+                                <BsGithub
+                                    style={{
+                                        marginLeft: "2px"
+                                    }}
+                                />
+                            </div>
+                        </>
                         :
                         <div
                             onClick={signOut}

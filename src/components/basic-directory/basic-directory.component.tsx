@@ -7,7 +7,7 @@ import {
     CreateNoteGridItem,
     DirectoryContainer,
     NotesContainerTest,
-    NotesGridItem,
+    NotesGridItem, PinnedMessage,
 } from "./basic-directory.styles";
 
 
@@ -18,6 +18,12 @@ export type NoteType = {
     createdAt: string
     updatedAt: string
     labels: string[]
+    markedForTrash?: boolean
+    dateWhenMarkedForTrash?: string
+    markedForArchive?: boolean
+    dateWhenMarkedForArchive?: string
+    notePinned?: boolean
+    noteColor?: string
 }
 
 export type BasicDirectoryPropsType = {
@@ -28,21 +34,37 @@ export type BasicDirectoryPropsType = {
 
 const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
 
-    const {deleteNote} = useContext(NotesContext)
-    
+    const {trashNote} = useContext(NotesContext)
+    const notesPinned = notes.filter(note => note.notePinned)
+    const notPinned = notes.filter(note => !note.notePinned)
+    console.log(notes)
 
     const getPreviewNotes = useMemo(() => {
         const deleteNoteFromArray = (key: string) => {
-            deleteNote(key)
+            trashNote(key)
         }
-        return notes.map(noteContent => (
+        return notPinned.map(noteContent => (
             <PreviewNote
                 key={noteContent.id}
                 noteContent={noteContent}
                 handleDelete={() => deleteNoteFromArray(noteContent.id)}
             />
         ));
-    }, [notes, deleteNote]);
+    }, [notPinned, trashNote, notes]);
+
+    const getPinnedNotes = useMemo(() => {
+        const deleteNoteFromArray = (key: string) => {
+            trashNote(key)
+        }
+        return notesPinned.map(noteContent => (
+            <PreviewNote
+                key={noteContent.id}
+                noteContent={noteContent}
+                handleDelete={() => deleteNoteFromArray(noteContent.id)}
+            />
+        ));
+    }, [notesPinned, trashNote, notes])
+
 
     return (
         <DirectoryContainer>
@@ -53,8 +75,17 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
                 </CreateNoteGridItem>
 
             }
-
             <NotesGridItem>
+                {
+                    notesPinned.length !== 0
+                    &&
+                    <ContainerOfNoteContainer>
+                        <PinnedMessage>Pinned</PinnedMessage>
+                        <NotesContainerTest>
+                            {getPinnedNotes}
+                        </NotesContainerTest>
+                    </ContainerOfNoteContainer>
+                }
                 <ContainerOfNoteContainer>
                     <NotesContainerTest>
                         {getPreviewNotes}
@@ -64,5 +95,6 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
         </DirectoryContainer>
     );
 }
+
 
 export default BasicDirectory;

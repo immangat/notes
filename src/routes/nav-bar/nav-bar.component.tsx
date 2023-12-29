@@ -1,29 +1,20 @@
 import {Outlet} from "react-router-dom";
 import {
     DirectoryContainer,
-    LinkForHome,
-    LogoContainer, MainContainer,
-    MenuContainer,
-    NavBarContainer, NavBarSpinnerContainer,
-    NavTitle, NoteIcon, NotesLogoContainer,
-    ProfileContainer,
-    SearchContainer, SideBarComponentContainer
+    MainContainer,
+    SideBarComponentContainer
 } from "./nar-bar.styles";
-import {TailSpin} from "react-loader-spinner";
-import {AiOutlineMenu} from 'react-icons/ai'
-import SearchBox from "../../components/search-box/search-box.component";
 import {useContext} from "react";
-import {NavBarContext} from "../../contexts/nav-bar.context";
 import {NotesContext} from "../../contexts/notes.context";
 import SideBar from "../../components/side-bar/side-bar.component";
-import {SideBarContext} from "../../contexts/side-bar.context";
-import NavbarProfile from "../../components/navbar-profile/navbar-profile.component";
+import Navbar from "../../components/navbar/navbar.component";
+import {SelectNotesContext} from "../../contexts/select.context";
+import SelectNavbar from "../../components/select-narbar/select-navbar.component";
 
 
 const NavBar = () => {
-    const {resetURL} = useContext(NavBarContext)
-    const {eventIncoming, loadingNavBar} = useContext(NotesContext)
-    const {setState} = useContext(SideBarContext)
+    const {eventIncoming} = useContext(NotesContext)
+    const {selectedNotes} = useContext(SelectNotesContext)
 
     return (
         <MainContainer
@@ -34,57 +25,12 @@ const NavBar = () => {
                 height: "100%"
             }}
         >
-            <NavBarContainer>
-                <LogoContainer>
-                    <MenuContainer
-                        onClick={() => {
-                            setState()
-                        }}
-                    >
-                        <AiOutlineMenu
-                        />
-                    </MenuContainer>
-                    <LinkForHome to="/"
-                                 onClick={() => {
-                                     resetURL()
-                                 }}
-                    >
-                        <NotesLogoContainer>
-                            <NoteIcon
-                                size={30}
-                            />
-                            <NavTitle>Notes</NavTitle>
-                        </NotesLogoContainer>
-                    </LinkForHome>
 
-                </LogoContainer>
-                <SearchContainer>
-                    <SearchBox/>
-                </SearchContainer>
-                <NavBarSpinnerContainer>
-                    {
-                        loadingNavBar
-                        &&
-                        <TailSpin
-                            height="20"
-                            width="20"
-                            color="black"
-                            ariaLabel="tail-spin-loading"
-                            radius="1"
-                            wrapperStyle={{}}
-                            wrapperClass=""
-                            visible={true}
-                        />
+            <Navbar/>
+            <SelectNavbar
+                showSelectNavBar={selectedNotes.length === 0}
+            />
 
-                    }
-                </NavBarSpinnerContainer>
-                <ProfileContainer
-                >
-                    <LinkForHome to='/signin'>
-                        <NavbarProfile/>
-                    </LinkForHome>
-                </ProfileContainer>
-            </NavBarContainer>
             <SideBarComponentContainer>
                 <SideBar/>
             </SideBarComponentContainer>

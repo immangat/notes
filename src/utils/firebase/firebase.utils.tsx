@@ -98,7 +98,8 @@ one to get the notes
 export type NoteDocumentType = {
     notes: NoteType[]
     createdAt: Date
-    labels: string[]
+    labels: string[],
+    trash: NoteType[]
 }
 
 export const createNoteDocument = async (userId: string) => {

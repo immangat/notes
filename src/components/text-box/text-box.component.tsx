@@ -1,6 +1,6 @@
-import React, {ChangeEvent, RefObject, TextareaHTMLAttributes, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, RefObject, TextareaHTMLAttributes, useEffect} from "react";
 import {TextArea, TextAreaContainer} from "./text-box.styles";
-import useAutosizeTextArea from "./text-box.utils";
+import useAutosizeTextArea from "../../hooks/text-box.utils";
 
 
 export type TextBoxPropType = {

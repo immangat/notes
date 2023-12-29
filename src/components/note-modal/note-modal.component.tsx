@@ -13,9 +13,11 @@ import {
 import NotesFooter from "../notes-footer/notes-footer.component";
 import Label from "../label/label.component";
 import {NotesLabelsContainer} from "../preview-note/preview-note.styles";
+import useMouseHover from "../../hooks/useMouseHover";
+import Time from "../time/time.component";
 
 export type NoteModalTypes = {
-    id: string
+    noteId: string
 }
 
 const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
@@ -28,17 +30,18 @@ const makeIntitialCheckedData = (labels: string[], checklabels: string[]) => {
     })
     return temp;
 }
-const NoteModal = ({id}: NoteModalTypes) => {
+const NoteModal = ({noteId}: NoteModalTypes) => {
 
     const {getNote, updateNote, clearModalProps, labels} = useContext(NotesContext)
+    const initialNoteContent: NoteType = getNote(noteId)
 
-    const initialNoteContent: NoteType = getNote(id)
-    const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
-    const titleTextAreaRef = useRef<HTMLTextAreaElement>(null)
     const [noteContent, setNoteContent] = useState(initialNoteContent)
     const [checkedData, setCheckedData] = useState(makeIntitialCheckedData(labels, noteContent.labels))
     const [containerSize, setContainerSize] = useState(500); // Default container size
 
+    const bodyTextAreaRef = useRef<HTMLTextAreaElement>(null)
+    const titleTextAreaRef = useRef<HTMLTextAreaElement>(null)
+    const color = useRef<string | undefined>(noteContent.noteColor)
     const onEnterPressedOnTitle = (event: KeyboardEvent<HTMLTextAreaElement>) => {
         const {key} = event
         if (key === 'Enter') {
@@ -74,7 +77,7 @@ const NoteModal = ({id}: NoteModalTypes) => {
 
     const onClose = () => {
         const labels = Object.keys(checkedData).filter(label => checkedData[label])
-        updateNote(id, noteContent.updatedAt, labels, noteContent.title, noteContent.body)
+        updateNote(noteId, noteContent.updatedAt, labels, noteContent.title, noteContent.body)
         clearModalProps()
     }
 
@@ -95,7 +98,8 @@ const NoteModal = ({id}: NoteModalTypes) => {
 
     const modalLabels = Object.keys(checkedData).filter(label => checkedData[label]).map(key => <Label labelValue={key}
                                                                                                        deleteLabel={deleteLabel}/>)
-
+    const divRef = useRef<HTMLDivElement>(null); // Create a reference for the div element
+    const isHovering = useMouseHover(divRef);
     useEffect(() => {
         setContainerWidth();
         window.addEventListener("resize", setContainerWidth);
@@ -103,11 +107,15 @@ const NoteModal = ({id}: NoteModalTypes) => {
             window.removeEventListener("resize", setContainerWidth);
         };
     }, [])
+    useEffect(() => {
+        //setNoteContent(getNote(noteId))
+        color.current = getNote(noteId).noteColor
+    }, [getNote, noteId]);
 
     return (
         <ModalContainer className="modal" onClick={onClose}>
             <ModalContent className="modal-content" onClick={onClose}>
-                <ModalBody className="modal-body" onClick={e => e.stopPropagation()}>
+                <ModalBody className="modal-body" onClick={onClose}>
                     <ModalNoteContainer
                         onClick={
                             (event) => {
@@ -115,6 +123,8 @@ const NoteModal = ({id}: NoteModalTypes) => {
                             }
                         }
                         className="testing3"
+                        color={noteContent && color.current}
+                        ref={divRef}
                     >
                         <TitleTextBox
 
@@ -135,17 +145,30 @@ const NoteModal = ({id}: NoteModalTypes) => {
                             setText={setBody}
                             containerSize={containerSize}
                         />
-                        <NotesLabelsContainer>
-                            {modalLabels}
-                        </NotesLabelsContainer>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridAutoFlow: "column",
+                                width: "100%"
+                            }}
+                        >
+                            <NotesLabelsContainer>
+                                {modalLabels}
+                            </NotesLabelsContainer>
+                            <Time
+                                time={noteContent.updatedAt}
+                            />
+                        </div>
 
                         <NoteModalFooterContainer
                             className="foort"
                         >
                             <NotesFooter
-                                noteID={id}
+                                noteID={noteId}
                                 checkedData={checkedData}
                                 manageCheckedData={manageCheckedData}
+                                active={isHovering}
+
                             />
                             <CloseButton
                                 title='Close Note'
