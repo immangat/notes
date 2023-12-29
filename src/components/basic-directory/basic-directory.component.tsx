@@ -75,20 +75,17 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
                 </CreateNoteGridItem>
 
             }
-            {
-                notesPinned.length !== 0
-                &&
-                <NotesGridItem>
+            <NotesGridItem>
+                {
+                    notesPinned.length !== 0
+                    &&
                     <ContainerOfNoteContainer>
                         <PinnedMessage>Pinned</PinnedMessage>
                         <NotesContainerTest>
                             {getPinnedNotes}
                         </NotesContainerTest>
                     </ContainerOfNoteContainer>
-                </NotesGridItem>
-
-            }
-            <NotesGridItem>
+                }
                 <ContainerOfNoteContainer>
                     <NotesContainerTest>
                         {getPreviewNotes}
