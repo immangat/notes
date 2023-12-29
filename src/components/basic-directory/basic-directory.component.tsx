@@ -64,7 +64,7 @@ const BasicDirectory = ({notes, showNote}: BasicDirectoryPropsType) => {
             />
         ));
     }, [notesPinned, trashNote, notes])
-    console.log(getPinnedNotes)
+
 
     return (
         <DirectoryContainer>

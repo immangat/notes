@@ -359,18 +359,6 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     }
 
 
-    const updateLabelsForNote = (key: string, updatedAt: Date, labels: string[]) => {
-        setNotes(prevNotes => prevNotes.map(note => {
-            if (note.id === key) {
-                return {
-                    ...note,
-                    labels: labels,
-                    updatedAt: updatedAt.toString()
-                }
-            }
-            return note
-        }))
-    }
 
     const addNotesFromFirbase = (notes: NoteType[], labels: string[]) => {
         setNotes(notes)
