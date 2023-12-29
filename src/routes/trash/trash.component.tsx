@@ -23,11 +23,6 @@ const Trash = () => {
             <header
                 style={{textAlign: "center"}}
             >
-                <h1
-                    style={{
-                        margin: "0"
-                    }}
-                >This is trash</h1>
                 <span>
                 Notes in Trash are deleted after 7 days.
             </span>
