@@ -19,13 +19,15 @@ export type NotesContextType = {
     notes: NoteType[]
     addNote: (note: NoteType) => void
     deleteNote: (key: string) => void
-    trashNote: (key: string) => void
-    undoTrash: (key: string) => void
-    archiveNote: (key: string) => void
+    trashNote: (...key: string[]) => void
+    undoTrash: (...key: string[]) => void
+    archiveNote: (...key: string[]) => void
     pinNote: (key: string) => void
     unPinNote: (key: string) => void
+    deleteNotes: (keys: string[]) => void
+    deleteNotesPermanently: (keys: string[]) => void
     emptyTrash: () => void
-    undoNoteArchival: (key: string) => void
+    undoNoteArchival: (...key: string[]) => void
     getNote: (key: string) => NoteType
     updateNote: (key: string, updatedAt: string, labels?: string[], title?: string, body?: string) => void
     setNoteColor: (Key: string, color: string) => void
@@ -54,13 +56,15 @@ export const NotesContext = createContext<NotesContextType>({
     notes: [],
     addNote: (note) => null,
     deleteNote: (key) => null,
-    trashNote: (key) => null,
-    undoTrash: (key) => null,
-    archiveNote: (key) => null,
-    undoNoteArchival: (key) => null,
+    trashNote: (...key) => null,
+    undoTrash: (...key) => null,
+    archiveNote: (...key) => null,
+    undoNoteArchival: (...key) => null,
     pinNote: (key) => null,
     unPinNote: (key) => null,
     setNoteColor: (Key: string) => null,
+    deleteNotes: (keys: string[]) => null,
+    deleteNotesPermanently: (keys: string[]) => null,
     emptyTrash: () => null,
     getNote: (key) => ({
         id: "",
@@ -155,9 +159,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         setNotes(prevNotes => [note, ...prevNotes])
     }
 
-    const undoTrash = (key: string) => {
+    const undoTrash = (...key: string[]) => {
         setNotes(prevNotes => prevNotes.map(note => {
-            if (note.id === key) {
+            if (key.includes(note.id)) {
                 return {
                     ...note,
                     markedForTrash: false,
@@ -165,7 +169,6 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
                 }
             }
             return note
-
         }))
     }
     const getNotes = (searchString: string) => {
@@ -203,9 +206,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         setNotes(notes => notes.filter(note => !note.markedForTrash))
     }
 
-    const trashNote = (key: string) => {
+    const trashNote = (...key: string[]) => {
         setNotes(prevNotes => prevNotes.map(note => {
-            if (note.id === key) {
+            if (key.includes(note.id)) {
                 return {
                     ...note,
                     markedForTrash: true,
@@ -254,9 +257,9 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
     }
 
 
-    const archiveNote = (key: string) => {
+    const archiveNote = (...key: string[]) => {
         setNotes(prevNotes => prevNotes.map(note => {
-            if (note.id === key) {
+            if (key.includes(note.id)) {
                 return {
                     ...note,
                     markedForArchive: true,
@@ -269,9 +272,32 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         clearModalProps()
     }
 
-    const undoNoteArchival = (key: string) => {
+
+    const deleteNotes = (keys: string[]) => {
+        setNotes(notes => notes.map(note => {
+            if (keys.includes(note.id)) {
+                return {...note, markedForTrash: true, dateWhenMarkedForTrash: new Date().toString()}
+            }
+            return note
+        }))
+    }
+
+
+    const undoArchiveNotes = (keys: string[]) => {
+        setNotes(notes => notes.map(note => {
+            if (keys.includes(note.id)) {
+                return {...note, markedForArchive: false, dateWhenMarkedForArchive: ''}
+            }
+            return note
+        }))
+    }
+
+    const deleteNotesPermanently = (keys: string[]) => {
+        setNotes(notes => notes.filter(note => !keys.includes(note.id)))
+    }
+    const undoNoteArchival = (...key: string[]) => {
         setNotes(prevNotes => prevNotes.map(note => {
-            if (note.id === key) {
+            if (key.includes(note.id)) {
                 return {
                     ...note,
                     markedForArchive: false,
@@ -439,7 +465,10 @@ export const NotesProvider = ({children}: NotesProviderPropsType) => {
         emptyTrash,
         pinNote,
         unPinNote,
-        setNoteColor
+        setNoteColor,
+        deleteNotes,
+        undoArchiveNotes,
+        deleteNotesPermanently
     }
 
     useEffect(() => {
