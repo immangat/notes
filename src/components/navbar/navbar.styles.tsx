@@ -28,6 +28,7 @@ export const HeaderContentItem = styled.div`
 
 export const MenuIconContainer = styled.div`
     padding: 0 0.8rem;
+    cursor: pointer;
 
 `
 export const LogoItemsContainer = styled.div`
